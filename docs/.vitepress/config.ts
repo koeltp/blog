@@ -15,7 +15,6 @@ const description = [
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-  base: "/blog/",
   extends: teekConfig,
   title: "太皮的博客",
   description: description,
