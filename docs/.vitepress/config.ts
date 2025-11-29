@@ -15,6 +15,7 @@ const description = [
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
+  base: "/blog/",
   extends: teekConfig,
   title: "太皮的博客",
   description: description,
@@ -33,7 +34,10 @@ export default defineConfig({
     ["meta", { property: "og:description", description }],
     ["meta", { name: "description", description }],
     ["meta", { name: "author", content: "Teeker" }],
-      ['meta', { 'http-equiv': 'Content-Security-Policy', content: "script-src 'self' 'unsafe-inline' https:;" }],
+    ['meta', { 
+      'http-equiv': 'Content-Security-Policy', 
+      content: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; style-src 'self' 'unsafe-inline' https:;" 
+    }],
     // 禁止浏览器缩放
     // [
     //   "meta",
