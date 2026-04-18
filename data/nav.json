@@ -1,0 +1,58 @@
+{
+  "topnav": [
+    {
+      "name": "首页",
+      "url": "index.html"
+    },
+    {
+      "name": "文章列表",
+      "url": "articles/list.html"
+    },
+    {
+      "name": "LangChain教程",
+      "url": "tutorial.html?type=langchain"
+    },
+    {
+      "name": "Flutter教程",
+      "url": "tutorial.html?type=flutter"
+    },
+    {
+      "name": "Dart教程",
+      "url": "tutorial.html?type=dart"
+    },
+    {
+      "name": "Markdown-it教程",
+      "url": "tutorial.html?type=md"
+    }
+  ],
+  "leftnav": {
+    "langchain": [
+      {
+        "name": "技术介绍",
+        "file": "index.md"
+      },
+      {
+        "name": "Install",
+        "file": "install.md"
+      }
+    ],
+    "flutter": [
+      {
+        "name": "简介",
+        "file": "index.md"
+      }
+    ],
+    "dart": [
+      {
+        "name": "简介",
+        "file": "index.md"
+      }
+    ],
+    "md": [
+      {
+        "name": "Markdown语法指南",
+        "file": "index.md"
+      }
+    ]
+  }
+}
