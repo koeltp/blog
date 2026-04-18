@@ -20,7 +20,13 @@ async function loadNavigation() {
         
         let html = '';
         topnav.forEach(item => {
-            const isActive = currentUrl.includes(item.url);
+            let isActive = currentUrl.includes(item.url);
+            
+            // 特殊处理：当当前页面是文章详情页时，也将"文章列表"标记为激活
+            if (item.url === 'articles/list.html' && window.location.pathname.includes('/articles/detail.html')) {
+                isActive = true;
+            }
+            
             // 构建正确的链接路径
             let linkUrl = item.url;
             if (window.location.pathname.includes('/articles/') && !item.url.startsWith('http') && !item.url.startsWith('/')) {

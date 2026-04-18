@@ -20,6 +20,7 @@
 .content-area {
     flex: 1;
     min-width: 0;
+    margin-right: 240px; /* 为右侧导航留出空间 */
 }
 
 .sidebar {
@@ -201,138 +202,6 @@
     }
 }
 
-/* 标签式代码块样式 */
-.code-tabs {
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
-    margin: 1.5rem 0;
-    overflow: hidden;
-}
-
-.code-tabs-header {
-    display: flex;
-    background-color: #f5f5f5;
-    border-bottom: 1px solid #e0e0e0;
-    align-items: center;
-}
-
-.code-tabs-language {
-    margin-left: auto;
-    padding: 0.5rem 1rem;
-    background-color: #007bff;
-    color: #fff;
-    font-size: 0.75rem;
-    font-weight: 600;
-    border-radius: 4px;
-    margin-right: 1rem;
-}
-
-.code-tab {
-    padding: 0.5rem 1rem;
-    cursor: pointer;
-    border-bottom: 2px solid transparent;
-    transition: all 0.2s ease;
-    display: flex;
-    align-items: center;
-}
-
-.code-tab.active {
-    border-bottom-color: #007bff;
-    background-color: white;
-    font-weight: 600;
-}
-
-.code-tabs-content {
-    background-color: white;
-}
-
-.code-tabs-content .code-with-copy pre {
-    margin: 0;
-    border: none;
-    border-radius: 0;
-    background-color: #2d2d2d;
-    color: #e6e6e6;
-}
-
-/* 单个带标签的代码块样式 */
-.single-code-block {
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
-    margin: 1.5rem 0;
-    overflow: hidden;
-}
-
-.single-code-header {
-    display: flex;
-    align-items: center;
-    padding: 0.5rem 1rem;
-    background-color: #f5f5f5;
-    border-bottom: 1px solid #e0e0e0;
-    min-height: 2.5rem;
-}
-
-.tab-name {
-    font-size: 0.9rem;
-    color: #666;
-    flex: 1;
-    text-align: left;
-}
-
-.language-label {
-    padding: 0.25rem 0.5rem;
-    background-color: #007bff;
-    color: #fff;
-    font-size: 0.75rem;
-    font-weight: 600;
-    border-radius: 4px;
-    text-align: right;
-}
-
-/* 带复制按钮的代码块 */
-.code-with-copy {
-    position: relative;
-}
-
-.code-with-copy pre {
-    margin: 0;
-    border: none;
-    border-radius: 0;
-    background-color: #2d2d2d;
-    color: #e6e6e6;
-    padding: 1rem;
-}
-
-.copy-button {
-    position: absolute;
-    top: 0.5rem;
-    right: 0.5rem;
-    padding: 0.25rem 0.5rem;
-    background-color: rgba(0, 0, 0, 0.3);
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    font-size: 0.75rem;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-    z-index: 2;
-}
-
-.single-code-block .code-with-copy {
-    position: relative;
-}
-
-.single-code-block .copy-button {
-    z-index: 2;
-}
-
-.copy-button:hover {
-    background-color: rgba(0, 0, 0, 0.5);
-}
-
-.copy-button.copied {
-    background-color: #28a745;
-}
-
 /* 图片样式 */
 .tutorial-content img {
     display: block;
@@ -428,7 +297,7 @@ dd + dt {
 /* 右侧导航样式 */
 .right-nav {
     position: fixed;
-    right: calc(50% - 700px - 220px);
+    right: 20px;
     top: 100px;
     width: 220px;
     background-color: #fafafa;
@@ -439,6 +308,12 @@ dd + dt {
     z-index: 100;
     max-height: calc(100vh - 200px);
     overflow-y: auto;
+}
+
+@media (min-width: 1440px) {
+    .right-nav {
+        right: calc((100vw - 1400px) / 2 + 20px);
+    }
 }
 
 .right-nav-title {
@@ -507,5 +382,9 @@ dd + dt {
 @media (max-width: 1200px) {
     .right-nav {
         display: none;
+    }
+    
+    .content-area {
+        margin-right: 0; /* 当右侧导航隐藏时，移除右侧边距 */
     }
 }

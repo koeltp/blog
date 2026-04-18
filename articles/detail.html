@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>文章详情 - 太皮</title>
     <link rel="stylesheet" href="../css/common.css">
-    <link rel="stylesheet" href="../css/tutorial.css">
+    <link rel="stylesheet" href="../css/markdown-parser.css">
     <style>
         /* 文章详情样式 */
         .article-detail {
@@ -134,13 +134,11 @@
 </head>
 <body>
     <header>
-        <nav class="navbar" id="navbar">
-            <div class="container">
-                <a href="../index.html" class="logo">太皮</a>
-                <div class="nav-links" id="nav-links">
-                    <!-- 导航链接将通过 JavaScript 动态加载 -->
-                </div>
-            </div>
+        <nav>
+            <a href="../index.html" class="logo">太皮</a>
+            <ul class="nav-links" id="nav-links">
+                <!-- 导航链接将通过 JavaScript 动态加载 -->
+            </ul>
         </nav>
     </header>
     <main>
@@ -160,6 +158,7 @@
     <script src="https://cdn.jsdelivr.net/npm/markdown-it-deflist@2.1.0/dist/markdown-it-deflist.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="../js/markdown-parser.js"></script>
     <script src="../js/common.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -321,236 +320,26 @@
                 frontMatterHtml += '</div>';
             }
 
-            // 初始化markdown-it
-            const md = window.markdownit({
-                html: true,
-                linkify: true,
-                typographer: true,
-                breaks: true,
-                xhtmlOut: true,
-                langPrefix: 'language-',
-                quotes: '""\'\'',
-                highlight: function (str, lang) {
-                    if (window.hljs && lang && window.hljs.getLanguage) {
-                        try {
-                            if (window.hljs.getLanguage(lang)) {
-                                return '<pre><code class="hljs language-' + lang + '">' + window.hljs.highlight(str, { language: lang }).value + '</code></pre>';
-                            }
-                        } catch (e) {
-                            console.error('代码高亮失败:', e);
-                        }
-                    }
-                    return '<pre><code class="hljs">' + md.utils.escapeHtml(str) + '</code></pre>';
-                }
-            });
+            // 创建 MarkdownParser 实例
+            const parser = new MarkdownParser();
 
-            // 启用定义列表插件
-            if (window.markdownitDeflist) {
-                md.use(window.markdownitDeflist);
-            }
-            
-            // 先处理标签式代码块的Markdown语法
-            let processedMarkdown = article.content;
+            // 渲染 Markdown
+            const { html } = parser.render(article.content);
 
-            // 替换[tabs]和[tab]语法为HTML（先处理，避免与 ```python xxx 语法冲突）
-            processedMarkdown = processedMarkdown.replace(/\[tabs\]([\s\S]*?)\[\/tabs\]/g, (match, content) => {
-                // 提取带有name属性的代码块
-                const codeBlocks = [];
-                const codeBlockRegex = /```(\w+)\s+name="([^"]+)"[\r\n]+([\s\S]*?)```/g;
-                let matchBlock;
-                
-                while ((matchBlock = codeBlockRegex.exec(content)) !== null) {
-                    codeBlocks.push({
-                        lang: matchBlock[1],
-                        name: matchBlock[2],
-                        code: matchBlock[3]
-                    });
-                }
-                
-                if (codeBlocks.length === 0) return match;
-                
-                let tabsHtml = '<div class="code-tabs">';
-                tabsHtml += '<div class="code-tabs-header">';
-                
-                // 生成标签头部
-                codeBlocks.forEach((block, index) => {
-                    tabsHtml += `<div class="code-tab ${index === 0 ? 'active' : ''}" data-tab="${index}" data-lang="${block.lang}"><span class="tab-name">${block.name}</span></div>`;
-                });
-                
-                // 在标签行右侧添加语言标签
-                const firstLang = codeBlocks[0].lang || 'plaintext';
-                tabsHtml += `<div class="code-tabs-language">${firstLang}</div>`;
-                
-                tabsHtml += '</div>';
-                tabsHtml += '<div class="code-tabs-content">';
-                
-                // 生成标签内容
-                codeBlocks.forEach((block, index) => {
-                    // 渲染代码块
-                    let codeHtml = md.utils.escapeHtml(block.code);
-                    // 应用代码高亮
-                    if (window.hljs && block.lang && window.hljs.getLanguage) {
-                        try {
-                            if (window.hljs.getLanguage(block.lang)) {
-                                codeHtml = window.hljs.highlight(block.code, { language: block.lang }).value;
-                            }
-                        } catch (e) {
-                            // 高亮失败，使用原代码
-                        }
-                    }
-                    
-                    const renderedContent = `<div class="code-with-copy">
-<pre><code class="hljs language-${block.lang}">${codeHtml}</code></pre>
-<button class="copy-button" onclick="copyCode(this)">复制</button>
-</div>`;
-                    
-                    tabsHtml += `<div class="tab-content ${index === 0 ? 'active' : ''}" data-tab="${index}">${renderedContent}</div>`;
-                });
-                
-                tabsHtml += '</div>';
-                tabsHtml += '</div>';
-                
-                return tabsHtml;
-            });
-
-            // 处理 ```python name="xxx" 语法（单个代码块带标签名，不转换为tabs格式）
-            // 支持中文、英文、数字、下划线组成的标签名（在 [tabs] 处理之后执行）
-            processedMarkdown = processedMarkdown.replace(/```(\w+)\s+name="([^"]+)"[\r\n]+([\s\S]*?)```/g, (match, lang, tabName, code) => {
-                // 转义标签名和代码内容
-                const escapedTabName = md.utils.escapeHtml(tabName);
-                let codeHtml = md.utils.escapeHtml(code);
-                // 应用代码高亮
-                if (window.hljs && lang && window.hljs.getLanguage) {
-                    try {
-                        if (window.hljs.getLanguage(lang)) {
-                            codeHtml = window.hljs.highlight(code, { language: lang }).value;
-                        }
-                    } catch (e) {
-                        // 高亮失败，使用原代码
-                    }
-                }
-                // 生成HTML结构，标签名在左侧，语言在右侧
-                return `<div class="single-code-block">
-<div class="single-code-header">
-<div class="tab-name">${escapedTabName}</div>
-<div class="language-label">${lang}</div>
-</div>
-<div class="code-with-copy">
-<pre><code class="hljs language-${lang}">${codeHtml}</code></pre>
-<button class="copy-button" onclick="copyCode(this)">复制</button>
-</div>
-</div>`;
-            });
-
-            // 处理普通的 ```language 代码块（没有标签名）
-            processedMarkdown = processedMarkdown.replace(/```(\w+)[\r\n]+([\s\S]*?)```/g, (match, lang, code) => {
-                // 转义代码内容
-                let codeHtml = md.utils.escapeHtml(code);
-                // 应用代码高亮
-                if (window.hljs && lang && window.hljs.getLanguage) {
-                    try {
-                        if (window.hljs.getLanguage(lang)) {
-                            codeHtml = window.hljs.highlight(code, { language: lang }).value;
-                        }
-                    } catch (e) {
-                        // 高亮失败，使用原代码
-                    }
-                }
-                // 生成HTML结构，包含语言显示和复制按钮
-                return `<div class="single-code-block">
-<div class="single-code-header">
-<div class="tab-name"></div>
-<div class="language-label">${lang}</div>
-</div>
-<div class="code-with-copy">
-<pre><code class="hljs language-${lang}">${codeHtml}</code></pre>
-<button class="copy-button" onclick="copyCode(this)">复制</button>
-</div>
-</div>`;
-            });
-
-            // 渲染处理后的Markdown
-            const html = md.render(processedMarkdown);
-            articleDetail.innerHTML = `<a href="list.html" class="back-link">← 返回文章列表</a>` + frontMatterHtml + '<div class="article-detail-content">' + html + '</div>';
+            // 插入渲染后的内容
+            articleDetail.innerHTML = frontMatterHtml + '<div class="article-detail-content">' + html + '</div>';
             
             // 应用代码高亮
-            if (window.hljs) {
-                window.hljs.highlightAll();
-            }
+            parser.applyHighlight();
             
-            // 为所有标签容器添加切换功能
-            const codeTabs = articleDetail.querySelectorAll(".code-tabs");
-            codeTabs.forEach(tabs => {
-                const tabButtons = tabs.querySelectorAll(".code-tab");
-                const tabContents = tabs.querySelectorAll(".tab-content");
-                const languageElement = tabs.querySelector(".code-tabs-language");
-                
-                tabButtons.forEach((button, index) => {
-                    button.addEventListener("click", () => {
-                        // 移除所有标签的active类
-                        tabButtons.forEach(btn => btn.classList.remove("active"));
-                        tabContents.forEach(content => content.classList.remove("active"));
-                        
-                        // 添加当前标签的active类
-                        button.classList.add("active");
-                        tabContents[index].classList.add("active");
-                        
-                        // 更新语言标签
-                        const lang = button.getAttribute("data-lang");
-                        languageElement.textContent = lang;
-                    });
-                });
-            });
+            // 初始化标签切换功能
+            parser.initTabs(articleDetail);
             
             // 更新页面标题
             document.title = article.title + ' - 太皮';
         }
 
-        // 复制代码功能
-        function copyCode(button) {
-            const codeBlock = button.parentElement.querySelector('code');
-            if (codeBlock) {
-                const code = codeBlock.textContent;
-                navigator.clipboard.writeText(code).then(() => {
-                    button.textContent = '已复制!';
-                    button.classList.add('copied');
-                    setTimeout(() => {
-                        button.textContent = '复制';
-                        button.classList.remove('copied');
-                    }, 2000);
-                }).catch(err => {
-                    console.error('复制失败:', err);
-                    button.textContent = '复制失败';
-                    setTimeout(() => {
-                        button.textContent = '复制';
-                    }, 2000);
-                });
-            }
-        }
 
-        // 切换语言功能
-        function changeLanguage(selectElement, code) {
-            const newLang = selectElement.value;
-            const codeBlock = selectElement.closest('.single-code-block').querySelector('code');
-            const preElement = codeBlock.parentElement;
-            
-            // 更新语言类
-            codeBlock.className = `hljs language-${newLang}`;
-            preElement.className = `language-${newLang}`;
-            
-            // 重新应用代码高亮
-            if (window.hljs && window.hljs.getLanguage) {
-                try {
-                    if (window.hljs.getLanguage(newLang)) {
-                        const highlightedCode = window.hljs.highlight(code, { language: newLang }).value;
-                        codeBlock.innerHTML = highlightedCode;
-                    }
-                } catch (e) {
-                    // 高亮失败，使用原代码
-                    codeBlock.textContent = code;
-                }
-            }
-        }
     </script>
 </body>
 </html>
