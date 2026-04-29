@@ -93,21 +93,49 @@ async function loadMarkdown() {
             
             function updateActiveLink() {
                 let currentActive = null;
+                let minDistance = Infinity;
                 
                 headingElements.forEach((heading, index) => {
                     const rect = heading.getBoundingClientRect();
                     const link = tocLinks[index];
                     
-                    if (rect.top <= 100) {
-                        if (currentActive === null || rect.top > currentActive.getBoundingClientRect().top) {
-                            currentActive = link;
-                        }
+                    // 计算标题距离视口顶部的距离
+                    const distance = Math.abs(rect.top - 100);
+                    
+                    // 找到距离视口顶部最近的标题
+                    if (distance < minDistance) {
+                        minDistance = distance;
+                        currentActive = link;
                     }
                 });
                 
                 tocLinks.forEach(link => link.classList.remove('active'));
                 if (currentActive) {
                     currentActive.classList.add('active');
+                    
+                    // 确保激活的目录项在可视区域内
+                    const rightNav = document.getElementById('right-nav');
+                    const rightNavRect = rightNav.getBoundingClientRect();
+                    const linkRect = currentActive.getBoundingClientRect();
+                    
+                    // 计算链接相对于目录容器的位置
+                    const linkTopInNav = linkRect.top - rightNavRect.top + rightNav.scrollTop;
+                    const linkBottomInNav = linkTopInNav + linkRect.height;
+                    
+                    // 如果链接在可视区域上方，滚动到链接位置
+                    if (linkTopInNav < rightNav.scrollTop) {
+                        rightNav.scrollTo({
+                            top: linkTopInNav - 10,
+                            behavior: 'smooth'
+                        });
+                    }
+                    // 如果链接在可视区域下方，滚动使链接可见
+                    else if (linkBottomInNav > rightNav.scrollTop + rightNavRect.height) {
+                        rightNav.scrollTo({
+                            top: linkBottomInNav - rightNavRect.height + 10,
+                            behavior: 'smooth'
+                        });
+                    }
                 }
             }
             
