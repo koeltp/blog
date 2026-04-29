@@ -9,6 +9,10 @@
       "url": "articles/list.html"
     },
     {
+      "name": "周易预测",
+      "url": "tutorial.html?type=yi&file=启蒙节要.md"
+    },
+    {
       "name": "LangChain教程",
       "url": "tutorial.html?type=langchain"
     },
@@ -26,6 +30,12 @@
     }
   ],
   "leftnav": {
+    "yi": [
+      {
+        "name": "启蒙节要",
+        "file": "启蒙节要.md"
+      }
+    ],
     "langchain": [
       {
         "name": "技术介绍",
