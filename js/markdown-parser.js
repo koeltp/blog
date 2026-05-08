@@ -314,13 +314,17 @@ class MarkdownParser {
 
             tabButtons.forEach((button, index) => {
                 button.addEventListener("click", () => {
-                    // 移除所有标签的 active 类
+                    // 移除所有标签的 active 类并隐藏内容
                     tabButtons.forEach(btn => btn.classList.remove("active"));
-                    tabContents.forEach(content => content.classList.remove("active"));
+                    tabContents.forEach(content => {
+                        content.classList.remove("active");
+                        content.style.display = 'none';
+                    });
 
-                    // 添加当前标签的 active 类
+                    // 添加当前标签的 active 类并显示内容
                     button.classList.add("active");
                     tabContents[index].classList.add("active");
+                    tabContents[index].style.display = 'block';
 
                     // 更新语言标签
                     const lang = button.getAttribute("data-lang");
