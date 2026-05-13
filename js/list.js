@@ -8,37 +8,14 @@ async function loadArticles(searchTerm = '') {
     const articlesList = document.getElementById('articles-list');
 
     try {
-        // 文章文件列表
-        const articleFiles = [
-            'index.md',
-            'hello.md',
-            'win.md',
-            'micrsoft.md',
-            'install.md',
-            'two.md'
-        ];
-
-        const articles = [];
-
-        // 加载并解析每个文章文件
-        for (const file of articleFiles) {
-            const response = await fetch(`../docs/article/${file}`);
-            if (!response.ok) {
-                console.log(`加载失败: ${file}`);
-                continue;
-            }
-
-            const content = await response.text();
-            console.log(`加载文件: ${file}`);
-            console.log(`文件内容: ${content.substring(0, 100)}...`);
-
-            const article = parseArticle(content, file);
-            console.log(`解析结果:`, article);
-
-            if (article) {
-                articles.push(article);
-            }
+        // 从JSON文件加载文章列表（自动生成）
+        const response = await fetch('../data/articles.json');
+        if (!response.ok) {
+            throw new Error('无法加载文章列表');
         }
+
+        let articles = await response.json();
+        console.log(`加载文章列表: ${articles.length} 篇`);
 
         console.log(`所有文章:`, articles);
 

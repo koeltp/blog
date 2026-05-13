@@ -172,6 +172,98 @@ function renderArticleDetail(article) {
     // 初始化标签切换功能
     parser.initTabs(articleDetail);
 
+    // 生成右侧目录（使用setTimeout确保DOM已渲染）
+    setTimeout(() => {
+        generateToc();
+    }, 100);
+
     // 更新页面标题
     document.title = article.title + ' - 太皮';
+}
+
+// 生成目录（只显示1-3级标题）
+function generateToc() {
+    const tocList = document.getElementById('toc-list');
+    const contentDiv = document.getElementById('article-detail');
+    const headings = contentDiv.querySelectorAll('h1, h2, h3');
+    
+    if (!headings || headings.length === 0) {
+        document.getElementById('right-nav').style.display = 'none';
+        return;
+    }
+
+    // 为标题添加ID（如果没有的话）
+    headings.forEach((heading, index) => {
+        if (!heading.getAttribute('id')) {
+            const id = 'heading-' + index;
+            heading.setAttribute('id', id);
+        }
+    });
+
+    // 生成目录HTML
+    let html = '';
+    headings.forEach(heading => {
+        const id = heading.getAttribute('id');
+        const text = heading.textContent;
+        const level = parseInt(heading.tagName.substring(1));
+        const indentStyle = level > 1 ? `style="padding-left: ${(level - 1) * 12}px;"` : '';
+        html += `<li ${indentStyle}><a href="#${id}">${text}</a></li>`;
+    });
+
+    tocList.innerHTML = html;
+
+    // 添加目录点击事件（平滑滚动）
+    tocList.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const id = link.getAttribute('href').substring(1);
+            const element = document.getElementById(id);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+    });
+
+    // 添加滚动监听（高亮当前目录项）
+    setupScrollSpy();
+}
+
+// 滚动监听高亮目录
+function setupScrollSpy() {
+    const headings = document.querySelectorAll('h1, h2, h3, h4, h5, h6');
+    const tocLinks = document.querySelectorAll('#toc-list a');
+
+    window.addEventListener('scroll', () => {
+        let currentId = '';
+
+        headings.forEach(heading => {
+            const rect = heading.getBoundingClientRect();
+            if (rect.top <= 100) {
+                currentId = heading.getAttribute('id');
+            }
+        });
+
+        // 高亮当前目录项
+        tocLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === '#' + currentId) {
+                link.classList.add('active');
+            }
+        });
+
+        // 自动滚动目录
+        const activeLink = document.querySelector('#toc-list a.active');
+        if (activeLink) {
+            const rightNav = document.getElementById('right-nav');
+            const linkTop = activeLink.offsetTop;
+            const navTop = rightNav.scrollTop;
+            const navHeight = rightNav.offsetHeight;
+
+            if (linkTop < navTop) {
+                rightNav.scrollTo({ top: linkTop - 10, behavior: 'smooth' });
+            } else if (linkTop > navTop + navHeight - 40) {
+                rightNav.scrollTo({ top: linkTop - navHeight + 40, behavior: 'smooth' });
+            }
+        }
+    });
 }

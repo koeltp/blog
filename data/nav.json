@@ -1,4 +1,25 @@
 {
+  "displayNames": {
+    "yi": "周易预测",
+    "langchain": "LangChain教程",
+    "flutter": "Flutter教程",
+    "dart": "Dart教程",
+    "md": "Markdown语法指南",
+    "article": "文章"
+  },
+  "excludeDirs": [
+    "article"
+  ],
+  "topnavBase": [
+    {
+      "name": "首页",
+      "url": "index.html"
+    },
+    {
+      "name": "文章列表",
+      "url": "articles/list.html"
+    }
+  ],
   "topnav": [
     {
       "name": "首页",
@@ -10,7 +31,7 @@
     },
     {
       "name": "周易预测",
-      "url": "tutorial.html?type=yi&file=基础知识.md"
+      "url": "tutorial.html?type=yi"
     },
     {
       "name": "LangChain教程",
@@ -25,47 +46,47 @@
       "url": "tutorial.html?type=dart"
     },
     {
-      "name": "Markdown-it教程",
+      "name": "Markdown语法指南",
       "url": "tutorial.html?type=md"
     }
   ],
   "leftnav": {
-    "yi": [
+    "dart": [
       {
-        "name": "基础知识",
-        "file": "基础知识.md"
-      },
-      {
-        "name": "卦象法则",
-        "file": "卦象法则.md"
-      }
-    ],
-    "langchain": [
-      {
-        "name": "技术介绍",
+        "name": "index",
         "file": "index.md"
-      },
-      {
-        "name": "Install",
-        "file": "install.md"
       }
     ],
     "flutter": [
       {
-        "name": "简介",
+        "name": "index",
         "file": "index.md"
       }
     ],
-    "dart": [
+    "langchain": [
       {
-        "name": "简介",
+        "name": "My Document",
         "file": "index.md"
+      },
+      {
+        "name": "install",
+        "file": "install.md"
       }
     ],
     "md": [
       {
         "name": "Markdown语法指南",
         "file": "index.md"
+      }
+    ],
+    "yi": [
+      {
+        "name": "基础知识",
+        "file": "01基础知识.md"
+      },
+      {
+        "name": "卦象法则",
+        "file": "02卦象法则.md"
       }
     ]
   }

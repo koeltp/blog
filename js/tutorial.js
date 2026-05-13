@@ -6,6 +6,14 @@ function getUrlParam(name) {
 
 
 
+// 获取默认文件（目录中的第一个文件）
+function getDefaultFile(files) {
+    if (files && files.length > 0) {
+        return files[0].file;
+    }
+    return 'index.md';
+}
+
 // 加载文件列表
 async function loadFileList(type) {
     const fileListDiv = document.getElementById('file-list');
@@ -20,15 +28,25 @@ async function loadFileList(type) {
         const data = await response.json();
         const leftnav = data.leftnav || {};
         const files = leftnav[type] || [];
-        const currentFile = getUrlParam('file') || 'index.md';
+        const defaultFile = getDefaultFile(files);
+        const currentFile = getUrlParam('file') || defaultFile;
+        
+        // 如果当前文件不在列表中，使用默认文件
+        const fileNames = files.map(f => f.file);
+        const finalFile = fileNames.includes(currentFile) ? currentFile : defaultFile;
         
         let html = '';
         files.forEach(file => {
-            const isActive = file.file === currentFile;
+            const isActive = file.file === finalFile;
             html += `<li><a href="tutorial.html?type=${type}&file=${file.file}" ${isActive ? 'class="active"' : ''}>${file.name}</a></li>`;
         });
         
         fileListDiv.innerHTML = html;
+        
+        // 如果文件不在列表中，重定向到默认文件
+        if (finalFile !== currentFile && getUrlParam('file')) {
+            window.location.href = `tutorial.html?type=${type}&file=${finalFile}`;
+        }
     } catch (error) {
         fileListDiv.innerHTML = `<li style="color: red;">加载失败</li>`;
     }
@@ -37,12 +55,26 @@ async function loadFileList(type) {
 // 加载并渲染markdown文件
 async function loadMarkdown() {
     const type = getUrlParam('type') || 'langchain';
-    const file = getUrlParam('file') || 'index.md';
+    const file = getUrlParam('file');
     const contentDiv = document.getElementById('content');
     
     try {
+        // 获取默认文件
+        let fileName = file;
+        if (!file) {
+            const navResponse = await fetch('data/nav.json');
+            if (navResponse.ok) {
+                const navData = await navResponse.json();
+                const leftnav = navData.leftnav || {};
+                const files = leftnav[type] || [];
+                fileName = getDefaultFile(files);
+            } else {
+                fileName = 'index.md';
+            }
+        }
+        
         // 加载markdown文件
-        const response = await fetch(`docs/${type}/${file}`);
+        const response = await fetch(`docs/${type}/${fileName}`);
         if (!response.ok) {
             throw new Error('文件加载失败');
         }

@@ -142,6 +142,13 @@
 .code-with-copy {
     position: relative;
     border-radius: 0 0 8px 8px;
+    overflow: auto;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+}
+
+.code-with-copy::-webkit-scrollbar {
+    display: none; /* Chrome, Safari and Opera */
 }
 
 .code-with-copy pre {
@@ -151,6 +158,12 @@
     max-height: 500px;
     overflow-y: auto;
     background-color: #0d1117;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+}
+
+.code-with-copy pre::-webkit-scrollbar {
+    display: none; /* Chrome, Safari and Opera */
 }
 
 .code-with-copy code {
@@ -311,6 +324,12 @@ dd::before {
     padding: 0.5em;
     color: #f8f8f2;
     background: #2d3748;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+}
+
+.hljs::-webkit-scrollbar {
+    display: none; /* Chrome, Safari and Opera */
 }
 
 .hljs-comment,

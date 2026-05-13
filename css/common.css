@@ -6,6 +6,11 @@
 body {
     font-family: Arial, sans-serif;
     line-height: 1.6;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+}
+body::-webkit-scrollbar {
+    display: none; /* Chrome, Safari and Opera */
 }
 header {
     background-color: #212529;

@@ -308,6 +308,12 @@ dd + dt {
     z-index: 100;
     max-height: calc(100vh - 200px);
     overflow-y: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.right-nav::-webkit-scrollbar {
+    display: none;
 }
 
 @media (min-width: 1440px) {
