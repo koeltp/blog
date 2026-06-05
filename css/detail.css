@@ -59,13 +59,109 @@
 }
 
 /* Mermaid 图表样式 */
-.article-detail .mermaid {
-    text-align: center;
+.article-detail .mermaid-wrapper {
     margin: 1.5rem 0;
-    padding: 1rem;
-    background: #f8f9fa;
+    border: 1px solid #e9ecef;
     border-radius: 8px;
-    overflow-x: auto;
+    overflow: hidden;
+    background: #f8f9fa;
+}
+
+.article-detail .mermaid-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 6px 12px;
+    background: #fff;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.article-detail .mermaid-tabs {
+    display: flex;
+    gap: 4px;
+}
+
+.article-detail .mermaid-tab {
+    padding: 3px 12px;
+    font-size: 13px;
+    cursor: pointer;
+    color: #666;
+    border-radius: 4px;
+    transition: all 0.2s;
+    user-select: none;
+}
+
+.article-detail .mermaid-tab:hover { background: #f1f5f9; }
+.article-detail .mermaid-tab.active {
+    color: #1e293b;
+    font-weight: 600;
+    background: #e2e8f0;
+}
+
+.article-detail .mermaid-actions {
+    display: flex;
+    gap: 4px;
+}
+
+.article-detail .mermaid-action {
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #e2e8f0;
+    border-radius: 4px;
+    background: #fff;
+    cursor: pointer;
+    font-size: 14px;
+    color: #64748b;
+    transition: all 0.15s;
+}
+
+.article-detail .mermaid-action:hover {
+    background: #f1f5f9;
+    color: #334155;
+    border-color: #cbd5e1;
+}
+
+.article-detail .mermaid-diagram {
+    text-align: center;
+    padding: 1rem;
+    overflow: auto;
+    position: relative;
+    min-height: 60px;
+}
+
+.article-detail .mermaid-source {
+    margin: 0 !important;
+    padding: 1rem;
+    max-height: 400px;
+    overflow: auto;
+    background: #1e293b;
+}
+
+.article-detail .mermaid-source code {
+    color: #e2e8f0;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+/* 全屏模式 */
+.article-detail .mermaid-wrapper.fullscreen {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 9999;
+    border-radius: 0;
+    display: flex;
+    flex-direction: column;
+    background: #f8f9fa;
+}
+
+.article-detail .mermaid-wrapper.fullscreen .mermaid-diagram {
+    flex: 1;
+    overflow: hidden;
 }
 
 /* 右侧目录样式 */

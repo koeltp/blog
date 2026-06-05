@@ -59,9 +59,21 @@ class MarkdownParser {
             const info = token.info ? token.info.trim() : '';
             const lang = info.split(/\s+/)[0];
 
-            // mermaid 代码块渲染为图表容器
+            // mermaid 代码块渲染为带控制栏的图表容器
             if (lang === 'mermaid') {
-                return `<div class="mermaid">\n${token.content}\n</div>`;
+                return `<div class="mermaid-wrapper">
+<div class="mermaid-toolbar">
+<div class="mermaid-tabs"><span class="mermaid-tab active" data-view="diagram">图表</span><span class="mermaid-tab" data-view="code">代码</span></div>
+<div class="mermaid-actions">
+<button class="mermaid-action" data-action="zoom-in" title="放大">+</button>
+<button class="mermaid-action" data-action="zoom-out" title="缩小">-</button>
+<button class="mermaid-action" data-action="download" title="下载">↓</button>
+<button class="mermaid-action" data-action="fullscreen" title="全屏">⛶</button>
+</div>
+</div>
+<div class="mermaid-diagram"><div class="mermaid">\n${token.content}\n</div></div>
+<pre class="mermaid-source" style="display:none"><code>${this.md.utils.escapeHtml(token.content)}</code></pre>
+</div>`;
             }
 
             // 其他语言：生成带复制按钮和高亮的代码块
