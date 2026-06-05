@@ -93,7 +93,7 @@ class MarkdownParser {
 </div>
 <div class="code-with-copy">
 <pre><code class="hljs language-${lang}">${codeHtml}</code></pre>
-<button class="copy-button" onclick="copyCode(this)">复制</button>
+<button class="copy-button">复制</button>
 </div>
 </div>`;
         };
@@ -260,7 +260,7 @@ class MarkdownParser {
 
                 const renderedContent = `<div class="code-with-copy">
 <pre><code class="hljs language-${block.lang}">${codeHtml}</code></pre>
-<button class="copy-button" onclick="copyCode(this)">复制</button>
+<button class="copy-button">复制</button>
 </div>`;
 
                 tabsHtml += `<div class="tab-content ${index === 0 ? 'active' : ''}" data-tab="${index}">${renderedContent}</div>`;
@@ -287,7 +287,7 @@ class MarkdownParser {
 </div>
 <div class="code-with-copy">
 <pre><code class="hljs language-${lang}">${codeHtml}</code></pre>
-<button class="copy-button" onclick="copyCode(this)">复制</button>
+<button class="copy-button">复制</button>
 </div>
 </div>`;
             return this._addPlaceholder(html);
@@ -382,12 +382,13 @@ class MarkdownParser {
     }
 }
 
-// 复制代码功能
-function copyCode(button) {
+// 复制代码功能（事件委托）
+document.addEventListener('click', function(e) {
+    const button = e.target.closest('.copy-button');
+    if (!button) return;
     const codeBlock = button.parentElement.querySelector('code');
     if (codeBlock) {
-        const code = codeBlock.textContent;
-        navigator.clipboard.writeText(code).then(() => {
+        navigator.clipboard.writeText(codeBlock.textContent).then(() => {
             button.textContent = '已复制!';
             button.classList.add('copied');
             setTimeout(() => {
@@ -402,30 +403,7 @@ function copyCode(button) {
             }, 2000);
         });
     }
-}
-
-// 切换语言功能
-function changeLanguage(selectElement, code) {
-    const newLang = selectElement.value;
-    const codeBlock = selectElement.closest('.single-code-block').querySelector('code');
-    const preElement = codeBlock.parentElement;
-
-    codeBlock.className = `hljs language-${newLang}`;
-    preElement.className = `language-${newLang}`;
-
-    if (window.hljs && window.hljs.getLanguage && window.hljs.getLanguage(newLang)) {
-        try {
-            const highlightedCode = window.hljs.highlight(code, { language: newLang }).value;
-            codeBlock.innerHTML = highlightedCode;
-        } catch (e) {
-            codeBlock.textContent = code;
-        }
-    } else {
-        codeBlock.textContent = code;
-    }
-}
+});
 
 // 导出
 window.MarkdownParser = MarkdownParser;
-window.copyCode = copyCode;
-window.changeLanguage = changeLanguage;

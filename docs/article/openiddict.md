@@ -155,7 +155,27 @@ static X509Certificate2 LoadCertificate(string path)
 }
 ```
 
-### 2.3 数据库上下文
+### 2.3 用户模型
+
+OpenIddict 不管用户——用户管理是 Identity 的职责。我们需要定义自己的用户实体，继承 `IdentityUser<Guid>` 并添加自定义字段：
+
+```csharp name="ApplicationUser.cs"
+public class ApplicationUser : IdentityUser<Guid>
+{
+    /// <summary>显示名称</summary>
+    public string? DisplayName { get; set; }
+
+    /// <summary>是否激活（用于刷新令牌时校验用户状态）</summary>
+    public bool IsActive { get; set; } = true;
+
+    /// <summary>注册时间</summary>
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+}
+```
+
+> **注意**：`IdentityUser<Guid>` 用 Guid 作为主键类型，而非默认的 string。如果你用 string 主键，改为 `IdentityUser` 即可。
+
+### 2.4 数据库上下文
 
 ```csharp name="AppDbContext.cs"
 public class AppDbContext : IdentityDbContext<ApplicationUser, IdentityRole<Guid>, Guid>
@@ -176,7 +196,7 @@ public class AppDbContext : IdentityDbContext<ApplicationUser, IdentityRole<Guid
 }
 ```
 
-### 2.4 数据库迁移与种子数据
+### 2.5 数据库迁移与种子数据
 
 ```bash name="迁移命令"
 dotnet ef migrations add AddOpenIddict

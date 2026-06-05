@@ -46,27 +46,55 @@ function scanArticles() {
 
 // 解析文章内容
 function parseArticle(content, filename) {
-    // 解析YAML front matter
-    const frontMatterMatch = content.match(/^---[\s\S]*?---/m);
+    // 解析YAML front matter（与前端 markdown-parser.js 保持一致）
+    const frontMatterMatch = content.match(/^---\s*\n([\s\S]*?)\n---\s*\n/);
     let frontMatter = {};
     let bodyContent = content;
 
     if (frontMatterMatch) {
-        const frontMatterText = frontMatterMatch[0].replace(/^---|---$/g, '').trim();
-        bodyContent = content.replace(frontMatterMatch[0], '').trim();
+        const frontMatterText = frontMatterMatch[1];
+        bodyContent = content.substring(frontMatterMatch[0].length);
 
-        // 简单解析YAML
-        frontMatterText.split(/\r?\n/).forEach(line => {
+        // 解析 front matter 字段（支持多行值和 YAML 列表语法）
+        let currentKey = null;
+        let currentValue = [];
+
+        frontMatterText.split('\n').forEach(line => {
             line = line.trim();
-            if (line && !line.startsWith('#')) {
-                const colonIndex = line.indexOf(':');
-                if (colonIndex > 0) {
-                    const key = line.substring(0, colonIndex).trim();
-                    const value = line.substring(colonIndex + 1).trim().replace(/^"|"$/g, '');
-                    frontMatter[key] = value;
+
+            // 跳过空行
+            if (!line) return;
+
+            // 检查是否是新的键值对
+            const colonIndex = line.indexOf(':');
+            if (colonIndex > 0) {
+                // 处理之前的键值对
+                if (currentKey) {
+                    frontMatter[currentKey] = currentValue.length === 1 ? currentValue[0] : currentValue;
+                }
+
+                // 开始新的键值对
+                currentKey = line.substring(0, colonIndex).trim();
+                const value = line.substring(colonIndex + 1).trim().replace(/^["']|["']$/g, '');
+
+                if (value) {
+                    currentValue = [value];
+                } else {
+                    currentValue = [];
+                }
+            } else if (currentKey && (line.startsWith('-') || line.startsWith('  '))) {
+                // 处理 YAML 列表项
+                const value = line.replace(/^ -\s*/, '').replace(/^\s*-\s*/, '').trim();
+                if (value) {
+                    currentValue.push(value);
                 }
             }
         });
+
+        // 处理最后一个键值对
+        if (currentKey) {
+            frontMatter[currentKey] = currentValue.length === 1 ? currentValue[0] : currentValue;
+        }
     }
 
     // 提取标题（如果front matter中没有，从内容中提取）
@@ -77,18 +105,28 @@ function parseArticle(content, filename) {
     }
 
     // 提取摘要（前150个字符）
-    const plainText = bodyContent.replace(/#+\s+/g, '').replace(/\r?\n/g, ' ').replace(/\s+/g, ' ');
+    const plainText = bodyContent.replace(/#+\s+/g, '').replace(/```[\s\S]*?```/g, '').replace(/\r?\n/g, ' ').replace(/\s+/g, ' ');
     const excerpt = plainText.substring(0, 150) + (plainText.length > 150 ? '...' : '');
+
+    // 统一 tags 为数组（支持 YAML 列表和逗号分隔两种格式）
+    let tags = [];
+    if (Array.isArray(frontMatter.tags)) {
+        tags = frontMatter.tags;
+    } else if (frontMatter.tags) {
+        tags = frontMatter.tags.split(',').map(tag => tag.trim());
+    }
+
+    // 统一 authors（支持 YAML 列表和字符串）
+    const authors = Array.isArray(frontMatter.authors) ? frontMatter.authors.join(', ') : (frontMatter.authors || '');
 
     // 构建文章对象
     return {
         title: title,
         date: frontMatter.date || '2026-04-18',
         category: frontMatter.category || 'tech',
-        tags: frontMatter.tags ? frontMatter.tags.split(',').map(tag => tag.trim()) : [],
+        tags: tags,
         summary: frontMatter.summary || excerpt,
-        excerpt: frontMatter.summary || excerpt,
-        authors: frontMatter.authors || '',
+        authors: authors,
         filename: filename
     };
 }

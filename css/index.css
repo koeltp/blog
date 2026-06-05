@@ -284,29 +284,6 @@
     margin-bottom: 0.75rem;
     align-items: center;
 }
-.article-category {
-    display: inline-block;
-    padding: 0.3rem 0.8rem;
-    border-radius: 15px;
-    font-size: 0.8rem;
-    font-weight: 600;
-}
-.article-category.tutorial {
-    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
-    color: #92400e;
-}
-.article-category.life {
-    background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
-    color: #065f46;
-}
-.article-category.tech {
-    background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
-    color: #1e40af;
-}
-.article-date {
-    color: #94a3b8;
-    font-size: 0.85rem;
-}
 .article-authors {
     color: #ff6b35;
     font-size: 0.85rem;
@@ -330,25 +307,6 @@
     line-height: 1.6;
     margin-bottom: 1rem;
     font-size: 0.95rem;
-}
-.article-tags {
-    display: flex;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-    align-items: center;
-}
-.article-tags .tag {
-    display: inline-block;
-    padding: 0.25rem 0.75rem;
-    background: #f1f5f9;
-    color: #64748b;
-    border-radius: 12px;
-    font-size: 0.8rem;
-    transition: all 0.3s ease;
-}
-.article-tags .tag:hover {
-    background: #e2e8f0;
-    color: #475569;
 }
 .article-tags .article-date {
     margin-left: auto;

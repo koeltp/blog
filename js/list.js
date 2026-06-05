@@ -28,7 +28,7 @@ async function loadArticles(searchTerm = '') {
             const searchLower = searchTerm.toLowerCase();
             return (
                 article.title.toLowerCase().includes(searchLower) ||
-                article.excerpt.toLowerCase().includes(searchLower) ||
+                article.summary.toLowerCase().includes(searchLower) ||
                 article.tags.some(tag => tag.toLowerCase().includes(searchLower)) ||
                 article.authors.toLowerCase().includes(searchLower)
             );
@@ -45,51 +45,71 @@ async function loadArticles(searchTerm = '') {
     }
 }
 
-// 解析文章内容
+// 解析文章内容（与 generate-articles.js 保持一致）
 function parseArticle(content, filename) {
     // 解析YAML front matter
-    const frontMatterMatch = content.match(/^---[\s\S]*?---/m);
+    const frontMatterMatch = content.match(/^---\s*\n([\s\S]*?)\n---\s*\n/);
     let frontMatter = {};
     let bodyContent = content;
 
     if (frontMatterMatch) {
-        const frontMatterText = frontMatterMatch[0].replace(/^---|---$/g, '').trim();
-        bodyContent = content.replace(frontMatterMatch[0], '').trim();
+        const frontMatterText = frontMatterMatch[1];
+        bodyContent = content.substring(frontMatterMatch[0].length);
 
-        // 简单解析YAML，处理Windows换行符
-        frontMatterText.split(/\r?\n/).forEach(line => {
+        // 解析 front matter 字段（支持多行值和 YAML 列表语法）
+        let currentKey = null;
+        let currentValue = [];
+
+        frontMatterText.split('\n').forEach(line => {
             line = line.trim();
-            if (line) {
-                const colonIndex = line.indexOf(':');
-                if (colonIndex > 0) {
-                    const key = line.substring(0, colonIndex).trim();
-                    const value = line.substring(colonIndex + 1).trim().replace(/^"|"$/g, '');
-                    frontMatter[key] = value;
+
+            if (!line) return;
+
+            const colonIndex = line.indexOf(':');
+            if (colonIndex > 0) {
+                if (currentKey) {
+                    frontMatter[currentKey] = currentValue.length === 1 ? currentValue[0] : currentValue;
                 }
+                currentKey = line.substring(0, colonIndex).trim();
+                const value = line.substring(colonIndex + 1).trim().replace(/^["']|["']$/g, '');
+                currentValue = value ? [value] : [];
+            } else if (currentKey && (line.startsWith('-') || line.startsWith('  '))) {
+                const value = line.replace(/^\s*-\s*/, '').trim();
+                if (value) currentValue.push(value);
             }
         });
+
+        if (currentKey) {
+            frontMatter[currentKey] = currentValue.length === 1 ? currentValue[0] : currentValue;
+        }
     }
 
-    // 提取标题（如果front matter中没有，从内容中提取）
     let title = frontMatter.title;
     if (!title) {
         const titleMatch = bodyContent.match(/^#\s+(.+)$/m);
         title = titleMatch ? titleMatch[1] : `文章 ${filename}`;
     }
 
-    // 提取摘要（前150个字符）
-    const plainText = bodyContent.replace(/#+\s+/g, '').replace(/\r?\n/g, ' ').replace(/\s+/g, ' ');
-    const excerpt = plainText.substring(0, 150) + (plainText.length > 150 ? '...' : '');
+    const plainText = bodyContent.replace(/#+\s+/g, '').replace(/```[\s\S]*?```/g, '').replace(/\r?\n/g, ' ').replace(/\s+/g, ' ');
+    const summary = plainText.substring(0, 150) + (plainText.length > 150 ? '...' : '');
 
-    // 构建文章对象
+    // 统一 tags 为数组
+    let tags = [];
+    if (Array.isArray(frontMatter.tags)) {
+        tags = frontMatter.tags;
+    } else if (frontMatter.tags) {
+        tags = frontMatter.tags.split(',').map(tag => tag.trim());
+    }
+
+    const authors = Array.isArray(frontMatter.authors) ? frontMatter.authors.join(', ') : (frontMatter.authors || '');
+
     return {
         title: title,
         date: frontMatter.date || '2026-04-18',
         category: frontMatter.category || 'tech',
-        tags: frontMatter.tags ? frontMatter.tags.split(',').map(tag => tag.trim()) : [],
-        summary: frontMatter.summary || excerpt,
-        excerpt: frontMatter.summary || excerpt,
-        authors: frontMatter.authors || '',
+        tags: tags,
+        summary: frontMatter.summary || summary,
+        authors: authors,
         filename: filename
     };
 }
@@ -118,7 +138,7 @@ function renderArticles(articles) {
                     ${article.authors ? `<span class="article-authors">${article.authors}</span>` : ''}
                 </div>
                 <h3 class="article-title"><a href="detail.html?file=${article.filename}">${article.title}</a></h3>
-                <p class="article-excerpt">${article.excerpt}</p>
+                <p class="article-excerpt">${article.summary}</p>
                 <div class="article-tags">
                     ${article.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
                     <span class="article-date">${article.date}</span>

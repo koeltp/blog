@@ -11,7 +11,6 @@
       "JWT"
     ],
     "summary": "从协议原理到生产实践，全面覆盖 OpenIddict 的授权码流程、客户端凭证、刷新令牌、自定义存储及常见踩坑",
-    "excerpt": "从协议原理到生产实践，全面覆盖 OpenIddict 的授权码流程、客户端凭证、刷新令牌、自定义存储及常见踩坑",
     "authors": "",
     "filename": "openiddict.md"
   },
@@ -28,7 +27,6 @@
       "Docker"
     ],
     "summary": "从零搭建 SSO 认证中心，涵盖 OpenIddict 服务端配置、授权码+PKCE 流程、Vue 前端集成、Docker 部署全链路",
-    "excerpt": "从零搭建 SSO 认证中心，涵盖 OpenIddict 服务端配置、授权码+PKCE 流程、Vue 前端集成、Docker 部署全链路",
     "authors": "",
     "filename": "tpsso-sso.md"
   },
@@ -44,7 +42,6 @@
       "安全"
     ],
     "summary": "从架构原理到生产实践，全面覆盖 Identity 的用户管理、角色权限、JWT、2FA、自定义存储及常见踩坑",
-    "excerpt": "从架构原理到生产实践，全面覆盖 Identity 的用户管理、角色权限、JWT、2FA、自定义存储及常见踩坑",
     "authors": "",
     "filename": "aspnetcore-identity.md"
   },
@@ -55,8 +52,7 @@
     "tags": [
       "IT"
     ],
-    "summary": "经常遇到docker image pull失败的，这是经过社区验证的几个比好用的镜像地址： ```json name=\"registry\" { \"registry-mirrors\": [ \"https://docker.1panel.live\", \"https://docker.1ms.run\", ...",
-    "excerpt": "经常遇到docker image pull失败的，这是经过社区验证的几个比好用的镜像地址： ```json name=\"registry\" { \"registry-mirrors\": [ \"https://docker.1panel.live\", \"https://docker.1ms.run\", ...",
+    "summary": "经常遇到docker image pull失败的，这是经过社区验证的几个比好用的镜像地址： 修改步骤： - 打开 Docker Desktop。 - 点击右上角的 设置（Settings） 图标（小齿轮）。 - 在左侧菜单选择 Docker Engine。 - 你将看到一个 JSON 配置文件。 -...",
     "authors": "",
     "filename": "Docker Registry.md"
   },
@@ -71,7 +67,6 @@
       "图床"
     ],
     "summary": "详细介绍如何使用 Cloudflare R2 对象存储搭建图床 CDN，并配置防盗链保护",
-    "excerpt": "详细介绍如何使用 Cloudflare R2 对象存储搭建图床 CDN，并配置防盗链保护",
     "authors": "",
     "filename": "cloudflare 图床.md"
   }

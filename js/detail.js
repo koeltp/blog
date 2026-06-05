@@ -40,7 +40,7 @@ async function loadArticleDetail() {
     }
 }
 
-// 解析文章内容
+// 解析文章内容（与 generate-articles.js 保持一致）
 function parseArticle(content, filename) {
     // 解析YAML front matter
     const frontMatterMatch = content.match(/^---\s*\n([\s\S]*?)\n---\s*\n/);
@@ -51,55 +51,31 @@ function parseArticle(content, filename) {
         const frontMatterText = frontMatterMatch[1];
         markdownContent = content.substring(frontMatterMatch[0].length);
 
-        // 解析front matter字段（支持多行值）
+        // 解析 front matter 字段（支持多行值和 YAML 列表语法）
         let currentKey = null;
         let currentValue = [];
 
         frontMatterText.split('\n').forEach(line => {
             line = line.trim();
 
-            // 跳过空行
             if (!line) return;
 
-            // 检查是否是新的键值对
             const colonIndex = line.indexOf(':');
             if (colonIndex > 0) {
-                // 处理之前的键值对
                 if (currentKey) {
-                    if (currentValue.length === 1) {
-                        // 单行值
-                        frontMatter[currentKey] = currentValue[0];
-                    } else {
-                        // 多行值（如authors数组）
-                        frontMatter[currentKey] = currentValue;
-                    }
+                    frontMatter[currentKey] = currentValue.length === 1 ? currentValue[0] : currentValue;
                 }
-
-                // 开始新的键值对
                 currentKey = line.substring(0, colonIndex).trim();
-                const value = line.substring(colonIndex + 1).trim();
-
-                if (value) {
-                    currentValue = [value];
-                } else {
-                    currentValue = [];
-                }
+                const value = line.substring(colonIndex + 1).trim().replace(/^["']|["']$/g, '');
+                currentValue = value ? [value] : [];
             } else if (currentKey && (line.startsWith('-') || line.startsWith('  '))) {
-                // 处理多行值（如authors数组）
-                const value = line.replace(/^-\s*/, '').trim();
-                if (value) {
-                    currentValue.push(value);
-                }
+                const value = line.replace(/^\s*-\s*/, '').trim();
+                if (value) currentValue.push(value);
             }
         });
 
-        // 处理最后一个键值对
         if (currentKey) {
-            if (currentValue.length === 1) {
-                frontMatter[currentKey] = currentValue[0];
-            } else {
-                frontMatter[currentKey] = currentValue;
-            }
+            frontMatter[currentKey] = currentValue.length === 1 ? currentValue[0] : currentValue;
         }
     }
 
@@ -109,18 +85,27 @@ function parseArticle(content, filename) {
     // 提取摘要
     let excerpt = frontMatter.summary || '';
     if (!excerpt) {
-        // 从内容中提取摘要
         const plainText = markdownContent.replace(/#+\s/g, '').replace(/```[\s\S]*?```/g, '').replace(/\[.*?\]\(.*?\)/g, '').trim();
         excerpt = plainText.substring(0, 150) + (plainText.length > 150 ? '...' : '');
     }
+
+    // 统一 tags 为数组
+    let tags = [];
+    if (Array.isArray(frontMatter.tags)) {
+        tags = frontMatter.tags;
+    } else if (frontMatter.tags) {
+        tags = frontMatter.tags.split(',').map(tag => tag.trim());
+    }
+
+    const authors = Array.isArray(frontMatter.authors) ? frontMatter.authors.join(', ') : (frontMatter.authors || '');
 
     // 构建文章对象
     return {
         title: title,
         date: frontMatter.date || '2026-04-18',
         category: frontMatter.category || 'tech',
-        tags: frontMatter.tags ? frontMatter.tags.split(',').map(tag => tag.trim()) : [],
-        authors: frontMatter.authors || '',
+        tags: tags,
+        authors: authors,
         content: markdownContent,
         filename: filename
     };
@@ -132,26 +117,36 @@ function renderArticleDetail(article) {
 
     // 生成front matter的HTML
     let frontMatterHtml = '';
-    if (article.authors || article.date || article.tags.length > 0) {
+    if (article.title) {
         frontMatterHtml = '<div class="article-header">';
 
         if (article.title) {
             frontMatterHtml += `<h1 class="article-detail-title">${article.title}</h1>`;
         }
 
+        // 分类徽标
+        const categoryLabels = {
+            tech: '技术', tutorial: '教程', life: '生活', docker: 'Docker', finance: '财经'
+        };
+        const categoryLabel = categoryLabels[article.category] || article.category || '技术';
+
+        // 元信息行（作者 | 日期 | 分类）
         const metaParts = [];
         if (article.authors) {
-            const authors = Array.isArray(article.authors) ? article.authors.join(', ') : article.authors;
-            metaParts.push(`作者：${authors}`);
+            metaParts.push(`作者：${Array.isArray(article.authors) ? article.authors.join(', ') : article.authors}`);
         }
         if (article.date) {
             metaParts.push(`发布日期：${article.date}`);
         }
-        if (article.tags.length > 0) {
-            metaParts.push(`标签：${article.tags.join(', ')}`);
-        }
         if (metaParts.length > 0) {
             frontMatterHtml += `<div class="article-detail-meta">${metaParts.join(' &nbsp;|&nbsp; ')}</div>`;
+        }
+
+        // 标签行（带样式）
+        if (article.tags.length > 0) {
+            frontMatterHtml += `<div class="article-tags"><span class="article-category ${article.category || 'tech'}">${categoryLabel}</span>${article.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>`;
+        } else {
+            frontMatterHtml += `<div class="article-tags"><span class="article-category ${article.category || 'tech'}">${categoryLabel}</span></div>`;
         }
 
         frontMatterHtml += '</div>';
