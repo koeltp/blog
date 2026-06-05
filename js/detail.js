@@ -175,6 +175,14 @@ function renderArticleDetail(article) {
     // 生成右侧目录（使用setTimeout确保DOM已渲染）
     setTimeout(() => {
         generateToc();
+        // 渲染 Mermaid 图表
+        if (window.mermaid) {
+            try {
+                mermaid.run({ querySelector: '.mermaid' });
+            } catch (e) {
+                console.warn('Mermaid 渲染失败:', e);
+            }
+        }
     }, 100);
 
     // 更新页面标题

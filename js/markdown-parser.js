@@ -8,6 +8,7 @@
  * - 代码高亮
  * - 代码复制功能
  * - 标签切换功能
+ * - Mermaid 图表渲染
  */
 
 class MarkdownParser {
@@ -23,6 +24,8 @@ class MarkdownParser {
             ...options
         };
         this.md = null;
+        // 占位符存储，用于保护代码块 HTML 不被 markdown-it 转义
+        this._placeholders = [];
         this.init();
     }
 
@@ -35,6 +38,11 @@ class MarkdownParser {
             return;
         }
 
+        // 配置 highlight.js 忽略未转义 HTML 警告
+        if (window.hljs) {
+            window.hljs.configure({ ignoreUnescapedHTML: true });
+        }
+
         // 初始化 markdown-it
         this.md = window.markdownit(this.options);
 
@@ -42,6 +50,41 @@ class MarkdownParser {
         if (window.markdownitDeflist) {
             this.md.use(window.markdownitDeflist);
         }
+
+        // 自定义 fence 渲染器：处理 mermaid 图表和普通代码块
+        const defaultFence = this.md.renderer.rules.fence.bind(this.md.renderer.rules);
+
+        this.md.renderer.rules.fence = (tokens, idx, options, env, slf) => {
+            const token = tokens[idx];
+            const info = token.info ? token.info.trim() : '';
+            const lang = info.split(/\s+/)[0];
+
+            // mermaid 代码块渲染为图表容器
+            if (lang === 'mermaid') {
+                return `<div class="mermaid">\n${token.content}\n</div>`;
+            }
+
+            // 其他语言：生成带复制按钮和高亮的代码块
+            let codeHtml = this.md.utils.escapeHtml(token.content);
+            if (window.hljs && lang && window.hljs.getLanguage && window.hljs.getLanguage(lang)) {
+                try {
+                    codeHtml = window.hljs.highlight(token.content, { language: lang }).value;
+                } catch (e) {
+                    // 高亮失败，使用转义后的代码
+                }
+            }
+
+            return `<div class="single-code-block">
+<div class="single-code-header">
+<div class="tab-name"></div>
+<div class="language-label">${lang}</div>
+</div>
+<div class="code-with-copy">
+<pre><code class="hljs language-${lang}">${codeHtml}</code></pre>
+<button class="copy-button" onclick="copyCode(this)">复制</button>
+</div>
+</div>`;
+        };
     }
 
     /**
@@ -74,10 +117,8 @@ class MarkdownParser {
                     // 处理之前的键值对
                     if (currentKey) {
                         if (currentValue.length === 1) {
-                            // 单行值
                             frontMatter[currentKey] = currentValue[0];
                         } else {
-                            // 多行值（如 authors 数组）
                             frontMatter[currentKey] = currentValue;
                         }
                     }
@@ -92,7 +133,6 @@ class MarkdownParser {
                         currentValue = [];
                     }
                 } else if (currentKey && (line.startsWith('-') || line.startsWith('  '))) {
-                    // 处理多行值（如 authors 数组）
                     const value = line.replace(/^-\s*/, '').trim();
                     if (value) {
                         currentValue.push(value);
@@ -149,16 +189,29 @@ class MarkdownParser {
     }
 
     /**
-     * 处理标签式代码块的 Markdown 语法
+     * 将 HTML 存入占位符，避免被 markdown-it 转义
+     * @param {string} html - 需要保护的 HTML
+     * @returns {string} 占位符标记
+     */
+    _addPlaceholder(html) {
+        const index = this._placeholders.length;
+        this._placeholders.push(html);
+        // 使用 HTML 注释作为占位符，markdown-it 在 html:true 模式下会保留
+        return `<!--MDPH_${index}-->`;
+    }
+
+    /**
+     * 处理自定义 Markdown 语法（tabs、带标签名代码块）
+     * 使用占位符保护生成的 HTML，防止被 markdown-it 二次转义
      * @param {string} markdown - Markdown 内容
      * @returns {string} 处理后的 Markdown 内容
      */
     processMarkdown(markdown) {
         let processedMarkdown = markdown;
+        this._placeholders = [];
 
-        // 替换 [tabs] 和 [tab] 语法为 HTML（先处理，避免与 ```python xxx 语法冲突）
+        // 替换 [tabs] 和 [tab] 语法为占位符
         processedMarkdown = processedMarkdown.replace(/\[tabs\]([\s\S]*?)\[\/tabs\]/g, (match, content) => {
-            // 提取带有 name 属性的代码块
             const codeBlocks = [];
             const codeBlockRegex = /```(\w+)\s+name="([^"]+)"[\r\n]+([\s\S]*?)```/g;
             let matchBlock;
@@ -176,31 +229,21 @@ class MarkdownParser {
             let tabsHtml = '<div class="code-tabs">';
             tabsHtml += '<div class="code-tabs-header">';
 
-            // 生成标签头部
             codeBlocks.forEach((block, index) => {
                 tabsHtml += `<div class="code-tab ${index === 0 ? 'active' : ''}" data-tab="${index}" data-lang="${block.lang}"><span class="tab-name">${block.name}</span></div>`;
             });
 
-            // 在标签行右侧添加语言标签
             const firstLang = codeBlocks[0].lang || 'plaintext';
             tabsHtml += `<div class="code-tabs-language">${firstLang}</div>`;
-
             tabsHtml += '</div>';
             tabsHtml += '<div class="code-tabs-content">';
 
-            // 生成标签内容
             codeBlocks.forEach((block, index) => {
-                // 渲染代码块
                 let codeHtml = this.md.utils.escapeHtml(block.code);
-                // 应用代码高亮
-                if (window.hljs && block.lang && window.hljs.getLanguage) {
+                if (window.hljs && block.lang && window.hljs.getLanguage && window.hljs.getLanguage(block.lang)) {
                     try {
-                        if (window.hljs.getLanguage(block.lang)) {
-                            codeHtml = window.hljs.highlight(block.code, { language: block.lang }).value;
-                        }
-                    } catch (e) {
-                        // 高亮失败，使用原代码
-                    }
+                        codeHtml = window.hljs.highlight(block.code, { language: block.lang }).value;
+                    } catch (e) { /* 高亮失败 */ }
                 }
 
                 const renderedContent = `<div class="code-with-copy">
@@ -211,30 +254,21 @@ class MarkdownParser {
                 tabsHtml += `<div class="tab-content ${index === 0 ? 'active' : ''}" data-tab="${index}">${renderedContent}</div>`;
             });
 
-            tabsHtml += '</div>';
-            tabsHtml += '</div>';
-
-            return tabsHtml;
+            tabsHtml += '</div></div>';
+            return this._addPlaceholder(tabsHtml);
         });
 
-        // 处理 ```python name="xxx" 语法（单个代码块带标签名，不转换为 tabs 格式）
-        // 支持中文、英文、数字、下划线组成的标签名（在 [tabs] 处理之后执行）
+        // 处理 ```python name="xxx" 语法（带标签名的单个代码块）
         processedMarkdown = processedMarkdown.replace(/```(\w+)\s+name="([^"]+)"[\r\n]+([\s\S]*?)```/g, (match, lang, tabName, code) => {
-            // 转义标签名和代码内容
             const escapedTabName = this.md.utils.escapeHtml(tabName);
             let codeHtml = this.md.utils.escapeHtml(code);
-            // 应用代码高亮
-            if (window.hljs && lang && window.hljs.getLanguage) {
+            if (window.hljs && lang && window.hljs.getLanguage && window.hljs.getLanguage(lang)) {
                 try {
-                    if (window.hljs.getLanguage(lang)) {
-                        codeHtml = window.hljs.highlight(code, { language: lang }).value;
-                    }
-                } catch (e) {
-                    // 高亮失败，使用原代码
-                }
+                    codeHtml = window.hljs.highlight(code, { language: lang }).value;
+                } catch (e) { /* 高亮失败 */ }
             }
-            // 生成 HTML 结构，标签名在左侧，语言在右侧
-            return `<div class="single-code-block">
+
+            const html = `<div class="single-code-block">
 <div class="single-code-header">
 <div class="tab-name">${escapedTabName}</div>
 <div class="language-label">${lang}</div>
@@ -244,36 +278,21 @@ class MarkdownParser {
 <button class="copy-button" onclick="copyCode(this)">复制</button>
 </div>
 </div>`;
-        });
-
-        // 处理普通的 ```language 代码块（没有标签名）
-        processedMarkdown = processedMarkdown.replace(/```(\w+)[\r\n]+([\s\S]*?)```/g, (match, lang, code) => {
-            // 转义代码内容
-            let codeHtml = this.md.utils.escapeHtml(code);
-            // 应用代码高亮
-            if (window.hljs && lang && window.hljs.getLanguage) {
-                try {
-                    if (window.hljs.getLanguage(lang)) {
-                        codeHtml = window.hljs.highlight(code, { language: lang }).value;
-                    }
-                } catch (e) {
-                    // 高亮失败，使用原代码
-                }
-            }
-            // 生成 HTML 结构，包含语言显示和复制按钮
-            return `<div class="single-code-block">
-<div class="single-code-header">
-<div class="tab-name"></div>
-<div class="language-label">${lang}</div>
-</div>
-<div class="code-with-copy">
-<pre><code class="hljs language-${lang}">${codeHtml}</code></pre>
-<button class="copy-button" onclick="copyCode(this)">复制</button>
-</div>
-</div>`;
+            return this._addPlaceholder(html);
         });
 
         return processedMarkdown;
+    }
+
+    /**
+     * 将占位符还原为实际 HTML
+     * @param {string} html - 含占位符的 HTML
+     * @returns {string} 还原后的 HTML
+     */
+    _restorePlaceholders(html) {
+        return html.replace(/<!--MDPH_(\d+)-->/g, (match, index) => {
+            return this._placeholders[parseInt(index)] || '';
+        });
     }
 
     /**
@@ -289,11 +308,14 @@ class MarkdownParser {
         // 解析 front matter
         const { frontMatter, content } = this.parseFrontMatter(markdown);
 
-        // 处理 Markdown 语法
+        // 处理自定义语法（tabs、带标签名代码块），生成占位符
         const processedMarkdown = this.processMarkdown(content);
 
-        // 渲染 Markdown
-        const html = this.md.render(processedMarkdown);
+        // 渲染 Markdown（fence 渲染器处理 mermaid 和普通代码块）
+        let html = this.md.render(processedMarkdown);
+
+        // 还原占位符为实际 HTML
+        html = this._restorePlaceholders(html);
 
         // 生成 front matter HTML
         const frontMatterHtml = this.generateFrontMatterHtml(frontMatter);
@@ -314,19 +336,16 @@ class MarkdownParser {
 
             tabButtons.forEach((button, index) => {
                 button.addEventListener("click", () => {
-                    // 移除所有标签的 active 类并隐藏内容
                     tabButtons.forEach(btn => btn.classList.remove("active"));
                     tabContents.forEach(content => {
                         content.classList.remove("active");
                         content.style.display = 'none';
                     });
 
-                    // 添加当前标签的 active 类并显示内容
                     button.classList.add("active");
                     tabContents[index].classList.add("active");
                     tabContents[index].style.display = 'block';
 
-                    // 更新语言标签
                     const lang = button.getAttribute("data-lang");
                     if (languageElement) {
                         languageElement.textContent = lang;
@@ -334,7 +353,6 @@ class MarkdownParser {
                 });
             });
 
-            // 初始化标签内容显示
             tabContents.forEach((content, index) => {
                 content.style.display = index === 0 ? 'block' : 'none';
             });
@@ -342,12 +360,13 @@ class MarkdownParser {
     }
 
     /**
-     * 应用代码高亮
+     * 应用代码高亮（仅处理未被 fence 渲染器高亮的代码块）
      */
     applyHighlight() {
-        if (window.hljs) {
-            window.hljs.highlightAll();
-        }
+        if (!window.hljs) return;
+        document.querySelectorAll('pre code:not(.hljs)').forEach(el => {
+            hljs.highlightElement(el);
+        });
     }
 }
 
@@ -379,28 +398,22 @@ function changeLanguage(selectElement, code) {
     const codeBlock = selectElement.closest('.single-code-block').querySelector('code');
     const preElement = codeBlock.parentElement;
 
-    // 更新语言类
     codeBlock.className = `hljs language-${newLang}`;
     preElement.className = `language-${newLang}`;
 
-    // 重新应用代码高亮
-    if (window.hljs && window.hljs.getLanguage) {
+    if (window.hljs && window.hljs.getLanguage && window.hljs.getLanguage(newLang)) {
         try {
-            if (window.hljs.getLanguage(newLang)) {
-                const highlightedCode = window.hljs.highlight(code, { language: newLang }).value;
-                codeBlock.innerHTML = highlightedCode;
-            }
+            const highlightedCode = window.hljs.highlight(code, { language: newLang }).value;
+            codeBlock.innerHTML = highlightedCode;
         } catch (e) {
-            // 高亮失败，使用原代码
             codeBlock.textContent = code;
         }
     } else {
-        // 语言不支持，使用原代码
         codeBlock.textContent = code;
     }
 }
 
-// 导出 MarkdownParser 类
+// 导出
 window.MarkdownParser = MarkdownParser;
 window.copyCode = copyCode;
 window.changeLanguage = changeLanguage;

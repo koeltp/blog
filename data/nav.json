@@ -5,7 +5,8 @@
     "flutter": "Flutter教程",
     "dart": "Dart教程",
     "md": "Markdown语法指南",
-    "article": "文章"
+    "article": "文章",
+    "freport": "财报"
   },
   "excludeDirs": [
     "article"
@@ -48,6 +49,10 @@
     {
       "name": "Markdown语法指南",
       "url": "tutorial.html?type=md"
+    },
+    {
+      "name": "财报",
+      "url": "tutorial.html?type=freport"
     }
   ],
   "leftnav": {
@@ -60,6 +65,12 @@
     "flutter": [
       {
         "name": "index",
+        "file": "index.md"
+      }
+    ],
+    "freport": [
+      {
+        "name": "你必须学会读财报",
         "file": "index.md"
       }
     ],

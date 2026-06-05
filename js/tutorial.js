@@ -185,6 +185,15 @@ async function loadMarkdown() {
                     }
                 });
             });
+
+            // 渲染 Mermaid 图表
+            if (window.mermaid) {
+                try {
+                    mermaid.run({ querySelector: '.mermaid' });
+                } catch (e) {
+                    console.warn('Mermaid 渲染失败:', e);
+                }
+            }
         }, 150);
         
         // 更新页面标题

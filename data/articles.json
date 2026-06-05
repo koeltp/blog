@@ -1,5 +1,21 @@
 [
   {
+    "title": "ASP.NET Core Identity 深入解析",
+    "date": "2026-05-13",
+    "category": "tech",
+    "tags": [
+      ".NET",
+      "Identity",
+      "认证",
+      "授权",
+      "安全"
+    ],
+    "summary": "深入介绍 ASP.NET Core Identity 的核心架构、用户管理、角色权限、自定义存储、JWT 认证及最佳实践",
+    "excerpt": "深入介绍 ASP.NET Core Identity 的核心架构、用户管理、角色权限、自定义存储、JWT 认证及最佳实践",
+    "authors": "",
+    "filename": "aspnetcore-identity.md"
+  },
+  {
     "title": "Docker Registry",
     "date": "2026-05-08",
     "category": "docker",

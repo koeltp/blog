@@ -13,7 +13,7 @@
 .content-area {
     flex: 1;
     min-width: 0;
-    margin-right: 240px;
+    margin-right: 300px;
     padding: 0 2rem 2rem;
 }
 
@@ -58,12 +58,22 @@
     border-bottom: none;
 }
 
+/* Mermaid 图表样式 */
+.article-detail .mermaid {
+    text-align: center;
+    margin: 1.5rem 0;
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+    overflow-x: auto;
+}
+
 /* 右侧目录样式 */
 .right-nav {
     position: fixed;
-    right: 20px;
+    right: 10px;
     top: 116px;
-    width: 220px;
+    width: 280px;
     background-color: #ffffff;
     border: 1px solid #e9ecef;
     border-radius: 8px;
@@ -82,7 +92,7 @@
 
 @media (min-width: 1440px) {
     .right-nav {
-        right: calc((100vw - 1400px) / 2 + 20px);
+        right: calc((100vw - 1400px) / 2 + 10px);
     }
 }
 

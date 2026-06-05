@@ -20,7 +20,7 @@
 .content-area {
     flex: 1;
     min-width: 0;
-    margin-right: 240px; /* 为右侧导航留出空间 */
+    margin-right: 300px; /* 为右侧导航留出空间 */
 }
 
 .sidebar {
@@ -294,12 +294,22 @@ dd + dt {
     margin-top: 1.5rem;
 }
 
+/* Mermaid 图表样式 */
+.tutorial-content .mermaid {
+    text-align: center;
+    margin: 1.5rem 0;
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+    overflow-x: auto;
+}
+
 /* 右侧导航样式 */
 .right-nav {
     position: fixed;
-    right: 20px;
+    right: 10px;
     top: 100px;
-    width: 220px;
+    width: 280px;
     background-color: #fafafa;
     border: 1px solid #e9ecef;
     border-radius: 8px;
@@ -318,7 +328,7 @@ dd + dt {
 
 @media (min-width: 1440px) {
     .right-nav {
-        right: calc((100vw - 1400px) / 2 + 20px);
+        right: calc((100vw - 1400px) / 2 + 10px);
     }
 }
 
