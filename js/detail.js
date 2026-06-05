@@ -302,6 +302,13 @@ function initMermaidInteractions() {
         }
         svg._currentScale = 1;
 
+        // 保存 SVG 原始属性，退出全屏时恢复
+        svg._origWidth = svg.getAttribute('width');
+        svg._origHeight = svg.getAttribute('height');
+        svg._origStyleWidth = svg.style.width;
+        svg._origStyleHeight = svg.style.height;
+        svg._origMaxWidth = svg.style.maxWidth;
+
         // 确保 viewBox 存在（缩放依赖 viewBox）
         if (!viewBox) {
             svg.setAttribute('viewBox', `0 0 ${svg._baseWidth} ${svg._baseHeight}`);
@@ -384,11 +391,18 @@ function toggleMermaidFullscreen(wrapper) {
     const svg = diagram.querySelector('svg');
 
     if (wrapper.classList.contains('fullscreen')) {
-        // 退出全屏：恢复之前的缩放
+        // 退出全屏：恢复 SVG 原始状态
         wrapper.classList.remove('fullscreen');
         if (svg && svg._baseWidth) {
-            svg._currentScale = svg._savedScale || 1;
-            applySvgScale(svg);
+            svg._currentScale = 1;
+            // 恢复原始属性和样式
+            if (svg._origWidth) svg.setAttribute('width', svg._origWidth);
+            else svg.removeAttribute('width');
+            if (svg._origHeight) svg.setAttribute('height', svg._origHeight);
+            else svg.removeAttribute('height');
+            svg.style.width = svg._origStyleWidth || '';
+            svg.style.height = svg._origStyleHeight || '';
+            svg.style.maxWidth = svg._origMaxWidth || '';
         }
         _mermaidFullscreenEl = null;
         document.body.style.overflow = '';
@@ -400,8 +414,14 @@ function toggleMermaidFullscreen(wrapper) {
         _mermaidFullscreenEl.classList.remove('fullscreen');
         const otherSvg = _mermaidFullscreenEl.querySelector('.mermaid-diagram svg');
         if (otherSvg && otherSvg._baseWidth) {
-            otherSvg._currentScale = otherSvg._savedScale || 1;
-            applySvgScale(otherSvg);
+            otherSvg._currentScale = 1;
+            if (otherSvg._origWidth) otherSvg.setAttribute('width', otherSvg._origWidth);
+            else otherSvg.removeAttribute('width');
+            if (otherSvg._origHeight) otherSvg.setAttribute('height', otherSvg._origHeight);
+            else otherSvg.removeAttribute('height');
+            otherSvg.style.width = otherSvg._origStyleWidth || '';
+            otherSvg.style.height = otherSvg._origStyleHeight || '';
+            otherSvg.style.maxWidth = otherSvg._origMaxWidth || '';
         }
         document.body.style.overflow = '';
     }

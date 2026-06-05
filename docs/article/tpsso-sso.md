@@ -8,6 +8,8 @@ summary: 从零搭建 SSO 认证中心，涵盖 OpenIddict 服务端配置、授
 
 ## 一、项目背景
 
+> 源码地址：`git clone https://github.com/koeltp/tpsso.git`
+
 ### 1.1 什么是 SSO
 
 SSO（Single Sign-On，单点登录）让用户只需登录一次，就能访问所有互信的应用系统。核心思路是：**认证集中化**——所有应用不再自己管登录，而是统一交给认证中心。
@@ -17,37 +19,77 @@ SSO（Single Sign-On，单点登录）让用户只需登录一次，就能访问
 TPSSO 是一个完整的 SSO 解决方案，包含三个子项目：
 
 ```mermaid
-flowchart TD
-    subgraph BROWSER["用户浏览器"]
-        WEB["tpssoweb<br/>统一登录页<br/>:3008"]
-        APP["tpsso-app<br/>业务应用<br/>:3007"]
+flowchart TB
+    USER["👤 用户"]
+
+    subgraph BROWSER["浏览器"]
+        APP["tpsso-app<br/>Vue 3 + oidc-client-ts<br/>:7085<br/>业务应用示例"]
+        WEB["tpssoweb<br/>Vue 3 + Element Plus<br/>:7087<br/>统一登录/注销页"]
     end
 
-    subgraph SERVER["后端服务"]
-        API["TPSSO.Api<br/>认证服务器<br/>:7044"]
-        DB[("MySQL<br/>TPSSO_Auth")]
+    APP ~~~ WEB
+
+    subgraph DOTNET["TPSSO.Api (.NET 9)"]
+        MW["中间件管道<br/>CORS → Authentication → Authorization"]
+
+        subgraph CONTROLLERS["控制器（直通模式）"]
+            AUTH["AuthorizationController<br/>/connect/authorize<br/>/connect/token<br/>/connect/userinfo<br/>/connect/logout"]
+            ACCT["AccountController<br/>/api/account/login<br/>/api/account/logout<br/>/api/account/profile"]
+        end
+
+        subgraph OIDC["OpenIddict 7.5"]
+            CORE["Core<br/>EF Core + Quartz"]
+            SERVER["Server<br/>授权码+PKCE<br/>临时证书"]
+            VALIDATE["Validation<br/>令牌验证"]
+        end
+
+        ID["ASP.NET Identity<br/>IdentityUser + IdentityRole<br/>声明映射 sub/name/role"]
     end
 
-    APP -->|"1. 未登录 → 跳转授权端点"| API
-    API -->|"2. 未认证 → 重定向到登录页"| WEB
-    WEB -->|"3. 提交用户名密码<br/>POST /api/account/login"| API
-    API -->|"4. 签发 Cookie"| WEB
-    WEB -->|"5. 回到授权端点<br/>带 Cookie"| API
-    API -->|"6. 签发授权码<br/>回调 redirect_uri"| APP
-    APP -->|"7. 用授权码换 Token<br/>POST /connect/token"| API
-    API -->|"8. 返回 Access Token"| APP
+    subgraph DATA["数据层"]
+        DB[("MySQL<br/>TPSSO_Auth<br/>Users / Roles<br/>Applications / Tokens / Scopes")]
+    end
 
-    API --> DB
+    subgraph DEPLOY["Docker 部署"]
+        DC["docker-compose<br/>tpssoapi :7086<br/>tpssoweb :7087<br/>tpssoapp :7085<br/>阿里云镜像仓库"]
+    end
 
-    style BROWSER fill:#e3f2fd,stroke:#1565c0
-    style SERVER fill:#e8f5e9,stroke:#2e7d32
+    %% SSO 登录流程（垂直方向）
+    USER --> APP
+    APP -->|"1 未登录 → /connect/authorize"| AUTH
+    AUTH -->|"2 302 → 登录页"| WEB
+    WEB -->|"3 POST /api/account/login"| ACCT
+    ACCT -->|"4 签发 Cookie"| WEB
+    WEB -->|"5 带 Cookie 回到 /connect/authorize"| AUTH
+    AUTH -->|"6 302 回调 + 授权码"| APP
+    APP -->|"7 POST /connect/token"| AUTH
+    AUTH -->|"8 返回 Access Token"| APP
+
+    %% 内部依赖
+    MW --> CONTROLLERS
+    CONTROLLERS --> OIDC
+    OIDC --> ID
+    ID --> DB
+    CORE --> DB
+
+    %% 部署
+    DOTNET -.->|"镜像"| DEPLOY
+    WEB -.->|"镜像"| DEPLOY
+    APP -.->|"镜像"| DEPLOY
+
+    style BROWSER fill:#e3f2fd,stroke:#1565c0,stroke-width:2px
+    style DOTNET fill:#fff3e0,stroke:#e65100,stroke-width:2px
+    style DATA fill:#e8f5e9,stroke:#2e7d32,stroke-width:2px
+    style DEPLOY fill:#f3e5f5,stroke:#6a1b9a,stroke-width:2px
+    style OIDC fill:#fce4ec,stroke:#c62828
+    style ID fill:#e0f7fa,stroke:#00695c
 ```
 
-| 项目 | 技术栈 | 职责 |
-| --- | --- | --- |
-| TPSSO.Api | .NET 9 + OpenIddict 7.5 + Identity + MySQL | 认证服务器，处理 OAuth2/OIDC 协议 |
-| tpssoweb | Vue 3 + Element Plus + Vite | 统一登录页，提供用户登录界面 |
-| tpsso-app | Vue 3 + oidc-client-ts + Vite | 业务应用，演示 SSO 登录流程 |
+| 项目 | 技术栈 | 端口 | 职责 |
+| --- | --- | --- | --- |
+| TPSSO.Api | .NET 9 + OpenIddict 7.5 + Identity + MySQL | 7086 | 认证服务器，处理 OAuth2/OIDC 协议 |
+| tpssoweb | Vue 3 + Element Plus + Vite + Axios | 7087 | 统一登录/注销页，Vite 代理避免跨域 |
+| tpsso-app | Vue 3 + oidc-client-ts + Vite | 7085 | 业务应用，演示授权码+PKCE 登录流程 |
 
 ### 1.3 技术选型
 
