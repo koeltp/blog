@@ -1,5 +1,38 @@
 [
   {
+    "title": "OpenIddict 深入解析",
+    "date": "2026-06-05",
+    "category": "tech",
+    "tags": [
+      ".NET",
+      "OpenIddict",
+      "OAuth2",
+      "OpenID Connect",
+      "JWT"
+    ],
+    "summary": "从协议原理到生产实践，全面覆盖 OpenIddict 的授权码流程、客户端凭证、刷新令牌、自定义存储及常见踩坑",
+    "excerpt": "从协议原理到生产实践，全面覆盖 OpenIddict 的授权码流程、客户端凭证、刷新令牌、自定义存储及常见踩坑",
+    "authors": "",
+    "filename": "openiddict.md"
+  },
+  {
+    "title": "基于 OpenIddict 实现 SSO 单点登录实战",
+    "date": "2026-06-05",
+    "category": "tech",
+    "tags": [
+      ".NET",
+      "OpenIddict",
+      "SSO",
+      "OAuth2",
+      "Vue",
+      "Docker"
+    ],
+    "summary": "从零搭建 SSO 认证中心，涵盖 OpenIddict 服务端配置、授权码+PKCE 流程、Vue 前端集成、Docker 部署全链路",
+    "excerpt": "从零搭建 SSO 认证中心，涵盖 OpenIddict 服务端配置、授权码+PKCE 流程、Vue 前端集成、Docker 部署全链路",
+    "authors": "",
+    "filename": "tpsso-sso.md"
+  },
+  {
     "title": "ASP.NET Core Identity 深入解析",
     "date": "2026-05-13",
     "category": "tech",
@@ -10,8 +43,8 @@
       "授权",
       "安全"
     ],
-    "summary": "深入介绍 ASP.NET Core Identity 的核心架构、用户管理、角色权限、自定义存储、JWT 认证及最佳实践",
-    "excerpt": "深入介绍 ASP.NET Core Identity 的核心架构、用户管理、角色权限、自定义存储、JWT 认证及最佳实践",
+    "summary": "从架构原理到生产实践，全面覆盖 Identity 的用户管理、角色权限、JWT、2FA、自定义存储及常见踩坑",
+    "excerpt": "从架构原理到生产实践，全面覆盖 Identity 的用户管理、角色权限、JWT、2FA、自定义存储及常见踩坑",
     "authors": "",
     "filename": "aspnetcore-identity.md"
   },
@@ -28,32 +61,6 @@
     "filename": "Docker Registry.md"
   },
   {
-    "title": "深夜酒 清晨粥",
-    "date": "2026-04-20",
-    "category": "life",
-    "tags": [
-      "生活",
-      "分享"
-    ],
-    "summary": "深夜酒 清晨粥，分享一些我的生活经历",
-    "excerpt": "深夜酒 清晨粥，分享一些我的生活经历",
-    "authors": "太皮",
-    "filename": "micrsoft.md"
-  },
-  {
-    "title": "我的第三篇文章",
-    "date": "2026-04-20",
-    "category": "life",
-    "tags": [
-      "生活",
-      "分享"
-    ],
-    "summary": "",
-    "excerpt": "",
-    "authors": "",
-    "filename": "win.md"
-  },
-  {
     "title": "使用 Cloudflare 搭建图床 CDN 及防盗链配置指南",
     "date": "2026-04-18",
     "category": "tech",
@@ -67,31 +74,5 @@
     "excerpt": "详细介绍如何使用 Cloudflare R2 对象存储搭建图床 CDN，并配置防盗链保护",
     "authors": "",
     "filename": "cloudflare 图床.md"
-  },
-  {
-    "title": "我的第一篇文章",
-    "date": "2026-04-18",
-    "category": "life",
-    "tags": [
-      "生活",
-      "分享"
-    ],
-    "summary": "",
-    "excerpt": "",
-    "authors": "",
-    "filename": "index.md"
-  },
-  {
-    "title": "LangChain 安装教程",
-    "date": "2026-04-18",
-    "category": "life",
-    "tags": [
-      "生活",
-      "分享"
-    ],
-    "summary": "这是我的第一篇文章，我想分享一些我的生活经历",
-    "excerpt": "这是我的第一篇文章，我想分享一些我的生活经历",
-    "authors": "作者姓名",
-    "filename": "install.md"
   }
 ]

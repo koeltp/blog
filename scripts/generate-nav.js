@@ -8,13 +8,14 @@ const navFile = path.join(__dirname, '../data/nav.json');
 
 // 默认配置
 const defaultConfig = {
+    // displayNames 的 key 顺序决定导航的固定显示顺序
     displayNames: {
         'yi': '周易预测',
         'langchain': 'LangChain教程',
         'flutter': 'Flutter教程',
         'dart': 'Dart教程',
-        'md': 'Markdown语法指南',
-        'article': '文章'
+        'freport': '财报',
+        'md': 'Markdown语法指南'
     },
     excludeDirs: ['article'],
     topnavBase: [
@@ -78,15 +79,26 @@ function generateNav() {
     try {
         // 读取 docs 目录下的所有子目录
         const entries = fs.readdirSync(docsDir, { withFileTypes: true });
-        const dirs = entries.filter(entry => 
-            entry.isDirectory() && !config.excludeDirs.includes(entry.name)
-        );
         
         const leftnav = {};
         
-        // 遍历每个目录
-        dirs.forEach(dir => {
-            const dirPath = path.join(docsDir, dir.name);
+        // 按 displayNames 的 key 顺序遍历目录，确保固定排序
+        const orderedDirs = Object.keys(config.displayNames)
+            .filter(key => !config.excludeDirs.includes(key));
+        
+        // 扫描不在 displayNames 中的目录（追加到末尾）
+        const extraDirs = entries
+            .filter(entry => entry.isDirectory() && !config.excludeDirs.includes(entry.name))
+            .map(d => d.name)
+            .filter(name => !orderedDirs.includes(name));
+        
+        const finalOrder = [...orderedDirs, ...extraDirs];
+        
+        // 遍历每个目录（按固定顺序）
+        finalOrder.forEach(dirName => {
+            const dirPath = path.join(docsDir, dirName);
+            if (!fs.existsSync(dirPath)) return;
+            
             const files = fs.readdirSync(dirPath);
             const mdFiles = files.filter(file => file.endsWith('.md'));
             
@@ -107,7 +119,7 @@ function generateNav() {
                 // 按文件名排序
                 items.sort((a, b) => a.file.localeCompare(b.file));
                 
-                leftnav[dir.name] = items;
+                leftnav[dirName] = items;
             }
         });
         
