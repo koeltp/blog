@@ -60,7 +60,9 @@ class MarkdownParser {
             const lang = info.split(/\s+/)[0];
 
             // mermaid 代码块渲染为带控制栏的图表容器
+            // 内容存到 data-mermaid 属性，避免浏览器将 <<interface>> 等语法当作 HTML 标签解析
             if (lang === 'mermaid') {
+                const escaped = this.md.utils.escapeHtml(token.content);
                 return `<div class="mermaid-wrapper">
 <div class="mermaid-toolbar">
 <div class="mermaid-tabs"><span class="mermaid-tab active" data-view="diagram">图表</span><span class="mermaid-tab" data-view="code">代码</span></div>
@@ -71,8 +73,8 @@ class MarkdownParser {
 <button class="mermaid-action" data-action="fullscreen" title="全屏">⛶</button>
 </div>
 </div>
-<div class="mermaid-diagram"><div class="mermaid">\n${token.content}\n</div></div>
-<pre class="mermaid-source" style="display:none"><code>${this.md.utils.escapeHtml(token.content)}</code></pre>
+<div class="mermaid-diagram"><div class="mermaid" data-mermaid="${escaped}"></div></div>
+<pre class="mermaid-source" style="display:none"><code>${escaped}</code></pre>
 </div>`;
             }
 
@@ -409,6 +411,7 @@ document.addEventListener('click', function(e) {
 window.MarkdownParser = MarkdownParser;
 
 // Mermaid 懒加载：检测页面中是否有 .mermaid 元素，有则动态加载 mermaid 库
+// 使用 ESM 动态 import 加载 Mermaid 11.x（支持 block-beta 等新图表类型）
 window.loadMermaidIfNeeded = function(basePath) {
     const mermaidElements = document.querySelectorAll('.mermaid');
     if (mermaidElements.length === 0) {
@@ -419,31 +422,62 @@ window.loadMermaidIfNeeded = function(basePath) {
         return Promise.resolve(true);
     }
 
-    const prefix = basePath || '';
-    return new Promise((resolve) => {
-        const script = document.createElement('script');
-        script.src = `${prefix}vendor/mermaid/mermaid.min.js`;
-        script.onload = () => resolve(true);
-        script.onerror = () => {
-            console.warn('Mermaid 库加载失败');
-            resolve(false);
-        };
-        document.head.appendChild(script);
-    });
+    // 优先从 CDN 加载 ESM 版本，失败则回退到本地 IIFE 版本
+    return import('https://cdn.jsdelivr.net/npm/mermaid@11.15.0/dist/mermaid.esm.min.mjs')
+        .then(module => {
+            window.mermaid = module.default || module;
+            return true;
+        })
+        .catch(() => {
+            // CDN 加载失败，回退到本地 10.6.1 IIFE 版本
+            const prefix = basePath || '';
+            return new Promise((resolve) => {
+                const script = document.createElement('script');
+                script.src = `${prefix}vendor/mermaid/mermaid.min.js`;
+                script.onload = () => resolve(true);
+                script.onerror = () => {
+                    console.warn('Mermaid 库加载失败');
+                    resolve(false);
+                };
+                document.head.appendChild(script);
+            });
+        });
 };
 
 // 渲染 Mermaid 图表（懒加载后调用）
 window.renderMermaid = function() {
     if (!window.mermaid) return;
+
+    // 从 data-mermaid 属性还原原始内容到元素文本，避免浏览器解析 <<interface>> 等
+    document.querySelectorAll('.mermaid[data-mermaid]').forEach(el => {
+        const decoded = el.getAttribute('data-mermaid')
+            .replace(/&amp;/g, '&')
+            .replace(/&lt;/g, '<')
+            .replace(/&gt;/g, '>')
+            .replace(/&quot;/g, '"')
+            .replace(/&#39;/g, "'");
+        el.textContent = decoded;
+        el.removeAttribute('data-mermaid');
+    });
+
     try {
+        mermaid.initialize({
+            startOnLoad: false,
+            securityLevel: 'loose',
+            theme: 'default'
+        });
+        // 使用 mermaid.run()，它自带错误展示（SVG 风格）
         mermaid.run({ querySelector: '.mermaid' }).then(() => {
             setTimeout(() => {
                 if (typeof initMermaidInteractions === 'function') {
                     initMermaidInteractions();
                 }
             }, 300);
+        }).catch(e => {
+            // mermaid.run() 内部已处理单个图表错误，此处仅捕获整体初始化异常
+            console.warn('Mermaid 运行异常:', e);
         });
     } catch (e) {
-        console.warn('Mermaid 渲染失败:', e);
+        console.warn('Mermaid 初始化失败:', e);
     }
 };

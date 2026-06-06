@@ -34,32 +34,32 @@ flowchart TD
 
     subgraph MW["① 中间件管道"]
         direction LR
-        AUTH["Authentication<br/>身份验证"]
-        AZ["Authorization<br/>授权检查"]
+        AUTH["Authentication<br>身份验证"]
+        AZ["Authorization<br>授权检查"]
         AUTH --> AZ
     end
 
     MW --> HANDLER
 
     subgraph HANDLER["② 认证处理程序（可插拔）"]
-        COOKIE["🍪 CookieHandler<br/>Web 页面"]
-        JWT["🔑 JwtBearerHandler<br/>API 接口"]
-        OAUTH["🔗 OAuthHandler<br/>第三方登录"]
+        COOKIE["🍪 CookieHandler<br>Web 页面"]
+        JWT["🔑 JwtBearerHandler<br>API 接口"]
+        OAUTH["🔗 OAuthHandler<br>第三方登录"]
     end
 
     HANDLER --> SVC
 
     subgraph SVC["③ Identity 核心服务"]
-        UM["UserManager<br/>用户 CRUD · 密码哈希 · 令牌"]
-        SIM["SignInManager<br/>登录 · 注销 · 2FA · 外部登录"]
-        RM["RoleManager<br/>角色 CRUD · 声明管理"]
+        UM["UserManager<br>用户 CRUD · 密码哈希 · 令牌"]
+        SIM["SignInManager<br>登录 · 注销 · 2FA · 外部登录"]
+        RM["RoleManager<br>角色 CRUD · 声明管理"]
     end
 
     SVC --> STORE
 
     subgraph STORE["④ 数据持久层（可替换）"]
-        EF["EF Core Store<br/>MySQL · PostgreSQL · SQLite"]
-        CUSTOM["Custom Store<br/>MongoDB · Redis · 已有数据库"]
+        EF["EF Core Store<br>MySQL · PostgreSQL · SQLite"]
+        CUSTOM["Custom Store<br>MongoDB · Redis · 已有数据库"]
     end
 
     STORE --> DB[("💾 数据库")]

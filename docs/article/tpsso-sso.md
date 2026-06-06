@@ -23,35 +23,35 @@ flowchart TB
     USER["👤 用户"]
 
     subgraph BROWSER["浏览器"]
-        APP["tpsso-app<br/>Vue 3 + oidc-client-ts<br/>:7085<br/>业务应用示例"]
-        WEB["tpssoweb<br/>Vue 3 + Element Plus<br/>:7087<br/>统一登录/注销页"]
+        APP["tpsso-app<br>Vue 3 + oidc-client-ts<br>:7085<br>业务应用示例"]
+        WEB["tpssoweb<br>Vue 3 + Element Plus<br>:7087<br>统一登录/注销页"]
     end
 
     APP ~~~ WEB
 
     subgraph DOTNET["TPSSO.Api (.NET 9)"]
-        MW["中间件管道<br/>CORS → Authentication → Authorization"]
+        MW["中间件管道<br>CORS → Authentication → Authorization"]
 
         subgraph CONTROLLERS["控制器（直通模式）"]
-            AUTH["AuthorizationController<br/>/connect/authorize<br/>/connect/token<br/>/connect/userinfo<br/>/connect/logout"]
-            ACCT["AccountController<br/>/api/account/login<br/>/api/account/logout<br/>/api/account/profile"]
+            AUTH["AuthorizationController<br>/connect/authorize<br>/connect/token<br>/connect/userinfo<br>/connect/logout"]
+            ACCT["AccountController<br>/api/account/login<br>/api/account/logout<br>/api/account/profile"]
         end
 
         subgraph OIDC["OpenIddict 7.5"]
-            CORE["Core<br/>EF Core + Quartz"]
-            SERVER["Server<br/>授权码+PKCE<br/>临时证书"]
-            VALIDATE["Validation<br/>令牌验证"]
+            CORE["Core<br>EF Core + Quartz"]
+            SERVER["Server<br>授权码+PKCE<br>临时证书"]
+            VALIDATE["Validation<br>令牌验证"]
         end
 
-        ID["ASP.NET Identity<br/>IdentityUser + IdentityRole<br/>声明映射 sub/name/role"]
+        ID["ASP.NET Identity<br>IdentityUser + IdentityRole<br>声明映射 sub/name/role"]
     end
 
     subgraph DATA["数据层"]
-        DB[("MySQL<br/>TPSSO_Auth<br/>Users / Roles<br/>Applications / Tokens / Scopes")]
+        DB[("MySQL<br>TPSSO_Auth<br>Users / Roles<br>Applications / Tokens / Scopes")]
     end
 
     subgraph DEPLOY["Docker 部署"]
-        DC["docker-compose<br/>tpssoapi :7086<br/>tpssoweb :7087<br/>tpssoapp :7085<br/>阿里云镜像仓库"]
+        DC["docker-compose<br>tpssoapi :7086<br>tpssoweb :7087<br>tpssoapp :7085<br>阿里云镜像仓库"]
     end
 
     %% SSO 登录流程（垂直方向）
@@ -681,27 +681,27 @@ const logout = async () => {
 ```mermaid
 sequenceDiagram
     participant U as 用户
-    participant APP as tpsso-app<br/>:3007
-    participant API as TPSSO.Api<br/>:7044
-    participant WEB as tpssoweb<br/>:3008
+    participant APP as tpsso-app<br>:3007
+    participant API as TPSSO.Api<br>:7044
+    participant WEB as tpssoweb<br>:3008
     participant DB as MySQL
 
     U->>APP: 访问受保护页面
     APP->>APP: 路由守卫检测未登录
-    APP->>API: GET /connect/authorize<br/>?client_id=tpsso_spa_client<br/>&redirect_uri=/callback<br/>&code_challenge=xxx
+    APP->>API: GET /connect/authorize<br>?client_id=tpsso_spa_client<br>&redirect_uri=/callback<br>&code_challenge=xxx
     API->>API: 用户未认证（无 Cookie）
     API->>WEB: 302 → /login?returnUrl=/connect/authorize?...
     WEB->>U: 显示登录表单
     U->>WEB: 输入用户名密码
-    WEB->>API: POST /api/account/login<br/>（Vite proxy 同域）
+    WEB->>API: POST /api/account/login<br>（Vite proxy 同域）
     API->>DB: 验证用户
     DB->>API: 用户有效
     API->>API: SignInAsync 签发 Cookie
     API->>WEB: 200 OK + Set-Cookie
-    WEB->>API: 302 → returnUrl<br/>（带 Cookie）
+    WEB->>API: 302 → returnUrl<br>（带 Cookie）
     API->>API: 用户已认证，创建 Claims
     API->>APP: 302 → /callback?code=AUTH_CODE
-    APP->>API: POST /connect/token<br/>code + code_verifier
+    APP->>API: POST /connect/token<br>code + code_verifier
     API->>API: 验证 PKCE，签发 Token
     API->>APP: Access Token + ID Token
     APP->>U: 登录成功，显示页面
