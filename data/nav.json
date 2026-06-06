@@ -54,17 +54,145 @@
     ],
     "langchain": [
       {
-        "name": "My Document",
-        "file": "index.md"
+        "name": "概述与环境搭建",
+        "file": "01概述与环境搭建.md"
       },
       {
-        "name": "install",
-        "file": "install.md"
+        "name": "Python 速览",
+        "file": "02Python速览.md"
+      },
+      {
+        "name": "LLM 与 Prompt 工程",
+        "file": "03LLM与Prompt工程.md"
+      },
+      {
+        "name": "输出解析与结构化",
+        "file": "04输出解析与结构化.md"
+      },
+      {
+        "name": "链与 LCEL",
+        "file": "05链与LCEL.md"
+      },
+      {
+        "name": "对话记忆",
+        "file": "06对话记忆.md"
+      },
+      {
+        "name": "文档加载与分割",
+        "file": "07文档加载与分割.md"
+      },
+      {
+        "name": "向量存储与检索",
+        "file": "08向量存储与检索.md"
+      },
+      {
+        "name": "RAG 检索增强生成",
+        "file": "09RAG检索增强生成.md"
+      },
+      {
+        "name": "Agent 与工具调用",
+        "file": "10Agent与工具调用.md"
+      },
+      {
+        "name": "自定义工具与多 Agent",
+        "file": "11自定义工具与多Agent.md"
+      },
+      {
+        "name": "对话系统实战",
+        "file": "12对话系统实战.md"
+      },
+      {
+        "name": "评估与测试",
+        "file": "13评估与测试.md"
+      },
+      {
+        "name": "部署与生产化",
+        "file": "14部署与生产化.md"
+      },
+      {
+        "name": "LangChain 从菜鸟到高手",
+        "file": "index.md"
       }
     ],
     "flutter": [
       {
-        "name": "index",
+        "name": "概述与环境搭建",
+        "file": "01概述与环境搭建.md"
+      },
+      {
+        "name": "Dart 语言速览（上）",
+        "file": "02Dart语言速览（上）.md"
+      },
+      {
+        "name": "Dart 语言速览（下）",
+        "file": "02Dart语言速览（下）.md"
+      },
+      {
+        "name": "Widget 一切皆组件",
+        "file": "03Widget一切皆组件.md"
+      },
+      {
+        "name": "布局系统",
+        "file": "04布局系统.md"
+      },
+      {
+        "name": "路由与导航",
+        "file": "05路由与导航.md"
+      },
+      {
+        "name": "状态管理（上）",
+        "file": "06状态管理（上）.md"
+      },
+      {
+        "name": "状态管理（下）",
+        "file": "07状态管理（下）.md"
+      },
+      {
+        "name": "网络请求",
+        "file": "08网络请求.md"
+      },
+      {
+        "name": "本地存储",
+        "file": "09本地存储.md"
+      },
+      {
+        "name": "动画基础与进阶",
+        "file": "10动画基础与进阶.md"
+      },
+      {
+        "name": "自定义绘制与 Sliver",
+        "file": "11自定义绘制与Sliver.md"
+      },
+      {
+        "name": "手势与交互",
+        "file": "12手势与交互.md"
+      },
+      {
+        "name": "平台交互与插件",
+        "file": "13平台交互与插件.md"
+      },
+      {
+        "name": "架构设计",
+        "file": "14架构设计.md"
+      },
+      {
+        "name": "测试全攻略",
+        "file": "15测试全攻略.md"
+      },
+      {
+        "name": "性能优化",
+        "file": "16性能优化.md"
+      },
+      {
+        "name": "主题与国际化",
+        "file": "17主题与国际化.md"
+      },
+      {
+        "name": "打包与发布",
+        "file": "18打包与发布.md"
+      },
+      {
+        "name": "Flutter 从菜鸟到高手",
         "file": "index.md"
       }
     ],

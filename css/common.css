@@ -21,7 +21,7 @@ header {
 }
 nav {
     max-width: none;
-    margin: 0 auto;
+    margin: 0 50px;
     padding: 0 2rem;
     display: flex;
     justify-content: space-between;

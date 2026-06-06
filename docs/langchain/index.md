@@ -1,64 +1,53 @@
 ---
-title: My Document
-summary: A brief description of my document.
-authors:
-    - Waylan Limberg
-    - Tom Christie
-date: 2018-07-10
+title: LangChain 从菜鸟到高手
+summary: 一份系统化的 LangChain 教程，从环境搭建到生产部署，以 Python 为主线，构建 AI 客服机器人
+authors: koeltp
+date: 2026-06-07
+category: tech
+tags: LangChain, LLM, AI应用, Python, RAG, Agent
 ---
-# LangChain技术介绍
 
-## 什么是LangChain？
+# LangChain 从菜鸟到高手
 
-LangChain是一个专为构建基于大型语言模型（LLM）的应用程序而设计的框架。它提供了一套完整的工具和组件，帮助开发者更轻松地创建复杂、功能强大的语言模型应用。
+> 作者：koeltp
 
-## 核心价值
+一份系统化的 LangChain 教程，从环境搭建到生产部署，以 Python 为主线，构建 AI 客服机器人。教程假设读者有基本编程能力，快速过 Python 基础，重点深入 LLM 应用开发。
 
-LangChain的主要价值在于简化了LLM应用的开发流程，使开发者能够专注于业务逻辑而非底层实现细节。它通过提供标准化的组件和接口，大大降低了构建复杂LLM应用的门槛。
+## 基础篇
 
-## 核心概念
+| 序号 | 章节 | 核心内容 |
+|------|------|---------|
+| 01 | [概述与环境搭建](tutorial.html?type=langchain&file=01概述与环境搭建.md) | LangChain 定位、生态、安装、第一个程序 |
+| 02 | [Python 速览](tutorial.html?type=langchain&file=02Python速览.md) | 类型提示、Pydantic、装饰器、异步 |
+| 03 | [LLM 与 Prompt 工程](tutorial.html?type=langchain&file=03LLM与Prompt工程.md) | ChatModel、消息类型、Prompt 模板、Few-shot |
+| 04 | [输出解析与结构化](tutorial.html?type=langchain&file=04输出解析与结构化.md) | with_structured_output、PydanticOutputParser |
+| 05 | [链与 LCEL](tutorial.html?type=langchain&file=05链与LCEL.md) | LCEL 管道语法、Runnable 接口、链组合 |
 
-### 1. 链（Chains）
+## 进阶篇
 
-链是LangChain的核心概念，它允许将多个组件无缝组合在一起，形成一个完整的工作流程。通过链，开发者可以将不同的功能模块连接起来，创建从输入到输出的完整处理流程。
+| 序号 | 章节 | 核心内容 |
+|------|------|---------|
+| 06 | [对话记忆](tutorial.html?type=langchain&file=06对话记忆.md) | 消息历史、窗口记忆、摘要记忆、持久化 |
+| 07 | [文档加载与分割](tutorial.html?type=langchain&file=07文档加载与分割.md) | Document Loader、Text Splitter、分块策略 |
+| 08 | [向量存储与检索](tutorial.html?type=langchain&file=08向量存储与检索.md) | Embedding、Chroma/FAISS、相似度搜索 |
+| 09 | [RAG 检索增强生成](tutorial.html?type=langchain&file=09RAG检索增强生成.md) | 完整 RAG 流程、重排序、来源引用 |
 
-### 2. 代理（Agents）
+## 高级篇
 
-代理是LangChain中的智能组件，能够根据用户输入自主做出决策并采取相应行动。它们可以分析用户需求，选择合适的工具和方法来完成任务。
+| 序号 | 章节 | 核心内容 |
+|------|------|---------|
+| 10 | [Agent 与工具调用](tutorial.html?type=langchain&file=10Agent与工具调用.md) | ReAct Agent、Tool 定义、AgentExecutor |
+| 11 | [自定义工具与多 Agent](tutorial.html?type=langchain&file=11自定义工具与多Agent.md) | 外部 API 集成、LangGraph 多 Agent 协作 |
+| 12 | [对话系统实战](tutorial.html?type=langchain&file=12对话系统实战.md) | 完整客服机器人：RAG + 记忆 + Agent + 流式输出 |
+| 13 | [评估与测试](tutorial.html?type=langchain&file=13评估与测试.md) | LangSmith 追踪、评估框架、幻觉检测 |
+| 14 | [部署与生产化](tutorial.html?type=langchain&file=14部署与生产化.md) | LangServe、FastAPI、Docker、监控告警 |
 
-### 3. 记忆（Memory）
+## 贯穿示例
 
-记忆组件使LangChain应用能够在多次交互中保持状态，记住之前的对话内容和上下文信息，从而提供更加连贯和个性化的用户体验。
+教程全程使用 **AI 客服机器人** 作为示例项目：
 
-## 应用场景
-
-LangChain适用于多种场景，包括但不限于：
-
-- **智能客服**：构建能够理解和回应用户问题的智能对话系统
-- **内容生成**：自动生成文章、报告、营销文案等内容
-- **知识管理**：从大量文档中提取信息并提供智能检索
-- **教育辅助**：创建个性化的学习助手和辅导系统
-- **业务流程自动化**：将语言模型集成到各种业务流程中
-
-## 技术优势
-
-- **模块化设计**：组件化架构使功能可以灵活组合
-- **生态系统丰富**：与多种语言模型和服务集成
-- **可扩展性强**：易于添加自定义功能和集成第三方服务
-- **开发效率高**：简化了复杂LLM应用的开发流程
-
-## 总结
-
-LangChain为构建LLM应用提供了强大而灵活的框架，使开发过程更加高效和可扩展。它的模块化设计和丰富的组件生态系统，使得开发者能够快速构建各种复杂的语言模型应用，从简单的对话系统到复杂的知识管理平台。
-
-通过LangChain，开发者可以更专注于应用的业务逻辑和用户体验，而不必担心底层的技术实现细节，从而加速创新并推出更具竞争力的AI应用。
-
-# 术语解释
-
-
-术语 1   
-: 术语 1 的定义  
-
-术语 2  
-: 术语 2 的第一个定义  
-: 术语 2 的第二个定义  
+- 01-05：搭建基础对话能力
+- 06-09：加入记忆和知识库
+- 10-11：集成工具和多 Agent
+- 12：完整系统实战
+- 13-14：评估、测试、部署
