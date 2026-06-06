@@ -1,11 +1,13 @@
 {
   "displayNames": {
-    "yi": "周易预测",
+    "zhouyi": "周易预测",
     "langchain": "LangChain教程",
     "flutter": "Flutter教程",
     "dart": "Dart教程",
     "freport": "财报",
     "md": "Markdown语法指南",
+    "openiddict": "OpenIddict教程",
+    "yi": "周易预测",
     "article": "文章"
   },
   "excludeDirs": [
@@ -17,8 +19,12 @@
       "url": "index.html"
     },
     {
-      "name": "文章列表",
+      "name": "文章",
       "url": "articles/list.html"
+    },
+    {
+      "name": "教程",
+      "url": "tutorials.html"
     }
   ],
   "topnav": [
@@ -27,36 +33,16 @@
       "url": "index.html"
     },
     {
-      "name": "文章列表",
+      "name": "文章",
       "url": "articles/list.html"
     },
     {
-      "name": "周易预测",
-      "url": "tutorial.html?type=yi"
-    },
-    {
-      "name": "LangChain教程",
-      "url": "tutorial.html?type=langchain"
-    },
-    {
-      "name": "Flutter教程",
-      "url": "tutorial.html?type=flutter"
-    },
-    {
-      "name": "Dart教程",
-      "url": "tutorial.html?type=dart"
-    },
-    {
-      "name": "财报",
-      "url": "tutorial.html?type=freport"
-    },
-    {
-      "name": "Markdown语法指南",
-      "url": "tutorial.html?type=md"
+      "name": "教程",
+      "url": "tutorials.html"
     }
   ],
   "leftnav": {
-    "yi": [
+    "zhouyi": [
       {
         "name": "基础知识",
         "file": "01基础知识.md"
@@ -98,6 +84,32 @@
       {
         "name": "Markdown语法指南",
         "file": "index.md"
+      }
+    ],
+    "openiddict": [
+      {
+        "name": "OpenIddict 概述与快速上手",
+        "file": "01概述与快速上手.md"
+      },
+      {
+        "name": "OpenIddict 授权码流程详解",
+        "file": "02授权码流程详解.md"
+      },
+      {
+        "name": "OpenIddict 客户端凭证与资源服务器",
+        "file": "03客户端凭证与资源服务器.md"
+      },
+      {
+        "name": "OpenIddict 令牌管理",
+        "file": "04令牌管理.md"
+      },
+      {
+        "name": "OpenIddict 自定义扩展与踩坑",
+        "file": "05自定义扩展与踩坑.md"
+      },
+      {
+        "name": "OpenIddict 核心类关系解析",
+        "file": "06核心类关系解析.md"
       }
     ]
   }

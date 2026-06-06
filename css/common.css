@@ -115,6 +115,18 @@ nav {
     color: #007bff;
     font-weight: 600;
 }
+/* 面包屑当前项（不可点击样式） */
+.nav-links .breadcrumb-current {
+    pointer-events: none;
+    cursor: default;
+    opacity: 0.85;
+}
+.nav-links .breadcrumb-current::before {
+    content: '›';
+    margin-right: 8px;
+    font-size: 1.2rem;
+    color: rgba(255, 255, 255, 0.4);
+}
 main {
     max-width: 1400px;
     margin: 2rem auto;

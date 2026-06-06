@@ -10,17 +10,19 @@ const navFile = path.join(__dirname, '../data/nav.json');
 const defaultConfig = {
     // displayNames 的 key 顺序决定导航的固定显示顺序
     displayNames: {
-        'yi': '周易预测',
+        'zhouyi': '周易预测',
         'langchain': 'LangChain教程',
         'flutter': 'Flutter教程',
         'dart': 'Dart教程',
         'freport': '财报',
-        'md': 'Markdown语法指南'
+        'md': 'Markdown语法指南',
+        'openiddict': 'OpenIddict教程'
     },
     excludeDirs: ['article'],
     topnavBase: [
         { name: "首页", url: "index.html" },
-        { name: "文章列表", url: "articles/list.html" }
+        { name: "文章", url: "articles/list.html" },
+        { name: "教程", url: "tutorials.html" }
     ],
     topnav: [],
     leftnav: {}
@@ -37,7 +39,7 @@ function readNavConfig() {
             ...existing,
             displayNames: { ...defaultConfig.displayNames, ...(existing.displayNames || {}) },
             excludeDirs: existing.excludeDirs || defaultConfig.excludeDirs,
-            topnavBase: existing.topnavBase || defaultConfig.topnavBase
+            topnavBase: defaultConfig.topnavBase
         };
     } catch {
         return defaultConfig;
@@ -123,23 +125,12 @@ function generateNav() {
             }
         });
         
-        // 生成 topnav 中的教程链接（按照 displayNames 的顺序）
-        const tutorialLinks = Object.keys(config.displayNames)
-            .filter(key => leftnav[key])  // 只保留有内容的分类
-            .map(key => ({
-                name: getDisplayName(key),
-                url: `tutorial.html?type=${key}`
-            }));
-        
-        // 构建最终的导航配置（保留配置部分）
+        // 构建最终的导航配置（topnav 只保留 base 项，教程通过 tutorials.html 访问）
         const nav = {
             displayNames: config.displayNames,
             excludeDirs: config.excludeDirs,
             topnavBase: config.topnavBase,
-            topnav: [
-                ...config.topnavBase,
-                ...tutorialLinks
-            ],
+            topnav: config.topnavBase,
             leftnav: leftnav
         };
         

@@ -1,0 +1,208 @@
+/* 教程总览页面样式 */
+.tutorials-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.tutorials-header {
+    text-align: center;
+    margin-bottom: 3rem;
+    padding: 2rem 0;
+}
+
+.tutorials-header h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 0.75rem;
+    position: relative;
+    display: inline-block;
+}
+
+.tutorials-header h1::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+    border-radius: 2px;
+}
+
+.tutorials-header p {
+    color: #64748b;
+    font-size: 1.1rem;
+    margin-top: 1.5rem;
+}
+
+/* 卡片网格 */
+.tutorials-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.5rem;
+}
+
+/* 单个卡片 */
+.tutorial-card {
+    background: white;
+    border-radius: 16px;
+    padding: 2rem;
+    border: 1px solid #e9ecef;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+}
+
+.tutorial-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: var(--card-color, #ff6b35);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.tutorial-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    border-color: transparent;
+}
+
+.tutorial-card:hover::before {
+    opacity: 1;
+}
+
+/* 卡片图标 */
+.tutorial-card-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    background: var(--card-bg, #fff5f0);
+    color: var(--card-color, #ff6b35);
+}
+
+/* 卡片标题 */
+.tutorial-card-title {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 0.75rem;
+}
+
+/* 卡片描述 */
+.tutorial-card-desc {
+    color: #64748b;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    flex: 1;
+}
+
+/* 卡片底部信息 */
+.tutorial-card-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 1rem;
+    border-top: 1px solid #f0f0f0;
+}
+
+.tutorial-card-count {
+    color: #94a3b8;
+    font-size: 0.85rem;
+}
+
+.tutorial-card-arrow {
+    color: var(--card-color, #ff6b35);
+    font-size: 1.2rem;
+    transition: transform 0.3s ease;
+}
+
+.tutorial-card:hover .tutorial-card-arrow {
+    transform: translateX(5px);
+}
+
+/* 不同教程的主题色 */
+.tutorial-card[data-type="yi"] {
+    --card-color: #8b5cf6;
+    --card-bg: #f5f3ff;
+}
+
+.tutorial-card[data-type="langchain"] {
+    --card-color: #10b981;
+    --card-bg: #ecfdf5;
+}
+
+.tutorial-card[data-type="flutter"] {
+    --card-color: #0ea5e9;
+    --card-bg: #f0f9ff;
+}
+
+.tutorial-card[data-type="dart"] {
+    --card-color: #06b6d4;
+    --card-bg: #ecfeff;
+}
+
+.tutorial-card[data-type="freport"] {
+    --card-color: #f59e0b;
+    --card-bg: #fffbeb;
+}
+
+.tutorial-card[data-type="md"] {
+    --card-color: #6366f1;
+    --card-bg: #eef2ff;
+}
+
+.tutorial-card[data-type="openiddict"] {
+    --card-color: #ec4899;
+    --card-bg: #fdf2f8;
+}
+
+/* 响应式 */
+@media (max-width: 768px) {
+    .tutorials-container {
+        padding: 1rem;
+    }
+    
+    .tutorials-header h1 {
+        font-size: 1.8rem;
+    }
+    
+    .tutorials-header p {
+        font-size: 1rem;
+    }
+    
+    .tutorials-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .tutorial-card {
+        padding: 1.5rem;
+    }
+    
+    .tutorial-card-icon {
+        width: 56px;
+        height: 56px;
+        font-size: 1.6rem;
+    }
+    
+    .tutorial-card-title {
+        font-size: 1.2rem;
+    }
+}

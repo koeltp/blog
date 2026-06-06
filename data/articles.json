@@ -1,20 +1,5 @@
 [
   {
-    "title": "OpenIddict 深入解析",
-    "date": "2026-06-05",
-    "category": "tech",
-    "tags": [
-      ".NET",
-      "OpenIddict",
-      "OAuth2",
-      "OpenID Connect",
-      "JWT"
-    ],
-    "summary": "从协议原理到生产实践，全面覆盖 OpenIddict 的授权码流程、客户端凭证、刷新令牌、自定义存储及常见踩坑",
-    "authors": "",
-    "filename": "openiddict.md"
-  },
-  {
     "title": "基于 OpenIddict 实现 SSO 单点登录实战",
     "date": "2026-06-05",
     "category": "tech",

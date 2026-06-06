@@ -16,7 +16,13 @@ async function loadNavigation() {
         
         const data = await response.json();
         const topnav = data.topnav || [];
+        const displayNames = data.displayNames || {};
         const currentUrl = window.location.href;
+        
+        // 检查是否在教程详情页
+        const isTutorialPage = window.location.pathname.includes('tutorial.html');
+        const tutorialType = isTutorialPage ? new URLSearchParams(window.location.search).get('type') : null;
+        const tutorialName = tutorialType ? displayNames[tutorialType] : null;
         
         let html = '';
         topnav.forEach(item => {
@@ -27,6 +33,11 @@ async function loadNavigation() {
                 isActive = true;
             }
             
+            // 在教程详情页时，将"教程"标记为激活
+            if (item.url === 'tutorials.html' && isTutorialPage) {
+                isActive = true;
+            }
+            
             // 构建正确的链接路径
             let linkUrl = item.url;
             if (window.location.pathname.includes('/articles/') && !item.url.startsWith('http') && !item.url.startsWith('/')) {
@@ -34,6 +45,11 @@ async function loadNavigation() {
             }
             html += `<li><a href="${linkUrl}" ${isActive ? 'class="active"' : ''}>${item.name}</a></li>`;
         });
+        
+        // 如果在教程详情页，追加当前教程名称作为面包屑
+        if (isTutorialPage && tutorialName) {
+            html += `<li><a href="tutorial.html?type=${tutorialType}" class="active breadcrumb-current">${tutorialName}</a></li>`;
+        }
         
         navLinksDiv.innerHTML = html;
     } catch (error) {
