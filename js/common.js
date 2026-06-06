@@ -144,7 +144,17 @@ function initSearchToggle() {
                 suggestions.innerHTML = results.map(item => {
                     const typeLabel = item.type === 'article' ? '文章' : '教程';
                     const typeClass = item.type === 'article' ? 'article' : 'tutorial';
-                    return `<a href="${item.url}" class="search-suggestion-item">
+                    // 在 articles 子目录下需要调整路径
+                    let link = item.url;
+                    if (window.location.pathname.includes('/articles/')) {
+                        if (item.type === 'article') {
+                            // item.url 是 articles/detail.html?...，在 articles 目录下要去掉前缀
+                            link = item.url.replace('articles/', '');
+                        } else {
+                            link = '../' + item.url;
+                        }
+                    }
+                    return `<a href="${link}" class="search-suggestion-item">
                         <span class="search-suggestion-type ${typeClass}">${typeLabel}</span>
                         <span class="search-suggestion-title">${item.title}</span>
                     </a>`;

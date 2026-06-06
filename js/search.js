@@ -120,9 +120,9 @@ function renderResults(results, query) {
         // 构建链接路径
         let link = item.url;
         if (window.location.pathname.includes('/articles/')) {
-            // 当前在 articles 目录下，需要调整路径
             if (isArticle) {
-                link = item.url; // 已经是 articles/ 下的路径
+                // item.url 是 articles/detail.html?...，在 articles 目录下要去掉前缀
+                link = item.url.replace('articles/', '');
             } else {
                 link = '../' + item.url;
             }
