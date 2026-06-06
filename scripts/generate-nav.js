@@ -16,7 +16,8 @@ const defaultConfig = {
         'dart': 'Dart教程',
         'freport': '财报',
         'md': 'Markdown语法指南',
-        'openiddict': 'OpenIddict教程'
+        'openiddict': 'OpenIddict教程',
+        'aspire': 'Aspire教程'
     },
     excludeDirs: ['article'],
     topnavBase: [

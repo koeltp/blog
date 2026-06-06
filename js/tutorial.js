@@ -88,7 +88,7 @@ async function loadMarkdown() {
         const { html, frontMatterHtml } = parser.render(markdown);
 
         // 插入渲染后的内容
-        contentDiv.innerHTML = frontMatterHtml + html;
+        contentDiv.innerHTML = '<div class="markdown-content">' + frontMatterHtml + html + '</div>';
         
         // 应用代码高亮
         parser.applyHighlight();
@@ -186,16 +186,10 @@ async function loadMarkdown() {
                 });
             });
 
-            // 渲染 Mermaid 图表
-            if (window.mermaid) {
-                try {
-                    mermaid.run({ querySelector: '.mermaid' }).then(() => {
-                        setTimeout(() => initMermaidInteractions(), 300);
-                    });
-                } catch (e) {
-                    console.warn('Mermaid 渲染失败:', e);
-                }
-            }
+            // 渲染 Mermaid 图表（懒加载）
+            loadMermaidIfNeeded().then(loaded => {
+                if (loaded) renderMermaid();
+            });
         }, 150);
         
         // 更新页面标题

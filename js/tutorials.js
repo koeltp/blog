@@ -1,9 +1,5 @@
 // 教程卡片配置（图标和描述）
 const tutorialConfig = {
-    'yi': {
-        icon: '☯',
-        desc: '从零开始学习周易预测，掌握卦象法则与占卜技巧'
-    },
     'langchain': {
         icon: '🦜',
         desc: '学习 LangChain 框架，构建强大的 AI 应用与智能代理'

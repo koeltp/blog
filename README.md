@@ -119,6 +119,27 @@ python -m http.server 8000
    node scripts/generate-articles.js
    ```
 
+## Git 提交前自动生成数据
+
+项目提供了 `scripts/pre-commit.sh`，在 `git commit` 前自动运行三个生成脚本并暂存结果。
+
+### 安装（首次克隆后执行一次）
+
+```bash
+# Linux / macOS
+cp scripts/pre-commit.sh .git/hooks/pre-commit
+chmod +x .git/hooks/pre-commit
+
+# Windows (PowerShell)
+Copy-Item scripts/pre-commit.sh .git\hooks\pre-commit
+```
+
+安装后每次 `git commit` 会自动：
+1. 运行 `generate-nav.js` 生成导航数据
+2. 运行 `generate-articles.js` 生成文章列表
+3. 运行 `generate-search-index.js` 生成搜索索引
+4. 将 `data/nav.json`、`data/articles.json`、`data/search-index.json` 自动加入暂存区
+
 ## 主要功能说明
 
 ### 首页

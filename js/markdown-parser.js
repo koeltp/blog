@@ -407,3 +407,43 @@ document.addEventListener('click', function(e) {
 
 // 导出
 window.MarkdownParser = MarkdownParser;
+
+// Mermaid 懒加载：检测页面中是否有 .mermaid 元素，有则动态加载 mermaid 库
+window.loadMermaidIfNeeded = function(basePath) {
+    const mermaidElements = document.querySelectorAll('.mermaid');
+    if (mermaidElements.length === 0) {
+        return Promise.resolve(false);
+    }
+
+    if (window.mermaid) {
+        return Promise.resolve(true);
+    }
+
+    const prefix = basePath || '';
+    return new Promise((resolve) => {
+        const script = document.createElement('script');
+        script.src = `${prefix}vendor/mermaid/mermaid.min.js`;
+        script.onload = () => resolve(true);
+        script.onerror = () => {
+            console.warn('Mermaid 库加载失败');
+            resolve(false);
+        };
+        document.head.appendChild(script);
+    });
+};
+
+// 渲染 Mermaid 图表（懒加载后调用）
+window.renderMermaid = function() {
+    if (!window.mermaid) return;
+    try {
+        mermaid.run({ querySelector: '.mermaid' }).then(() => {
+            setTimeout(() => {
+                if (typeof initMermaidInteractions === 'function') {
+                    initMermaidInteractions();
+                }
+            }, 300);
+        });
+    } catch (e) {
+        console.warn('Mermaid 渲染失败:', e);
+    }
+};

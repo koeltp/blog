@@ -7,7 +7,7 @@
     "freport": "财报",
     "md": "Markdown语法指南",
     "openiddict": "OpenIddict教程",
-    "yi": "周易预测",
+    "aspire": "Aspire教程",
     "article": "文章"
   },
   "excludeDirs": [
@@ -110,6 +110,36 @@
       {
         "name": "OpenIddict 核心类关系解析",
         "file": "06核心类关系解析.md"
+      }
+    ],
+    "aspire": [
+      {
+        "name": "概述与快速上手",
+        "file": "01概述与快速上手.md"
+      },
+      {
+        "name": "App Host 编排模型",
+        "file": "02AppHost编排模型.md"
+      },
+      {
+        "name": "服务通信与发现",
+        "file": "03服务通信与发现.md"
+      },
+      {
+        "name": "集成外部依赖",
+        "file": "04集成外部依赖.md"
+      },
+      {
+        "name": "可观测性与 Dashboard",
+        "file": "05可观测性与Dashboard.md"
+      },
+      {
+        "name": "部署与发布",
+        "file": "06部署与发布.md"
+      },
+      {
+        "name": "多语言编排与测试",
+        "file": "07多语言编排与测试.md"
       }
     ]
   }

@@ -121,7 +121,7 @@ function renderArticleDetail(article) {
         frontMatterHtml = '<div class="article-header">';
 
         if (article.title) {
-            frontMatterHtml += `<h1 class="article-detail-title">${article.title}</h1>`;
+            frontMatterHtml += `<h1 class="article-title">${article.title}</h1>`;
         }
 
         // 分类徽标
@@ -139,7 +139,7 @@ function renderArticleDetail(article) {
             metaParts.push(`发布日期：${article.date}`);
         }
         if (metaParts.length > 0) {
-            frontMatterHtml += `<div class="article-detail-meta">${metaParts.join(' &nbsp;|&nbsp; ')}</div>`;
+            frontMatterHtml += `<div class="article-meta">${metaParts.join(' &nbsp;|&nbsp; ')}</div>`;
         }
 
         // 标签行（带样式）
@@ -159,7 +159,7 @@ function renderArticleDetail(article) {
     const { html } = parser.render(article.content);
 
     // 插入渲染后的内容
-    articleDetail.innerHTML = frontMatterHtml + '<div class="article-detail-content">' + html + '</div>';
+    articleDetail.innerHTML = frontMatterHtml + '<div class="markdown-content">' + html + '</div>';
 
     // 应用代码高亮
     parser.applyHighlight();
@@ -170,17 +170,10 @@ function renderArticleDetail(article) {
     // 生成右侧目录（使用setTimeout确保DOM已渲染）
     setTimeout(() => {
         generateToc();
-        // 渲染 Mermaid 图表
-        if (window.mermaid) {
-            try {
-                mermaid.run({ querySelector: '.mermaid' }).then(() => {
-                    // 等 SVG 完全渲染后再初始化交互
-                    setTimeout(() => initMermaidInteractions(), 300);
-                });
-            } catch (e) {
-                console.warn('Mermaid 渲染失败:', e);
-            }
-        }
+        // 渲染 Mermaid 图表（懒加载）
+        loadMermaidIfNeeded('../').then(loaded => {
+            if (loaded) renderMermaid();
+        });
     }, 100);
 
     // 更新页面标题
