@@ -6,6 +6,7 @@
 body {
     font-family: Arial, sans-serif;
     line-height: 1.6;
+    padding-top: 64px;
     scrollbar-width: none; /* Firefox */
     -ms-overflow-style: none; /* IE and Edge */
 }
@@ -13,117 +14,92 @@ body::-webkit-scrollbar {
     display: none; /* Chrome, Safari and Opera */
 }
 header {
-    background-color: #212529;
-    color: white;
-    padding: 0;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    height: 70px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background: rgba(255, 255, 255, 0.72);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    height: 64px;
 }
 nav {
-    max-width: none;
-    margin: 0 50px;
-    padding: 0 2rem;
+    margin: 0 auto;
+    padding: 0 8rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
     height: 100%;
-    position: relative;
 }
 a {
-    color: #ff6b35;
+    color: #3b82f6;
     text-decoration: none;
 }
 .logo {
     font-size: 1.5rem;
     font-weight: bold;
-    color: white;
+    color: #1e293b;
     text-decoration: none;
     display: flex;
     align-items: center;
     height: 100%;
 }
 .logo img {
-    height: 40px;
+    height: 36px;
     width: auto;
     object-fit: contain;
 }
 .nav-links {
     display: flex;
     list-style: none;
-    height: 70px;
+    height: 64px;
+    align-items: center;
 }
 .nav-links li {
     margin-left: 0;
     height: 100%;
+    display: flex;
+    align-items: center;
 }
 .nav-links a {
-    color: rgba(255, 255, 255, 0.9);
+    color: #475569;
     text-decoration: none;
-    font-size: 1rem;
+    font-size: 0.92rem;
     font-weight: 500;
-    position: relative;
-    overflow: hidden;
-    background: linear-gradient(135deg, transparent 0%, transparent 100%);
-    border: 2px solid transparent;
-    z-index: 1;
-    padding: 0 16px;
+    padding: 0 14px;
     height: 100%;
     display: flex;
     align-items: center;
-    border-radius: 0;
-    transition: all 0.3s ease;
+    position: relative;
+    transition: color 0.2s ease;
 }
-.nav-links a::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(
-        90deg,
-        transparent,
-        rgba(255, 255, 255, 0.1),
-        rgba(255, 255, 255, 0.2),
-        rgba(255, 255, 255, 0.1),
-        transparent
-    );
-    transition: left 0.7s ease;
-    z-index: -1;
-}
+/* 底部激活指示条 */
 .nav-links a::after {
     content: '';
     position: absolute;
-    inset: -2px;
-    background: linear-gradient(45deg, 
-        rgba(255, 255, 255, 0.6), 
-        rgba(255, 255, 255, 0.4), 
-        rgba(255, 255, 255, 0.6));
-    border-radius: 0;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    z-index: -2;
-    filter: blur(4px);
+    bottom: 0;
+    left: 14px;
+    right: 14px;
+    height: 2px;
+    background: #3b82f6;
+    border-radius: 1px;
+    transform: scaleX(0);
+    transition: transform 0.25s ease;
 }
 .nav-links a:hover {
-    background-color: rgba(255, 255, 255, 0.05);
-    color: white;
-    transform: translateY(-2px) scale(1.02);
-    box-shadow: 
-        0 10px 20px rgba(255, 255, 255, 0.1),
-        0 6px 6px rgba(255, 255, 255, 0.05),
-        inset 0 0 20px rgba(255, 255, 255, 0.1);
-}
-.nav-links a:hover::before {
-    left: 100%;
+    color: #1e293b;
 }
 .nav-links a:hover::after {
-    opacity: 0.3;
+    transform: scaleX(1);
 }
 .nav-links a.active {
-    background-color: rgba(255, 255, 255, 0.08);
-    color: #007bff;
+    color: #3b82f6;
     font-weight: 600;
+}
+.nav-links a.active::after {
+    transform: scaleX(1);
 }
 main {
     max-width: 1400px;
@@ -325,7 +301,7 @@ footer {
 .nav-search {
     display: flex;
     align-items: center;
-    margin-left: 50px;
+    margin-left: 24px;
     height: 100%;
 }
 .search-btn {
@@ -333,26 +309,25 @@ footer {
     border: none;
     cursor: pointer;
     padding: 6px;
-    margin-left: 20px;
     border-radius: 6px;
     transition: background 0.2s;
     display: flex;
     align-items: center;
-    color: rgba(255, 255, 255, 0.8);
+    color: #64748b;
 }
 .search-btn:hover {
-    background: rgba(255, 255, 255, 0.1);
-    color: white;
+    background: rgba(0, 0, 0, 0.05);
+    color: #1e293b;
 }
 .search-btn svg {
-    width: 28px;
-    height: 28px;
+    width: 22px;
+    height: 22px;
 }
 
-/* 搜索弹出框：水平居中，距顶部 200px */
+/* 搜索弹出框 */
 .search-popup {
     position: fixed;
-    top: 200px;
+    top: 80px;
     left: 50%;
     transform: translateX(-50%);
     z-index: 100;
@@ -362,11 +337,13 @@ footer {
     position: relative;
     width: 480px;
     max-width: 90vw;
-    background: #1e293b;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(0, 0, 0, 0.08);
     border-radius: 14px;
     overflow: hidden;
-    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.12);
 }
 @keyframes searchFadeIn {
     from { opacity: 0; transform: translateX(-50%) translateY(-10px); }
@@ -377,18 +354,18 @@ footer {
     padding: 14px 18px;
     border: none;
     background: transparent;
-    color: white;
+    color: #1e293b;
     font-size: 1rem;
     outline: none;
 }
 .search-popup-inner input::placeholder {
-    color: rgba(255, 255, 255, 0.45);
+    color: #94a3b8;
 }
 
-/* 搜索建议：在弹出框内部，输入框下方 */
+/* 搜索建议 */
 .search-suggestions {
     display: none;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-top: 1px solid rgba(0, 0, 0, 0.06);
     max-height: 320px;
     overflow-y: auto;
 }
@@ -397,13 +374,13 @@ footer {
     align-items: center;
     gap: 8px;
     padding: 10px 14px;
-    color: rgba(255, 255, 255, 0.85);
+    color: #334155;
     text-decoration: none;
     font-size: 0.9rem;
     transition: background 0.15s;
 }
 .search-suggestion-item:hover {
-    background: rgba(255, 255, 255, 0.08);
+    background: rgba(0, 0, 0, 0.04);
 }
 .search-suggestion-type {
     display: inline-block;
@@ -414,12 +391,12 @@ footer {
     flex-shrink: 0;
 }
 .search-suggestion-type.article {
-    background: rgba(59, 130, 246, 0.3);
-    color: #93c5fd;
+    background: rgba(59, 130, 246, 0.1);
+    color: #3b82f6;
 }
 .search-suggestion-type.tutorial {
-    background: rgba(251, 191, 36, 0.3);
-    color: #fde68a;
+    background: rgba(245, 158, 11, 0.1);
+    color: #d97706;
 }
 .search-suggestion-title {
     overflow: hidden;
@@ -457,7 +434,7 @@ footer {
     display: block;
     width: 22px;
     height: 2px;
-    background: white;
+    background: #334155;
     border-radius: 2px;
     transition: all 0.3s ease;
 }
@@ -477,10 +454,12 @@ footer {
     }
     .nav-links {
         position: fixed;
-        top: 70px;
+        top: 64px;
         left: 0;
         right: 0;
-        background: #212529;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
         flex-direction: column;
         height: auto;
         padding: 0;
@@ -489,7 +468,8 @@ footer {
         transition: all 0.3s ease;
         pointer-events: none;
         z-index: 1000;
-        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        border-top: 1px solid rgba(0, 0, 0, 0.06);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
     }
     .nav-links.mobile-open {
         transform: translateY(0);
@@ -501,7 +481,11 @@ footer {
     }
     .nav-links a {
         padding: 14px 24px;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+        color: #475569;
+    }
+    .nav-links a::after {
+        display: none;
     }
 }
 
