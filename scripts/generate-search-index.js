@@ -85,7 +85,7 @@ function generateSearchIndex() {
                     type: 'tutorial',
                     dir: dirName,
                     file: file,
-                    url: `tutorial.html?type=${dirName}&file=${encodeURIComponent(file)}`,
+                    url: `tutorial.html?type=${dirName}&file=${encodeURIComponent(file.replace(/\.md$/, ''))}`,
                     category: parsed.frontMatter.category || '',
                     tags: Array.isArray(parsed.frontMatter.tags)
                         ? parsed.frontMatter.tags.join(', ')
