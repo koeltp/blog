@@ -166,28 +166,143 @@ footer {
     background: linear-gradient(135deg, #fce7f3 0%, #fbcfe8 100%);
     color: #9d174d;
 }
-.article-tags {
-    display: flex;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-    align-items: center;
-}
-.article-tags .tag {
-    display: inline-block;
-    padding: 0.25rem 0.75rem;
-    background: #f1f5f9;
-    color: #64748b;
-    border-radius: 12px;
-    font-size: 0.8rem;
-    transition: all 0.3s ease;
-}
-.article-tags .tag:hover {
-    background: #e2e8f0;
-    color: #475569;
-}
 .article-date {
     color: #94a3b8;
     font-size: 0.85rem;
+}
+
+/* ===== 文章卡片样式（公共，供文章列表和搜索结果共享）===== */
+.article-card {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 1.5rem 2rem;
+    color: inherit;
+    transition: all 0.25s ease;
+    margin-bottom: 1rem;
+    overflow: hidden;
+}
+
+.article-card:hover {
+    border-color: #d1d5db;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+    transform: translateY(-2px);
+}
+
+.article-card-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin: 0 0 0.75rem 0;
+    line-height: 1.4;
+}
+
+.article-card-title a {
+    color: #111827;
+    text-decoration: none;
+}
+
+.article-card-title a:hover {
+    color: #3b82f6;
+}
+
+.article-card-title mark {
+    background: #fef08a;
+    color: #1e293b;
+    padding: 0 2px;
+    border-radius: 2px;
+}
+
+.article-card-meta {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    margin-bottom: 0.875rem;
+    flex-wrap: wrap;
+}
+
+.meta-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    color: #6b7280;
+    font-size: 0.82rem;
+    white-space: nowrap;
+}
+
+.meta-item svg {
+    width: 14px;
+    height: 14px;
+    opacity: 0.7;
+}
+
+.meta-tags {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    flex-wrap: wrap;
+}
+
+.article-card-summary {
+    color: #6b7280;
+    font-size: 0.92rem;
+    line-height: 1.7;
+    margin: 0 0 0.75rem 0;
+    line-clamp: 3;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.article-card-summary mark {
+    background: #fef08a;
+    color: #1e293b;
+    padding: 0 2px;
+    border-radius: 2px;
+}
+
+.article-card-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    color: #3b82f6;
+    font-size: 0.88rem;
+    font-weight: 500;
+    text-decoration: none;
+    float: right;
+    transition: gap 0.2s ease;
+}
+
+.article-card-link svg {
+    width: 14px;
+    height: 14px;
+}
+
+.article-card:hover .article-card-link {
+    gap: 0.5rem;
+}
+
+/* ===== 状态提示（错误/空状态/加载中）===== */
+.msg-error {
+    text-align: center;
+    padding: 4rem 1rem;
+    color: #ef4444;
+}
+
+.msg-empty {
+    text-align: center;
+    padding: 2rem 1rem;
+    color: #64748b;
+}
+
+.msg-load-error {
+    text-align: center;
+    padding: 4rem 1rem;
+    color: red;
+}
+
+.nav-error {
+    color: red;
 }
 
 @media (max-width: 768px) {

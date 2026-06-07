@@ -55,12 +55,6 @@ function readNavConfig() {
     }
 }
 
-// 获取目录的显示名称（基于目录名）
-function getDisplayName(dirName) {
-    const config = readNavConfig();
-    return config.displayNames[dirName] || dirName;
-}
-
 // 获取文件的显示名称（基于文件名或 frontmatter）
 function getFileDisplayName(filePath, fileName) {
     try {

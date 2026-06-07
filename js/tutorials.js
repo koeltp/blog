@@ -95,7 +95,7 @@ async function loadTutorials() {
         
         gridDiv.innerHTML = html;
     } catch (error) {
-        gridDiv.innerHTML = `<div style="text-align: center; padding: 4rem; color: red;">加载失败：${error.message}</div>`;
+        gridDiv.innerHTML = `<div class="msg-load-error">加载失败：${error.message}</div>`;
     }
 }
 

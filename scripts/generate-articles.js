@@ -122,7 +122,7 @@ function parseArticle(content, filename) {
     // 构建文章对象
     return {
         title: title,
-        date: frontMatter.date || '2026-04-18',
+        date: frontMatter.date || '',
         category: frontMatter.category || 'tech',
         tags: tags,
         summary: frontMatter.summary || excerpt,

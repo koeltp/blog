@@ -44,7 +44,11 @@ function generateSearchIndex() {
                             ? parsed.frontMatter.tags.join(', ')
                             : String(parsed.frontMatter.tags || ''),
                         summary: String(parsed.frontMatter.summary || parsed.excerpt || ''),
-                        content: parsed.plainText.substring(0, 500)
+                        content: parsed.plainText.substring(0, 500),
+                        date: String(parsed.frontMatter.date || ''),
+                        authors: Array.isArray(parsed.frontMatter.authors)
+                            ? parsed.frontMatter.authors.join(', ')
+                            : String(parsed.frontMatter.authors || '')
                     });
                 });
             });
@@ -69,7 +73,11 @@ function generateSearchIndex() {
                         ? parsed.frontMatter.tags.join(', ')
                         : String(parsed.frontMatter.tags || ''),
                     summary: String(parsed.frontMatter.summary || parsed.excerpt || ''),
-                    content: parsed.plainText.substring(0, 500)
+                    content: parsed.plainText.substring(0, 500),
+                    date: String(parsed.frontMatter.date || ''),
+                    authors: Array.isArray(parsed.frontMatter.authors)
+                        ? parsed.frontMatter.authors.join(', ')
+                        : String(parsed.frontMatter.authors || '')
                 });
             } else {
                 index.push({
@@ -83,7 +91,11 @@ function generateSearchIndex() {
                         ? parsed.frontMatter.tags.join(', ')
                         : String(parsed.frontMatter.tags || ''),
                     summary: String(parsed.frontMatter.summary || parsed.excerpt || ''),
-                    content: parsed.plainText.substring(0, 500)
+                    content: parsed.plainText.substring(0, 500),
+                    date: String(parsed.frontMatter.date || ''),
+                    authors: Array.isArray(parsed.frontMatter.authors)
+                        ? parsed.frontMatter.authors.join(', ')
+                        : String(parsed.frontMatter.authors || '')
                 });
             }
         });

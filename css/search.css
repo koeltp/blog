@@ -1,13 +1,13 @@
 /* ===== 搜索页面样式 ===== */
 .search-main {
-    max-width: 800px;
+    max-width: 860px;
     margin: 0 auto;
     padding: 2rem 1.5rem;
 }
 
 .search-hero {
     text-align: center;
-    padding: 3rem 0 2rem;
+    padding: 2.5rem 0 1.5rem;
 }
 
 .search-hero h1 {
@@ -37,7 +37,7 @@
 }
 
 .search-page-input-wrapper input:focus {
-    outline: none;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
 }
 
 .search-page-btn {
@@ -45,14 +45,15 @@
     border: 2px solid #3b82f6;
     border-left: none;
     border-radius: 0 12px 12px 0;
-    background: #eff6ff;
-    color: #3b82f6;
+    background: #3b82f6;
+    color: white;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     transition: all 0.2s ease;
     flex-shrink: 0;
+    font-weight: 500;
 }
 
 .search-page-btn svg {
@@ -62,7 +63,8 @@
 }
 
 .search-page-btn:hover {
-    background: #dbeafe;
+    background: #2563eb;
+    border-color: #2563eb;
 }
 
 /* 搜索计数 */
@@ -74,114 +76,6 @@
     border-bottom: 1px solid #e2e8f0;
 }
 
-/* ===== 统一卡片样式（与文章列表一致）===== */
-.article-card {
-    display: block;
-    background: white;
-    border: 1px solid #e5e7eb;
-    border-radius: 12px;
-    padding: 1.5rem 2rem;
-    text-decoration: none;
-    color: inherit;
-    transition: all 0.25s ease;
-    margin-bottom: 1rem;
-    overflow: hidden; /* 清除内部 float */
-}
-
-.article-card:hover {
-    border-color: #d1d5db;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
-    transform: translateY(-2px);
-}
-
-/* 卡片标题 */
-.article-card-title {
-    font-size: 1.3rem;
-    font-weight: 700;
-    color: #111827;
-    margin: 0 0 0.75rem 0;
-    line-height: 1.4;
-}
-
-.article-card-title mark {
-    background: #fef08a;
-    color: #1e293b;
-    padding: 0 2px;
-    border-radius: 2px;
-}
-
-/* 元信息行 */
-.article-card-meta {
-    display: flex;
-    align-items: center;
-    gap: 1.25rem;
-    margin-bottom: 0.875rem;
-    flex-wrap: wrap;
-}
-
-.meta-item {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.35rem;
-    color: #6b7280;
-    font-size: 0.82rem;
-    white-space: nowrap;
-}
-
-.meta-item svg {
-    width: 14px;
-    height: 14px;
-    opacity: 0.7;
-}
-
-.meta-tags {
-    color: #9ca3af;
-    max-width: 400px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-/* 摘要 */
-.article-card-summary {
-    color: #6b7280;
-    font-size: 0.92rem;
-    line-height: 1.7;
-    margin: 0 0 0.75rem 0;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-}
-
-.article-card-summary mark {
-    background: #fef08a;
-    color: #1e293b;
-    padding: 0 2px;
-    border-radius: 2px;
-}
-
-/* 阅读全文链接 */
-.article-card-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.3rem;
-    color: #3b82f6;
-    font-size: 0.88rem;
-    font-weight: 500;
-    float: right;
-    transition: gap 0.2s ease;
-}
-
-.article-card-link svg {
-    width: 14px;
-    height: 14px;
-}
-
-.article-card:hover .article-card-link {
-    gap: 0.5rem;
-}
-
 /* 空结果 */
 .search-empty {
     text-align: center;
@@ -189,10 +83,11 @@
     color: #64748b;
 }
 
-.search-empty-icon svg{
+.search-empty-icon svg {
     width: 50px;
     height: 50px;
     margin-bottom: 1rem;
+    opacity: 0.4;
 }
 
 .search-empty p {
@@ -211,4 +106,18 @@
     padding: 4rem;
     color: #64748b;
     font-size: 1.1rem;
+}
+
+/* 搜索结果卡片间距 */
+#search-results .article-card {
+    margin-bottom: 1rem;
+}
+
+@media (max-width: 768px) {
+    .search-main {
+        padding: 1rem;
+    }
+    .search-hero {
+        padding: 1.5rem 0 1rem;
+    }
 }

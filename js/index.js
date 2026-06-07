@@ -50,15 +50,3 @@ async function loadLatestArticles() {
         container.innerHTML = '<div class="latest-item"><p>加载失败</p></div>';
     }
 }
-
-// 获取分类标签
-function getCategoryLabel(category) {
-    const labels = {
-        tech: '技术',
-        tutorial: '教程',
-        life: '生活',
-        docker: 'Docker',
-        finance: '财经'
-    };
-    return labels[category] || category || '技术';
-}
