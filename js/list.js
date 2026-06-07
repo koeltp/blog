@@ -60,7 +60,7 @@ function renderArticles(articles) {
 
     articlesList.innerHTML = articles.map(article =>
         buildArticleCard({
-            link: `detail.html?file=${stripMdExt(article.filename)}`,
+            link: `detail.html?file=${article.filename}`,
             title: article.title,
             summary: article.summary || '',
             authors: article.authors,

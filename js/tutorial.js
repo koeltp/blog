@@ -40,7 +40,7 @@ async function loadFileList(type) {
             const subName = displayNames[type] || type.split('/')[1];
             const files = leftnav[type] || [];
             const defaultFile = getDefaultFile(files);
-            const currentFile = ensureMdExt(getUrlParam('file')) || defaultFile;
+            const currentFile = getUrlParam('file') || defaultFile;
             const fileNames = files.map(f => f.file);
             const finalFile = fileNames.includes(currentFile) ? currentFile : defaultFile;
             
@@ -51,7 +51,7 @@ async function loadFileList(type) {
                 html += `<ul class="nav-root-items">`;
                 rootFiles.forEach(file => {
                     const isActive = file.file === currentFile;
-                    html += `<li><a href="tutorial.html?type=${parentKey}&file=${stripMdExt(file.file)}" ${isActive ? 'class="active"' : ''}>${file.name}</a></li>`;
+                    html += `<li><a href="tutorial.html?type=${parentKey}&file=${file.file}" ${isActive ? 'class="active"' : ''}>${file.name}</a></li>`;
                 });
                 html += `</ul>`;
             }
@@ -72,7 +72,7 @@ async function loadFileList(type) {
                 
                 subFiles.forEach(file => {
                     const isActive = isActiveGroup && file.file === finalFile;
-                    html += `<li><a href="tutorial.html?type=${encodeURIComponent(subKey)}&file=${stripMdExt(file.file)}" ${isActive ? 'class="active"' : ''}>${file.name}</a></li>`;
+                    html += `<li><a href="tutorial.html?type=${encodeURIComponent(subKey)}&file=${file.file}" ${isActive ? 'class="active"' : ''}>${file.name}</a></li>`;
                 });
                 
                 html += `</ul></li>`;
@@ -101,7 +101,7 @@ async function loadFileList(type) {
                         if (groupKey !== type) {
                             const groupFiles = leftnav[groupKey] || [];
                             if (groupFiles.length > 0) {
-                                window.location.href = `tutorial.html?type=${encodeURIComponent(groupKey)}&file=${stripMdExt(groupFiles[0].file)}`;
+                                window.location.href = `tutorial.html?type=${encodeURIComponent(groupKey)}&file=${groupFiles[0].file}`;
                             }
                         }
                     } else {
@@ -121,7 +121,7 @@ async function loadFileList(type) {
             
             // 如果文件不在列表中，重定向到默认文件
             if (finalFile !== currentFile && getUrlParam('file')) {
-                window.location.href = `tutorial.html?type=${encodeURIComponent(type)}&file=${stripMdExt(finalFile)}`;
+                window.location.href = `tutorial.html?type=${encodeURIComponent(type)}&file=${finalFile}`;
             }
         } else {
             // 一级目录：检查是否有子目录
@@ -135,11 +135,11 @@ async function loadFileList(type) {
                 // 收集所有子目录的文件用于判断当前文件
                 const subKeys = subs.map(s => `${type}/${s}`);
                 let activeSubKey = null;
-                let activeFile = ensureMdExt(getUrlParam('file')) || (rootFiles.length > 0 ? rootFiles[0].file : null);
+                let activeFile = getUrlParam('file') || (rootFiles.length > 0 ? rootFiles[0].file : null);
 
                 // 判断当前文件属于哪个分组
                 if (getUrlParam('file')) {
-                    const f = ensureMdExt(getUrlParam('file'));
+                    const f = getUrlParam('file');
                     if (rootFiles.some(rf => rf.file === f)) {
                         activeFile = f;
                     } else {
@@ -160,7 +160,7 @@ async function loadFileList(type) {
                     html += `<ul class="nav-root-items">`;
                     rootFiles.forEach(file => {
                         const isActive = !activeSubKey && file.file === activeFile;
-                        html += `<li><a href="tutorial.html?type=${type}&file=${stripMdExt(file.file)}" ${isActive ? 'class="active"' : ''}>${file.name}</a></li>`;
+                        html += `<li><a href="tutorial.html?type=${type}&file=${file.file}" ${isActive ? 'class="active"' : ''}>${file.name}</a></li>`;
                     });
                     html += `</ul>`;
                 }
@@ -181,7 +181,7 @@ async function loadFileList(type) {
 
                     subFiles.forEach(file => {
                         const isActive = isActiveGroup && file.file === activeFile;
-                        html += `<li><a href="tutorial.html?type=${encodeURIComponent(subKey)}&file=${stripMdExt(file.file)}" ${isActive ? 'class="active"' : ''}>${file.name}</a></li>`;
+                        html += `<li><a href="tutorial.html?type=${encodeURIComponent(subKey)}&file=${file.file}" ${isActive ? 'class="active"' : ''}>${file.name}</a></li>`;
                     });
 
                     html += `</ul></li>`;
@@ -207,7 +207,7 @@ async function loadFileList(type) {
                             const groupKey = header.dataset.group;
                             const groupFiles = leftnav[groupKey] || [];
                             if (groupFiles.length > 0) {
-                                window.location.href = `tutorial.html?type=${encodeURIComponent(groupKey)}&file=${stripMdExt(groupFiles[0].file)}`;
+                                window.location.href = `tutorial.html?type=${encodeURIComponent(groupKey)}&file=${groupFiles[0].file}`;
                             }
                         } else {
                             group.classList.add('collapsed');
@@ -224,7 +224,7 @@ async function loadFileList(type) {
                 // 普通一级目录：直接渲染文件列表
                 const files = leftnav[type] || [];
                 const defaultFile = getDefaultFile(files);
-                const currentFile = ensureMdExt(getUrlParam('file')) || defaultFile;
+                const currentFile = getUrlParam('file') || defaultFile;
                 const fileNames = files.map(f => f.file);
                 const finalFile = fileNames.includes(currentFile) ? currentFile : defaultFile;
 
@@ -254,7 +254,7 @@ async function loadMarkdown() {
     
     try {
         // 获取默认文件
-        let fileName = ensureMdExt(file);
+        let fileName = file;
         if (!file) {
             const navResponse = await fetch('data/nav.json');
             if (navResponse.ok) {
@@ -357,7 +357,7 @@ async function addPrevNextNav(type, currentFile, contentDiv) {
 
         let navHtml = '<div class="prev-next-nav">';
         if (prev) {
-            navHtml += `<a href="tutorial.html?type=${encodeURIComponent(type)}&file=${stripMdExt(prev.file)}" class="prev-next-link prev">
+            navHtml += `<a href="tutorial.html?type=${encodeURIComponent(type)}&file=${prev.file}" class="prev-next-link prev">
                 <span class="prev-next-label">上一篇</span>
                 <span class="prev-next-title">${prev.name}</span>
             </a>`;
@@ -365,7 +365,7 @@ async function addPrevNextNav(type, currentFile, contentDiv) {
             navHtml += '<span class="prev-next-link prev disabled"></span>';
         }
         if (next) {
-            navHtml += `<a href="tutorial.html?type=${encodeURIComponent(type)}&file=${stripMdExt(next.file)}" class="prev-next-link next">
+            navHtml += `<a href="tutorial.html?type=${encodeURIComponent(type)}&file=${next.file}" class="prev-next-link next">
                 <span class="prev-next-label">下一篇</span>
                 <span class="prev-next-title">${next.name}</span>
             </a>`;

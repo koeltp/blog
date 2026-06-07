@@ -1,15 +1,5 @@
 // ===== 公共常量 =====
 
-// URL 参数中去掉 .md 后缀，保持 URL 干净
-function stripMdExt(filename) {
-    return filename ? filename.replace(/\.md$/, '') : filename;
-}
-
-// URL 参数不含 .md，fetch 时需要补上
-function ensureMdExt(filename) {
-    return filename && !filename.endsWith('.md') ? filename + '.md' : filename;
-}
-
 // SVG 图标（内联复用，供各页面共享）
 const Icons = {
     user: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>',

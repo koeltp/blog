@@ -75,11 +75,11 @@ async function loadTutorials() {
             const rootFiles = leftnav[type] || [];
             if (subs && subs.length > 0) {
                 if (rootFiles.length > 0) {
-                    cardUrl = `tutorial.html?type=${type}&file=${stripMdExt(rootFiles[0].file)}`;
+                    cardUrl = `tutorial.html?type=${type}&file=${rootFiles[0].file}`;
                 } else {
                     const firstSubKey = `${type}/${subs[0]}`;
                     const firstSubFiles = leftnav[firstSubKey] || [];
-                    const firstFile = firstSubFiles.length > 0 ? stripMdExt(firstSubFiles[0].file) : 'index';
+                    const firstFile = firstSubFiles.length > 0 ? firstSubFiles[0].file : 'index.md';
                     cardUrl = `tutorial.html?type=${encodeURIComponent(firstSubKey)}&file=${firstFile}`;
                 }
             } else {

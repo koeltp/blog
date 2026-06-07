@@ -8,7 +8,7 @@ async function loadArticleDetail() {
     const articleDetail = document.getElementById('article-detail');
 
     try {
-        // 获取 URL 参数中的文件名（不含 .md 后缀）
+        // 获取 URL 参数中的文件名
         const urlParams = new URLSearchParams(window.location.search);
         const filename = urlParams.get('file');
 
@@ -17,11 +17,8 @@ async function loadArticleDetail() {
             return;
         }
 
-        // URL 参数不含 .md，fetch 时补上
-        const fetchFilename = filename.endsWith('.md') ? filename : filename + '.md';
-
         // 加载文章文件
-        const response = await fetch(`../docs/article/${fetchFilename}`);
+        const response = await fetch(`../docs/article/${filename}`);
         if (!response.ok) {
             articleDetail.innerHTML = `<div class="msg-error">文章不存在</div>`;
             return;
