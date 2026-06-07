@@ -45,6 +45,16 @@ async function loadFileList(type) {
             const finalFile = fileNames.includes(currentFile) ? currentFile : defaultFile;
             
             let html = '';
+            // 先渲染根目录文件（如 dotnet 下的配置体系详解）
+            const rootFiles = leftnav[parentKey] || [];
+            if (rootFiles.length > 0) {
+                html += `<ul class="nav-root-items">`;
+                rootFiles.forEach(file => {
+                    const isActive = file.file === currentFile;
+                    html += `<li><a href="tutorial.html?type=${parentKey}&file=${file.file}" ${isActive ? 'class="active"' : ''}>${file.name}</a></li>`;
+                });
+                html += `</ul>`;
+            }
             // 渲染同级所有子目录的分组
             const siblings = subCategories[parentKey] || [type.split('/')[1]];
             siblings.forEach(subDir => {
@@ -114,23 +124,121 @@ async function loadFileList(type) {
                 window.location.href = `tutorial.html?type=${encodeURIComponent(type)}&file=${finalFile}`;
             }
         } else {
-            // 一级目录：原有逻辑
-            const files = leftnav[type] || [];
-            const defaultFile = getDefaultFile(files);
-            const currentFile = getUrlParam('file') || defaultFile;
-            const fileNames = files.map(f => f.file);
-            const finalFile = fileNames.includes(currentFile) ? currentFile : defaultFile;
-            
-            let html = '';
-            files.forEach(file => {
-                const isActive = file.file === finalFile;
-                html += `<li><a href="tutorial.html?type=${type}&file=${file.file}" ${isActive ? 'class="active"' : ''}>${file.name}</a></li>`;
-            });
-            
-            fileListDiv.innerHTML = html;
-            
-            if (finalFile !== currentFile && getUrlParam('file')) {
-                window.location.href = `tutorial.html?type=${type}&file=${finalFile}`;
+            // 一级目录：检查是否有子目录
+            const subs = subCategories[type] || [];
+            const rootFiles = leftnav[type] || [];
+            const hasSubDirs = subs.length > 0;
+
+            if (hasSubDirs) {
+                // 有子目录的一级目录：渲染根目录文件 + 子目录分组
+                const allFiles = rootFiles;
+                // 收集所有子目录的文件用于判断当前文件
+                const subKeys = subs.map(s => `${type}/${s}`);
+                let activeSubKey = null;
+                let activeFile = getUrlParam('file') || (rootFiles.length > 0 ? rootFiles[0].file : null);
+
+                // 判断当前文件属于哪个分组
+                if (getUrlParam('file')) {
+                    const f = getUrlParam('file');
+                    if (rootFiles.some(rf => rf.file === f)) {
+                        activeFile = f;
+                    } else {
+                        for (const sk of subKeys) {
+                            if ((leftnav[sk] || []).some(sf => sf.file === f)) {
+                                activeSubKey = sk;
+                                activeFile = f;
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                let html = '';
+
+                // 渲染根目录文件
+                if (rootFiles.length > 0) {
+                    html += `<ul class="nav-root-items">`;
+                    rootFiles.forEach(file => {
+                        const isActive = !activeSubKey && file.file === activeFile;
+                        html += `<li><a href="tutorial.html?type=${type}&file=${file.file}" ${isActive ? 'class="active"' : ''}>${file.name}</a></li>`;
+                    });
+                    html += `</ul>`;
+                }
+
+                // 渲染子目录分组
+                subs.forEach(subDir => {
+                    const subKey = `${type}/${subDir}`;
+                    const subFiles = leftnav[subKey] || [];
+                    const subDisplayName = displayNames[subKey] || subDir;
+                    const isActiveGroup = subKey === activeSubKey;
+
+                    html += `<li class="nav-group ${isActiveGroup ? '' : 'collapsed'}">`;
+                    html += `<div class="nav-group-header" data-group="${subKey}">`;
+                    html += `<span class="nav-group-arrow">${isActiveGroup ? '▼' : '▶'}</span>`;
+                    html += `<span class="nav-group-title">${subDisplayName}</span>`;
+                    html += `</div>`;
+                    html += `<ul class="nav-group-items">`;
+
+                    subFiles.forEach(file => {
+                        const isActive = isActiveGroup && file.file === activeFile;
+                        html += `<li><a href="tutorial.html?type=${encodeURIComponent(subKey)}&file=${file.file}" ${isActive ? 'class="active"' : ''}>${file.name}</a></li>`;
+                    });
+
+                    html += `</ul></li>`;
+                });
+
+                fileListDiv.innerHTML = html;
+
+                // 绑定折叠事件
+                fileListDiv.querySelectorAll('.nav-group-header').forEach(header => {
+                    header.addEventListener('click', (e) => {
+                        const group = header.parentElement;
+                        const arrow = header.querySelector('.nav-group-arrow');
+                        const isCollapsed = group.classList.contains('collapsed');
+
+                        if (isCollapsed) {
+                            fileListDiv.querySelectorAll('.nav-group').forEach(g => {
+                                g.classList.add('collapsed');
+                                g.querySelector('.nav-group-arrow').textContent = '▶';
+                            });
+                            group.classList.remove('collapsed');
+                            arrow.textContent = '▼';
+
+                            const groupKey = header.dataset.group;
+                            const groupFiles = leftnav[groupKey] || [];
+                            if (groupFiles.length > 0) {
+                                window.location.href = `tutorial.html?type=${encodeURIComponent(groupKey)}&file=${groupFiles[0].file}`;
+                            }
+                        } else {
+                            group.classList.add('collapsed');
+                            arrow.textContent = '▶';
+                        }
+                    });
+                });
+
+                fileListDiv.querySelectorAll('.nav-group-items a').forEach(link => {
+                    link.addEventListener('click', (e) => e.stopPropagation());
+                });
+
+            } else {
+                // 普通一级目录：直接渲染文件列表
+                const files = leftnav[type] || [];
+                const defaultFile = getDefaultFile(files);
+                const currentFile = getUrlParam('file') || defaultFile;
+                const fileNames = files.map(f => f.file);
+                const finalFile = fileNames.includes(currentFile) ? currentFile : defaultFile;
+
+                let html = '';
+                files.forEach(file => {
+                    const isActive = file.file === finalFile;
+                    html += `<li><a href="tutorial.html?type=${type}&file=${file.file}" ${isActive ? 'class="active"' : ''}>${file.name}</a></li>`;
+                });
+
+                fileListDiv.innerHTML = html;
+
+                if (finalFile !== currentFile && getUrlParam('file')) {
+                    window.location.href = `tutorial.html?type=${type}&file=${finalFile}`;
+                }
             }
         }
     } catch (error) {
@@ -214,6 +322,9 @@ async function loadMarkdown() {
             });
         }, 150);
         
+        // 添加上一篇/下一篇导航
+        await addPrevNextNav(type, fileName, contentDiv);
+        
         // 更新页面标题
         const title = html.match(/<h1[^>]*>([\s\S]*?)<\/h1>/)?.[1] || '教程详情';
         document.title = title;
@@ -226,6 +337,49 @@ async function loadMarkdown() {
 }
 
 
+
+// 添加上一篇/下一篇导航
+async function addPrevNextNav(type, currentFile, contentDiv) {
+    try {
+        const response = await fetch('data/nav.json');
+        if (!response.ok) return;
+        const data = await response.json();
+        const leftnav = data.leftnav || {};
+        const files = leftnav[type] || [];
+        if (files.length === 0) return;
+
+        const currentIndex = files.findIndex(f => f.file === currentFile);
+        if (currentIndex === -1) return;
+
+        const prev = currentIndex > 0 ? files[currentIndex - 1] : null;
+        const next = currentIndex < files.length - 1 ? files[currentIndex + 1] : null;
+        if (!prev && !next) return;
+
+        let navHtml = '<div class="prev-next-nav">';
+        if (prev) {
+            navHtml += `<a href="tutorial.html?type=${encodeURIComponent(type)}&file=${prev.file}" class="prev-next-link prev">
+                <span class="prev-next-label">上一篇</span>
+                <span class="prev-next-title">${prev.name}</span>
+            </a>`;
+        } else {
+            navHtml += '<span class="prev-next-link prev disabled"></span>';
+        }
+        if (next) {
+            navHtml += `<a href="tutorial.html?type=${encodeURIComponent(type)}&file=${next.file}" class="prev-next-link next">
+                <span class="prev-next-label">下一篇</span>
+                <span class="prev-next-title">${next.name}</span>
+            </a>`;
+        } else {
+            navHtml += '<span class="prev-next-link next disabled"></span>';
+        }
+        navHtml += '</div>';
+
+        const mdContent = contentDiv.querySelector('.markdown-content');
+        if (mdContent) mdContent.insertAdjacentHTML('beforeend', navHtml);
+    } catch (e) {
+        // 导航生成失败不影响主内容
+    }
+}
 
 // 页面加载完成后执行
 window.addEventListener('DOMContentLoaded', async () => {

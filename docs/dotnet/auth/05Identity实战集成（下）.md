@@ -1,5 +1,5 @@
 ---
-title: Identity 实战集成
+title: Identity 实战集成（下）
 date: 2026-06-07
 category: tech
 tags: .NET, ASP.NET Core, Identity, 用户管理, 角色, 声明, JWT, 注册, 登录

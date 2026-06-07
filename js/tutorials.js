@@ -55,11 +55,12 @@ async function loadTutorials() {
             const displayName = displayNames[type];
             const config = tutorialConfig[type] || { icon: '📚', desc: '点击查看更多教程内容' };
             
-            // 计算文章总数（包含二级目录）
+            // 计算文章总数（包含根目录和二级目录）
             let totalFiles = 0;
             const subs = subCategories[type];
             if (subs && subs.length > 0) {
-                // 有二级目录的教程
+                // 有二级目录的教程：根目录文件 + 子目录文件
+                totalFiles += (leftnav[type] || []).length;
                 subs.forEach(sub => {
                     const subKey = `${type}/${sub}`;
                     const subFiles = leftnav[subKey] || [];
@@ -69,13 +70,18 @@ async function loadTutorials() {
                 totalFiles = (leftnav[type] || []).length;
             }
             
-            // 卡片链接：有二级目录时跳转到第一个子目录的第一篇文章
+            // 卡片链接：优先跳转根目录文件，否则跳转第一个子目录
             let cardUrl;
+            const rootFiles = leftnav[type] || [];
             if (subs && subs.length > 0) {
-                const firstSubKey = `${type}/${subs[0]}`;
-                const firstSubFiles = leftnav[firstSubKey] || [];
-                const firstFile = firstSubFiles.length > 0 ? firstSubFiles[0].file : 'index.md';
-                cardUrl = `tutorial.html?type=${encodeURIComponent(firstSubKey)}&file=${firstFile}`;
+                if (rootFiles.length > 0) {
+                    cardUrl = `tutorial.html?type=${type}&file=${rootFiles[0].file}`;
+                } else {
+                    const firstSubKey = `${type}/${subs[0]}`;
+                    const firstSubFiles = leftnav[firstSubKey] || [];
+                    const firstFile = firstSubFiles.length > 0 ? firstSubFiles[0].file : 'index.md';
+                    cardUrl = `tutorial.html?type=${encodeURIComponent(firstSubKey)}&file=${firstFile}`;
+                }
             } else {
                 cardUrl = `tutorial.html?type=${type}`;
             }

@@ -639,3 +639,66 @@ dd::before {
         display: none;
     }
 }
+
+/* ===== 上一篇/下一篇导航 ===== */
+.prev-next-nav {
+    display: flex;
+    gap: 1rem;
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid #e5e7eb;
+}
+
+.prev-next-link {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    padding: 1rem 1.2rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.prev-next-link:hover {
+    border-color: #3b82f6;
+    background: #f0f7ff;
+    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.1);
+}
+
+.prev-next-link.next {
+    align-items: flex-end;
+    text-align: right;
+}
+
+.prev-next-link.disabled {
+    visibility: hidden;
+}
+
+.prev-next-label {
+    font-size: 0.8rem;
+    color: #94a3b8;
+    font-weight: 500;
+}
+
+.prev-next-title {
+    font-size: 0.95rem;
+    color: #1e293b;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+.prev-next-link:hover .prev-next-title {
+    color: #3b82f6;
+}
+
+@media (max-width: 640px) {
+    .prev-next-nav {
+        flex-direction: column;
+    }
+    .prev-next-link.next {
+        align-items: flex-start;
+        text-align: left;
+    }
+}

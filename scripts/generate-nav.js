@@ -15,7 +15,7 @@ const defaultConfig = {
         'langchain': 'LangChain教程',
         'flutter': 'Flutter教程',
         'dart': 'Dart教程',
-        'freport': '财报',
+        'freport': '手把手教读财报',
         'md': 'Markdown语法指南',
         'openiddict': 'OpenIddict教程',
         'aspire': 'Aspire教程',
@@ -107,14 +107,28 @@ function generateNav() {
             const subCategories = config.subCategories && config.subCategories[dirName];
             
             if (subCategories && subCategories.length > 0) {
-                // 有二级子目录的一级目录：扫描每个子目录
+                // 有二级子目录的一级目录：先扫描根目录 md 文件，再扫描子目录
+                const rootFiles = fs.readdirSync(dirPath);
+                const rootMdFiles = rootFiles.filter(file => file.endsWith('.md'));
+
+                if (rootMdFiles.length > 0) {
+                    const items = [];
+                    rootMdFiles.forEach(file => {
+                        const filePath = path.join(dirPath, file);
+                        const displayName = getFileDisplayName(filePath, file);
+                        items.push({ name: displayName, file: file });
+                    });
+                    items.sort((a, b) => a.file.localeCompare(b.file));
+                    leftnav[dirName] = items;
+                }
+
                 subCategories.forEach(subDirName => {
                     const subDirPath = path.join(dirPath, subDirName);
                     if (!fs.existsSync(subDirPath)) return;
-                    
+
                     const files = fs.readdirSync(subDirPath);
                     const mdFiles = files.filter(file => file.endsWith('.md'));
-                    
+
                     if (mdFiles.length > 0) {
                         const items = [];
                         mdFiles.forEach(file => {

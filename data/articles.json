@@ -33,21 +33,6 @@
     "filename": "tpsso-sso.md"
   },
   {
-    "title": "ASP.NET Core Identity 深入解析",
-    "date": "2026-05-13",
-    "category": "tech",
-    "tags": [
-      ".NET",
-      "Identity",
-      "认证",
-      "授权",
-      "安全"
-    ],
-    "summary": "从架构原理到生产实践，全面覆盖 Identity 的用户管理、角色权限、JWT、2FA、自定义存储及常见踩坑",
-    "authors": "",
-    "filename": "aspnetcore-identity.md"
-  },
-  {
     "title": "Docker Registry",
     "date": "2026-05-08",
     "category": "docker",
