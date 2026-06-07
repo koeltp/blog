@@ -4,16 +4,6 @@ function getUrlParam(name) {
     return urlParams.get(name);
 }
 
-// URL 中的文件参数不含 .md，fetch 时需要补上
-function ensureMdExt(filename) {
-    return filename && !filename.endsWith('.md') ? filename + '.md' : filename;
-}
-
-// URL 参数中去掉 .md 后缀，保持 URL 干净
-function stripMdExt(filename) {
-    return filename ? filename.replace(/\.md$/, '') : filename;
-}
-
 
 
 // 获取默认文件（目录中的第一个文件）

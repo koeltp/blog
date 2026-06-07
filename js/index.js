@@ -40,7 +40,7 @@ async function loadLatestArticles() {
                     <p>${article.summary || ''}</p>
                     <div class="article-tags">
                         ${tags}
-                        <a href="articles/detail.html?file=${encodeURIComponent(article.filename.replace(/\.md$/, ''))}" class="read-more">阅读更多 →</a>
+                        <a href="articles/detail.html?file=${encodeURIComponent(stripMdExt(article.filename))}" class="read-more">阅读更多 →</a>
                     </div>
                 </div>
             `;
