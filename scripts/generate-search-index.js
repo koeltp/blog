@@ -17,15 +17,47 @@ function generateSearchIndex() {
 
     dirs.forEach(dirName => {
         const dirPath = path.join(docsDir, dirName);
-        const files = fs.readdirSync(dirPath).filter(f => f.endsWith('.md'));
+        const subDirs = fs.readdirSync(dirPath, { withFileTypes: true })
+            .filter(d => d.isDirectory())
+            .map(d => d.name);
 
-        files.forEach(file => {
+        if (subDirs.length > 0) {
+            // 二级目录结构（如 dotnet/auth）
+            subDirs.forEach(subDirName => {
+                const subDirPath = path.join(dirPath, subDirName);
+                const files = fs.readdirSync(subDirPath).filter(f => f.endsWith('.md'));
+
+                files.forEach(file => {
+                    const filePath = path.join(subDirPath, file);
+                    const content = fs.readFileSync(filePath, 'utf-8');
+                    const parsed = parseMarkdown(content, file);
+                    const typeKey = `${dirName}/${subDirName}`;
+
+                    index.push({
+                        title: parsed.title,
+                        type: 'tutorial',
+                        dir: typeKey,
+                        file: file,
+                        url: `tutorial.html?type=${encodeURIComponent(typeKey)}&file=${encodeURIComponent(file)}`,
+                        category: parsed.frontMatter.category || '',
+                        tags: Array.isArray(parsed.frontMatter.tags)
+                            ? parsed.frontMatter.tags.join(', ')
+                            : String(parsed.frontMatter.tags || ''),
+                        summary: String(parsed.frontMatter.summary || parsed.excerpt || ''),
+                        content: parsed.plainText.substring(0, 500)
+                    });
+                });
+            });
+        }
+
+        // 同时扫描一级目录下的 md 文件（如 dotnet 根目录也可能有 md）
+        const rootFiles = fs.readdirSync(dirPath).filter(f => f.endsWith('.md'));
+        rootFiles.forEach(file => {
             const filePath = path.join(dirPath, file);
             const content = fs.readFileSync(filePath, 'utf-8');
             const parsed = parseMarkdown(content, file);
 
             if (dirName === 'article') {
-                // 文章类型
                 index.push({
                     title: parsed.title,
                     type: 'article',
@@ -35,12 +67,11 @@ function generateSearchIndex() {
                     category: parsed.frontMatter.category || 'tech',
                     tags: Array.isArray(parsed.frontMatter.tags)
                         ? parsed.frontMatter.tags.join(', ')
-                        : (parsed.frontMatter.tags || ''),
-                    summary: parsed.frontMatter.summary || parsed.excerpt,
+                        : String(parsed.frontMatter.tags || ''),
+                    summary: String(parsed.frontMatter.summary || parsed.excerpt || ''),
                     content: parsed.plainText.substring(0, 500)
                 });
             } else {
-                // 教程类型
                 index.push({
                     title: parsed.title,
                     type: 'tutorial',
@@ -50,8 +81,8 @@ function generateSearchIndex() {
                     category: parsed.frontMatter.category || '',
                     tags: Array.isArray(parsed.frontMatter.tags)
                         ? parsed.frontMatter.tags.join(', ')
-                        : (parsed.frontMatter.tags || ''),
-                    summary: parsed.frontMatter.summary || parsed.excerpt,
+                        : String(parsed.frontMatter.tags || ''),
+                    summary: String(parsed.frontMatter.summary || parsed.excerpt || ''),
                     content: parsed.plainText.substring(0, 500)
                 });
             }

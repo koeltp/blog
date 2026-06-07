@@ -3,23 +3,32 @@ document.addEventListener('DOMContentLoaded', function() {
     loadArticles();
 });
 
+// SVG 图标（内联复用）
+const Icons = {
+    user: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>',
+    calendar: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>',
+    folder: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>',
+    tag: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>',
+    arrowRight: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>'
+};
+
+// 分类显示名映射
+const categoryNames = {
+    'tutorial': '教程',
+    'life': '生活',
+    'tech': '技术'
+};
+
 // 加载文章列表
 async function loadArticles() {
     const articlesList = document.getElementById('articles-list');
 
     try {
-        // 从JSON文件加载文章列表（自动生成）
         const response = await fetch('../data/articles.json');
-        if (!response.ok) {
-            throw new Error('无法加载文章列表');
-        }
+        if (!response.ok) throw new Error('无法加载文章列表');
 
         let articles = await response.json();
-
-        // 按日期排序（最新的在前）
         articles.sort((a, b) => new Date(b.date) - new Date(a.date));
-
-        // 生成文章列表HTML
         renderArticles(articles);
 
     } catch (error) {
@@ -38,25 +47,21 @@ function renderArticles(articles) {
 
     let html = '';
     articles.forEach(article => {
-        const categoryClass = article.category;
-        const categoryText = {
-            'tutorial': '教程',
-            'life': '生活',
-            'tech': '技术'
-        }[article.category] || '技术';
+        const categoryName = categoryNames[article.category] || '技术';
+        const tagsStr = article.tags ? article.tags.join(', ') : '';
 
         html += `
-            <div class="article-item">
-                <div class="article-meta">
-                    ${article.authors ? `<span class="article-authors">${article.authors}</span>` : ''}
+            <a href="detail.html?file=${article.filename}" class="article-card">
+                <h3 class="article-card-title">${article.title}</h3>
+                <div class="article-card-meta">
+                    <span class="meta-item">${Icons.user}${article.authors || ''}</span>
+                    <span class="meta-item">${Icons.calendar}${article.date}</span>
+                    <span class="meta-item">${Icons.folder}${categoryName}</span>
+                    ${tagsStr ? `<span class="meta-item meta-tags">${Icons.tag}${tagsStr}</span>` : ''}
                 </div>
-                <h3 class="article-title"><a href="detail.html?file=${article.filename}">${article.title}</a></h3>
-                <p class="article-excerpt">${article.summary}</p>
-                <div class="article-tags">
-                    ${article.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
-                    <span class="article-date">${article.date}</span>
-                </div>
-            </div>
+                <p class="article-card-summary">${article.summary || ''}</p>
+                <span class="article-card-link">阅读全文${Icons.arrowRight}</span>
+            </a>
         `;
     });
 

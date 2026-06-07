@@ -76,12 +76,13 @@ async function loadNavigation() {
     }
 }
 
-// 搜索弹出框：点击图标弹出输入框+实时结果
+// 搜索弹出框：点击图标弹出输入框+实时结果（基于 MiniSearch）
+let popupMiniSearch = null;
+
 function initSearchToggle() {
     const searchBtn = document.getElementById('search-btn');
     if (!searchBtn) return;
 
-    let searchIndexCache = null;
     let searchDebounceTimer = null;
 
     let basePath = 'search.html';
@@ -125,16 +126,30 @@ function initSearchToggle() {
             }
 
             searchDebounceTimer = setTimeout(async () => {
-                if (!searchIndexCache) {
+                // 懒加载 MiniSearch 实例
+                if (!popupMiniSearch) {
                     try {
                         const resp = await fetch(indexPath);
-                        searchIndexCache = await resp.json();
+                        const data = await resp.json();
+                        data.forEach((item, i) => { item.id = i; });
+
+                        popupMiniSearch = new MiniSearch({
+                            fields: ['title', 'tags', 'summary'],
+                            storeFields: ['title', 'type', 'url'],
+                            idField: 'id',
+                            searchOptions: {
+                                boost: { title: 3, tags: 2, summary: 1 },
+                                prefix: true,
+                                fuzzy: 0.2
+                            }
+                        });
+                        popupMiniSearch.addAll(data);
                     } catch (e) {
                         return;
                     }
                 }
 
-                const results = quickSearch(searchIndexCache, query, 5);
+                const results = popupMiniSearch.search(query, { limit: 5 });
                 if (results.length === 0) {
                     suggestions.style.display = 'none';
                     suggestions.innerHTML = '';
@@ -144,11 +159,9 @@ function initSearchToggle() {
                 suggestions.innerHTML = results.map(item => {
                     const typeLabel = item.type === 'article' ? '文章' : '教程';
                     const typeClass = item.type === 'article' ? 'article' : 'tutorial';
-                    // 在 articles 子目录下需要调整路径
                     let link = item.url;
                     if (window.location.pathname.includes('/articles/')) {
                         if (item.type === 'article') {
-                            // item.url 是 articles/detail.html?...，在 articles 目录下要去掉前缀
                             link = item.url.replace('articles/', '');
                         } else {
                             link = '../' + item.url;
@@ -181,31 +194,6 @@ function initSearchToggle() {
             }
         });
     });
-}
-
-// 快速搜索：只匹配标题和标签，返回前 N 条
-function quickSearch(index, query, limit) {
-    const keywords = query.toLowerCase().split(/\s+/).filter(k => k.length > 0);
-    const results = [];
-
-    for (const item of index) {
-        const title = (item.title || '').toLowerCase();
-        const tags = (item.tags || '').toLowerCase();
-        let score = 0;
-
-        for (const keyword of keywords) {
-            if (title.includes(keyword)) score += 10;
-            if (tags.includes(keyword)) score += 5;
-        }
-
-        if (score > 0) {
-            results.push({ ...item, score });
-        }
-
-        if (results.length >= limit * 3) break;
-    }
-
-    return results.sort((a, b) => b.score - a.score).slice(0, limit);
 }
 
 // 返回顶部按钮

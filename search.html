@@ -20,9 +20,11 @@
     </header>
     <main class="search-main">
         <div class="search-hero">
-            <h1>搜索</h1>
             <div class="search-page-input-wrapper">
-                <input type="text" id="search-page-input" placeholder="输入关键词，按 Enter 搜索..." autocomplete="off">
+                <input type="text" id="search-page-input" placeholder="输入关键词搜索..." autocomplete="off">
+                <button class="search-page-btn" id="search-page-btn" title="搜索">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>搜索
+                </button>
             </div>
         </div>
         <div id="search-results"></div>
@@ -30,6 +32,7 @@
     <footer>
         <p>&copy; 2026 太皮. 保留所有权利.</p>
     </footer>
+    <script src="js/lib/minisearch.min.js"></script>
     <script src="js/common.js"></script>
     <script src="js/search.js"></script>
 </body>

@@ -9,6 +9,7 @@ const navFile = path.join(__dirname, '../data/nav.json');
 // 默认配置
 const defaultConfig = {
     // displayNames 的 key 顺序决定导航的固定显示顺序
+    // 支持一级 key（如 'zhouyi'）和二级 key（如 'dotnet/auth'）
     displayNames: {
         'zhouyi': '周易预测',
         'langchain': 'LangChain教程',
@@ -17,7 +18,14 @@ const defaultConfig = {
         'freport': '财报',
         'md': 'Markdown语法指南',
         'openiddict': 'OpenIddict教程',
-        'aspire': 'Aspire教程'
+        'aspire': 'Aspire教程',
+        'dotnet': '.NET教程',
+        'dotnet/auth': '认证与授权'
+    },
+    // 二级目录的父级映射，用于确定哪些一级目录包含子目录
+    // key 是一级目录名，value 是该目录下的二级目录名数组
+    subCategories: {
+        'dotnet': ['auth']
     },
     excludeDirs: ['article'],
     topnavBase: [
@@ -87,7 +95,7 @@ function generateNav() {
         
         // 按 displayNames 的 key 顺序遍历目录，确保固定排序
         const orderedDirs = Object.keys(config.displayNames)
-            .filter(key => !config.excludeDirs.includes(key));
+            .filter(key => !config.excludeDirs.includes(key) && !key.includes('/'));
         
         // 扫描不在 displayNames 中的目录（追加到末尾）
         const extraDirs = entries
@@ -102,33 +110,50 @@ function generateNav() {
             const dirPath = path.join(docsDir, dirName);
             if (!fs.existsSync(dirPath)) return;
             
-            const files = fs.readdirSync(dirPath);
-            const mdFiles = files.filter(file => file.endsWith('.md'));
+            const subCategories = config.subCategories && config.subCategories[dirName];
             
-            // 如果目录中有 md 文件
-            if (mdFiles.length > 0) {
-                const items = [];
-                
-                mdFiles.forEach(file => {
-                    const filePath = path.join(dirPath, file);
-                    const displayName = getFileDisplayName(filePath, file);
+            if (subCategories && subCategories.length > 0) {
+                // 有二级子目录的一级目录：扫描每个子目录
+                subCategories.forEach(subDirName => {
+                    const subDirPath = path.join(dirPath, subDirName);
+                    if (!fs.existsSync(subDirPath)) return;
                     
-                    items.push({
-                        name: displayName,
-                        file: file
-                    });
+                    const files = fs.readdirSync(subDirPath);
+                    const mdFiles = files.filter(file => file.endsWith('.md'));
+                    
+                    if (mdFiles.length > 0) {
+                        const items = [];
+                        mdFiles.forEach(file => {
+                            const filePath = path.join(subDirPath, file);
+                            const displayName = getFileDisplayName(filePath, file);
+                            items.push({ name: displayName, file: file });
+                        });
+                        items.sort((a, b) => a.file.localeCompare(b.file));
+                        leftnav[`${dirName}/${subDirName}`] = items;
+                    }
                 });
+            } else {
+                // 普通一级目录：直接扫描 md 文件
+                const files = fs.readdirSync(dirPath);
+                const mdFiles = files.filter(file => file.endsWith('.md'));
                 
-                // 按文件名排序
-                items.sort((a, b) => a.file.localeCompare(b.file));
-                
-                leftnav[dirName] = items;
+                if (mdFiles.length > 0) {
+                    const items = [];
+                    mdFiles.forEach(file => {
+                        const filePath = path.join(dirPath, file);
+                        const displayName = getFileDisplayName(filePath, file);
+                        items.push({ name: displayName, file: file });
+                    });
+                    items.sort((a, b) => a.file.localeCompare(b.file));
+                    leftnav[dirName] = items;
+                }
             }
         });
         
         // 构建最终的导航配置（topnav 只保留 base 项，教程通过 tutorials.html 访问）
         const nav = {
             displayNames: config.displayNames,
+            subCategories: config.subCategories || {},
             excludeDirs: config.excludeDirs,
             topnavBase: config.topnavBase,
             topnav: config.topnavBase,

@@ -261,57 +261,103 @@
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(255,107,53,0.3);
 }
+/* ===== 文章列表卡片 ===== */
 .articles-list {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 1rem;
 }
-.article-item {
+
+.article-card {
+    display: block;
     background: white;
-    border: 1px solid #e9ecef;
+    border: 1px solid #e5e7eb;
     border-radius: 12px;
     padding: 1.5rem 2rem;
-    transition: all 0.3s ease;
-}
-.article-item:hover {
-    border-color: #ff6b35;
-    box-shadow: 0 8px 20px rgba(255,107,53,0.1);
-    transform: translateX(10px);
-}
-.article-meta {
-    display: flex;
-    gap: 1rem;
-    margin-bottom: 0.75rem;
-    align-items: center;
-}
-.article-authors {
-    color: #ff6b35;
-    font-size: 0.85rem;
-    font-weight: 500;
-}
-.article-title {
-    margin-bottom: 0.75rem;
-}
-.article-title a {
-    color: #1e293b;
     text-decoration: none;
+    color: inherit;
+    transition: all 0.25s ease;
+    overflow: hidden; /* 清除内部 float */
+}
+
+.article-card:hover {
+    border-color: #d1d5db;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+    transform: translateY(-2px);
+}
+
+/* 卡片标题 */
+.article-card-title {
     font-size: 1.3rem;
-    font-weight: 600;
-    transition: color 0.3s ease;
+    font-weight: 700;
+    color: #111827;
+    margin: 0 0 0.75rem 0;
+    line-height: 1.4;
 }
-.article-title a:hover {
-    color: #ff6b35;
+
+/* 元信息行 */
+.article-card-meta {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    margin-bottom: 0.875rem;
+    flex-wrap: wrap;
 }
-.article-excerpt {
-    color: #64748b;
-    line-height: 1.6;
-    margin-bottom: 1rem;
-    font-size: 0.95rem;
+
+.meta-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    color: #6b7280;
+    font-size: 0.82rem;
+    white-space: nowrap;
 }
-.article-tags .article-date {
-    margin-left: auto;
-    font-size: 0.8rem;
-    color: #94a3b8;
+
+.meta-item svg {
+    width: 14px;
+    height: 14px;
+    opacity: 0.7;
+}
+
+.meta-tags {
+    color: #9ca3af;
+    max-width: 400px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* 摘要 */
+.article-card-summary {
+    color: #6b7280;
+    font-size: 0.92rem;
+    line-height: 1.7;
+    margin: 0 0 0.75rem 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* 阅读全文链接 */
+.article-card-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    color: #3b82f6;
+    font-size: 0.88rem;
+    font-weight: 500;
+    float: right;
+    transition: gap 0.2s ease;
+}
+
+.article-card-link svg {
+    width: 14px;
+    height: 14px;
+}
+
+.article-card:hover .article-card-link {
+    gap: 0.5rem;
 }
 @media (max-width: 768px) {
     .hero {
@@ -342,12 +388,26 @@
         text-align: center;
     }
     .articles-list {
-        gap: 1rem;
+        gap: 0.75rem;
     }
-    .article-item {
-        padding: 1rem 1.25rem;
+
+    .article-card {
+        padding: 1.25rem 1.5rem;
     }
-    .article-title a {
+
+    .article-card-title {
         font-size: 1.1rem;
+    }
+
+    .article-card-meta {
+        gap: 0.75rem;
+    }
+
+    .meta-item {
+        font-size: 0.78rem;
+    }
+
+    .meta-tags {
+        max-width: 200px;
     }
 }

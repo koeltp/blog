@@ -143,6 +143,72 @@
     "content": "Dart教程 什么是Dart？ Dart是一种由Google开发的开源编程语言，主要用于构建Flutter应用。它是一种面向对象的、类定义的、垃圾回收的语言，具有C风格的语法。 核心特性 1. 强类型 Dart是强类型语言，但也支持类型推断： 2. 面向对象 Dart是一种真正的面向对象语言，一切都是对象： 3. 异步编程 Dart提供了强大的异步编程支持： 基本语法 变量和常量 函数 控制流 集合 List Map 异常处理 总结 Dart是一种现代化的编程语言，为Flutter应用开发提供了坚实的基础。它的语法简洁明了，功能强大，支持面向对象编程和异步编程。通过本教程的学习，你应该已经掌握了Dart的基本语法和核心概念，可以开始编写Dart程序了。"
   },
   {
+    "title": "认证基础与中间件管道",
+    "type": "tutorial",
+    "dir": "dotnet/auth",
+    "file": "01认证基础与中间件管道.md",
+    "url": "tutorial.html?type=dotnet%2Fauth&file=01%E8%AE%A4%E8%AF%81%E5%9F%BA%E7%A1%80%E4%B8%8E%E4%B8%AD%E9%97%B4%E4%BB%B6%E7%AE%A1%E9%81%93.md",
+    "category": "tech",
+    "tags": ".NET, ASP.NET Core, 认证, Authentication, 中间件, Cookie, JWT, Bearer",
+    "summary": "理解 ASP.NET Core 认证体系的核心：AuthenticationMiddleware 工作原理、认证方案（Scheme）、Cookie/JWT/Bearer 基础、多方案组合",
+    "content": "一、认证是什么 认证（Authentication） 回答一个简单的问题：你是谁？ 在 ASP.NET Core 中，认证不是一个\"功能\"，而是一套管道机制——请求进入应用后，经过中间件的处理，最终在 上挂载一个身份对象。后续的授权、日志、审计都依赖这个身份。 如果你不理解这个管道，后面所有的认证配置都会变成\"照抄代码\"。 二、认证中间件的工作原理 2.1 注册中间件 顺序很重要：认证必须在授权之前，因为授权依赖 ，而 是认证中间件填充的。 2.2 中间件做了什么 的核心逻辑非常简单： 关键点： - 中间件只做一件事：尝试认证，成功则设置 - 它不会拒绝请求，拒绝是授权的事 - 默认使用 ，但你也可以配置多个方案 2.3 认证结果的三种状态 状态 含义 --- --- --- 认证成功，身份已确认 已填充 ClaimsPrincipal 没有提供凭据（如未登录） 匿名用户 提供了凭据但无效（如 token 过期） 匿名用户 三、认证方案（Scheme） 3.1 什么是认证方案 认证方案是一个命名的认证处理器。一个应用可以注册多个方案，每个方案对应一种认证方式。 3.2 四个默认方案配置"
+  },
+  {
+    "title": "授权体系详解",
+    "type": "tutorial",
+    "dir": "dotnet/auth",
+    "file": "02授权体系详解.md",
+    "url": "tutorial.html?type=dotnet%2Fauth&file=02%E6%8E%88%E6%9D%83%E4%BD%93%E7%B3%BB%E8%AF%A6%E8%A7%A3.md",
+    "category": "tech",
+    "tags": ".NET, ASP.NET Core, 授权, Authorization, Role, Claim, Policy, 中间件",
+    "summary": "深入理解 ASP.NET Core 授权体系：Role-based / Claims-based / Policy-based 三层模型、AuthorizationMiddleware 工作流程、[Authorize] 背后的完整机制",
+    "content": "一、授权是什么 授权（Authorization） 回答的问题是：你能做什么？ 认证确认了\"你是谁\"，授权决定\"你能访问什么\"。在 ASP.NET Core 中，授权建立在认证之上——它读取 中的声明（Claims），然后根据规则决定是否放行。 二、授权中间件的工作流程 2.1 注册中间件 2.2 中间件做了什么 的核心流程： 关键理解： - 中间件只在端点有授权元数据时才工作 - 没有 的端点不会被检查 - 授权失败会短路请求，不会到达控制器 三、三层授权模型 ASP.NET Core 提供了三种授权方式，从简单到灵活逐层递进： 模型 适用场景 复杂度 --- --- --- Role-based 简单的角色划分（Admin/User） 低 Claims-based 基于用户属性（年龄18、部门=IT） 中 Policy-based 复杂业务规则（组合条件、资源相关） 高 3.1 基于角色的授权（Role-based） 最简单直接的方式，检查用户是否属于某个角色。 角色声明从哪来？ 来自 ： 局限：角色是硬编码的字符串，修改规则需要改代码重新部署。 3.2 基于声明的授权（Claim"
+  },
+  {
+    "title": "自定义认证处理器",
+    "type": "tutorial",
+    "dir": "dotnet/auth",
+    "file": "03自定义认证处理器.md",
+    "url": "tutorial.html?type=dotnet%2Fauth&file=03%E8%87%AA%E5%AE%9A%E4%B9%89%E8%AE%A4%E8%AF%81%E5%A4%84%E7%90%86%E5%99%A8.md",
+    "category": "tech",
+    "tags": ".NET, ASP.NET Core, 认证, AuthenticationHandler, API Key, 自定义方案, 签名验证",
+    "summary": "实现 AuthenticationHandler<T>，对接 API Key、HMAC 签名验证、自定义 Token 等非标准认证场景",
+    "content": "一、什么时候需要自定义认证处理器 内置的 Cookie 和 JWT 认证覆盖了 90% 的场景，但有些时候你需要对接非标准协议： 场景 为什么内置方案不够 --- --- API Key 认证 不是 Cookie 也不是 Bearer Token HMAC 签名验证 需要验证请求体的签名 自定义 Token 格式 不是 JWT，可能是加密字符串或数据库 Token 多租户 Header 认证 从自定义 Header 中提取租户和身份信息 遗留系统对接 老系统的 Session 机制 这些场景的核心思路都一样：实现 。 二、AuthenticationHandler 核心概念 2.1 类层次结构 2.2 四个核心方法 定义了四个可重写的方法，对应认证的四个阶段： 方法 作用 返回值 --- --- --- 核心：从请求中提取凭据并验证 未认证时如何响应（401/302） 默认返回 401 无权限时如何响应（403） 默认返回 403 登录（某些方案需要） 默认抛异常 登出（某些方案需要） 默认抛异常 你只需要重写 ，其他方法有合理的默认实现。 三、实战：API Key 认证 3.1 需求"
+  },
+  {
+    "title": "策略授权与需求处理器",
+    "type": "tutorial",
+    "dir": "dotnet/auth",
+    "file": "04策略授权与需求处理器.md",
+    "url": "tutorial.html?type=dotnet%2Fauth&file=04%E7%AD%96%E7%95%A5%E6%8E%88%E6%9D%83%E4%B8%8E%E9%9C%80%E6%B1%82%E5%A4%84%E7%90%86%E5%99%A8.md",
+    "category": "tech",
+    "tags": ".NET, ASP.NET Core, 授权, Policy, Requirement, Handler, 资源授权, 动态策略",
+    "summary": "深入 IAuthorizationRequirement + AuthorizationHandler<T>，实现资源级授权、动态策略、策略中注入服务",
+    "content": "一、策略授权的核心模型 上一篇我们提到，Policy-based 是 ASP.NET Core 授权的核心抽象。一个策略由两部分组成： - 需求：描述\"要检查什么\"，是纯数据对象，实现 - 处理器：描述\"怎么检查\"，包含实际逻辑，继承 这种分离让需求和检查逻辑可以独立演化。 二、自定义需求与处理器 2.1 最简示例：最低年龄需求 2.2 注册策略和处理器 2.3 关键规则 - 处理器必须注册到 DI 容器（、 等） - 一个需求可以有多个处理器，任一处理器调用 即通过 - 处理器不调用 ，不代表 ——只是\"未通过\" - 只有显式调用 才是否定 三、处理器中注入服务 处理器通过 DI 构造函数注入，可以访问数据库、缓存等任何服务。 3.1 示例：文档访问权限 注意：处理器注册为 Scoped（因为注入了 Scoped 的 Repository）： 四、资源级授权 4.1 什么是资源级授权 之前的授权都是操作级的——\"你能不能访问这个接口\"。但很多时候需要资源级授权——\"你能不能访问这个特定的文档/订单/项目\"。 4.2 IAuthorizationService 的资源授权 API 4."
+  },
+  {
+    "title": "Identity 实战集成",
+    "type": "tutorial",
+    "dir": "dotnet/auth",
+    "file": "05Identity实战集成.md",
+    "url": "tutorial.html?type=dotnet%2Fauth&file=05Identity%E5%AE%9E%E6%88%98%E9%9B%86%E6%88%90.md",
+    "category": "tech",
+    "tags": ".NET, ASP.NET Core, Identity, 用户管理, 角色, 声明, JWT, 注册, 登录",
+    "summary": "使用 ASP.NET Core Identity 搭建完整用户系统：注册/登录/角色/声明/JWT 颁发，侧重实战代码而非源码解析",
+    "content": "一、Identity 在认证授权体系中的位置 Identity 不是认证方案，也不是授权策略——它是用户管理系统，负责存储用户、密码、角色、声明，然后和认证授权管道对接。 如果你需要深入了解 Identity 的内部架构，可以参考 ASP.NET Core Identity 深入解析。本篇侧重怎么用。 二、项目搭建 2.1 安装包 2.2 定义用户和角色实体 2.3 数据库上下文 2.4 注册服务 2.5 配置认证 三、注册 3.1 注册 DTO 3.2 注册逻辑 四、登录与 JWT 颁发 4.1 登录 DTO 4.2 登录逻辑 4.3 JWT Token 生成 五、角色管理 5.1 种子数据 5.2 角色授权 六、声明管理 6.1 添加自定义声明 6.2 基于声明的授权 6.3 在 JWT 中包含声明 登录时把用户的声明写入 Token： 七、密码重置 7.1 生成重置令牌 7.2 重置密码 八、Cookie 登录（MVC 场景） 如果你的项目是 MVC/Razor Pages 而不是 SPA + API： 九、常见踩坑 9.1 AddIdentity 自动注册了 Cookie 认证"
+  },
+  {
+    "title": "OAuth2 客户端集成",
+    "type": "tutorial",
+    "dir": "dotnet/auth",
+    "file": "06OAuth2客户端集成.md",
+    "url": "tutorial.html?type=dotnet%2Fauth&file=06OAuth2%E5%AE%A2%E6%88%B7%E7%AB%AF%E9%9B%86%E6%88%90.md",
+    "category": "tech",
+    "tags": ".NET, ASP.NET Core, OAuth2, OpenID Connect, 外部登录, GitHub, Google, AddOAuth, AddOpenIdConnect",
+    "summary": "作为 OAuth2 客户端对接外部 IdP（GitHub/Google/企业微信），AddOAuth / AddOpenIdConnect 完整实战",
+    "content": "一、OAuth2 客户端 vs 服务端 在开始之前，先明确角色定位： 角色 做什么 本站教程 --- --- --- OAuth2 服务端 搭建认证中心，颁发令牌 OpenIddict 教程 OAuth2 客户端 对接外部认证中心，验证令牌 本篇 你的应用通常是客户端——让用户用 GitHub/Google/企业微信账号登录你的系统。 二、OAuth2 授权码流程回顾 外部登录的标准流程： 三、GitHub 外部登录 3.1 注册 OAuth App 在 GitHub Settings → Developer settings → OAuth Apps → New OAuth App： 字段 值 --- --- Application name 你的应用名 Homepage URL Authorization callback URL 注册后获得 Client ID 和 Client Secret。 3.2 配置服务 如果没有 扩展方法，可以用 手动配置： 3.3 配置文件 3.4 登录按钮 3.5 触发外部登录 3.6 处理回调 四、Google 外部登录（OpenID Connec"
+  },
+  {
     "title": "概述与环境搭建",
     "type": "tutorial",
     "dir": "flutter",
@@ -623,7 +689,7 @@
     "url": "tutorial.html?type=zhouyi&file=01%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.md",
     "category": "",
     "tags": "",
-    "summary": [],
+    "summary": "",
     "content": "十天干所属 甲乙东方木，丙丁南方火，戊己中央土，庚辛西方金，壬癸北方水。 十二地支所属 子水鼠，丑土牛，寅木虎，卯木兔，辰土龙，巳火蛇，午火马，未土羊，申金猴，酉金鸡，戌土狗，亥水猪。 五行相生相克 金生水，水生木，木生火，火生土，土生金。金克木，木克土，土克水，水克火，火克金。 六亲相生相克 生我者为父母，我生者为子孙，克我者为官鬼，我克者为妻财，比合者为兄弟。 天干相合 甲与己合，乙与庚合，丙与辛合，丁与壬合，戊与癸合。 地支相合相冲 子与丑合，寅与亥合，卯与戌合，辰与酉合，巳与申合，午与未合。子午相冲，丑未相冲，寅申相冲，卯酉相冲，辰戌相冲，巳亥相冲。 八卦次序 乾一，兑二，离三，震四，巽五，坎六，艮七，坤八。 八卦象例 乾三连 ☰：三条阳爻相连 坤六断 ☷：三条阴爻断开 震仰盂 ☳：下面一条阳爻，上面两条阴爻（像仰放的盂） 艮覆碗 ☶：上面一条阳爻，下面两条阴爻（像倒扣的碗） 离中虚 ☲：中间是阴爻，上下是阳爻（中间空虚） 坎中满 ☵：中间是阳爻，上下是阴爻（中间充实） 兑上缺 ☱：上面是阴爻，下面两条阳爻（上面有缺口） 巽下断 ☴：下面是阴爻，上面两条阳爻（下面断开） 八宫所"
   },
   {
@@ -634,7 +700,7 @@
     "url": "tutorial.html?type=zhouyi&file=02%E5%8D%A6%E8%B1%A1%E6%B3%95%E5%88%99.md",
     "category": "",
     "tags": "",
-    "summary": [],
+    "summary": "",
     "content": "通玄赋 始须论用神，次必看原神。三合会用吉，禄马最为良。爻动始为定，次者论空亡。六冲主冲并，刑克俱主伤。 世应俱发动，必然有改张。龙动家有喜，虎动主有丧。勾陈朱雀动，田土与文章。财动忧尊长，父动损儿郎。 子动男人滞，兄动女人殃。出行宜世动，归魂不出疆。用动值三合，行人立回庄。占宅财龙旺，豪富冠一乡。 父母爻兴旺，为官至侯王。福神若持世，官讼定无妨。勾陈克玄武，捕贼不须忙。父病嫌财杀，财兴母不长。 无鬼病难疗，鬼旺主发狂。请看考鬼历，祷谢得安康。占婚兼克用，占产看阴阳。若要问风水，三四世吉昌。 长生墓绝诀，卦卦要审详。万千言不尽，略举其大纲。分别各有类，无物不包藏。 碎金赋 子动生财，不宜父摆；兄动克财，子动能解。财动生鬼，切忌兄摇；子动克鬼，财动能消。 父动生兄，忌财相克；鬼动克兄，父动能泄。鬼动生父，忌子交重；财动克父，鬼动能中。 兄动生子，忌鬼摇扬；父动克子，兄动无妨。子兴克鬼，父动无妨；若然兄动，鬼必遭伤。 财兴克父，兄动无忧；若然子动，父命难留。父动克子，财动无事；若是鬼兴，其子必死。 鬼兴克兄，子动可救；财若交重，兄弟不久。兄兴克财，鬼兴无碍；若是父兴，财遭克害。 世应生克空"
   }
 ]

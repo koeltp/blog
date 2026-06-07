@@ -173,6 +173,16 @@
     --card-bg: #fdf2f8;
 }
 
+.tutorial-card[data-type="dotnet"] {
+    --card-color: #7c3aed;
+    --card-bg: #f5f3ff;
+}
+
+.tutorial-card[data-type="aspire"] {
+    --card-color: #0ea5e9;
+    --card-bg: #f0f9ff;
+}
+
 /* 响应式 */
 @media (max-width: 768px) {
     .tutorials-container {

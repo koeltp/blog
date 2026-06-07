@@ -14,7 +14,7 @@ function getDefaultFile(files) {
     return 'index.md';
 }
 
-// 加载文件列表
+// 加载文件列表（支持二级目录可折叠导航）
 async function loadFileList(type) {
     const fileListDiv = document.getElementById('file-list');
     
@@ -27,25 +27,111 @@ async function loadFileList(type) {
         
         const data = await response.json();
         const leftnav = data.leftnav || {};
-        const files = leftnav[type] || [];
-        const defaultFile = getDefaultFile(files);
-        const currentFile = getUrlParam('file') || defaultFile;
+        const displayNames = data.displayNames || {};
+        const subCategories = data.subCategories || {};
         
-        // 如果当前文件不在列表中，使用默认文件
-        const fileNames = files.map(f => f.file);
-        const finalFile = fileNames.includes(currentFile) ? currentFile : defaultFile;
+        // 判断是否为二级目录（如 dotnet/auth）
+        const isSubCategory = type.includes('/');
         
-        let html = '';
-        files.forEach(file => {
-            const isActive = file.file === finalFile;
-            html += `<li><a href="tutorial.html?type=${type}&file=${file.file}" ${isActive ? 'class="active"' : ''}>${file.name}</a></li>`;
-        });
-        
-        fileListDiv.innerHTML = html;
-        
-        // 如果文件不在列表中，重定向到默认文件
-        if (finalFile !== currentFile && getUrlParam('file')) {
-            window.location.href = `tutorial.html?type=${type}&file=${finalFile}`;
+        if (isSubCategory) {
+            // 二级目录：渲染分组标题 + 文件列表
+            const parentKey = type.split('/')[0]; // 如 dotnet
+            const parentName = displayNames[parentKey] || parentKey;
+            const subName = displayNames[type] || type.split('/')[1];
+            const files = leftnav[type] || [];
+            const defaultFile = getDefaultFile(files);
+            const currentFile = getUrlParam('file') || defaultFile;
+            const fileNames = files.map(f => f.file);
+            const finalFile = fileNames.includes(currentFile) ? currentFile : defaultFile;
+            
+            let html = '';
+            // 渲染同级所有子目录的分组
+            const siblings = subCategories[parentKey] || [type.split('/')[1]];
+            siblings.forEach(subDir => {
+                const subKey = `${parentKey}/${subDir}`;
+                const subFiles = leftnav[subKey] || [];
+                const subDisplayName = displayNames[subKey] || subDir;
+                const isActiveGroup = subKey === type;
+                
+                html += `<li class="nav-group ${isActiveGroup ? '' : 'collapsed'}">`;
+                html += `<div class="nav-group-header" data-group="${subKey}">`;
+                html += `<span class="nav-group-arrow">${isActiveGroup ? '▼' : '▶'}</span>`;
+                html += `<span class="nav-group-title">${subDisplayName}</span>`;
+                html += `</div>`;
+                html += `<ul class="nav-group-items">`;
+                
+                subFiles.forEach(file => {
+                    const isActive = isActiveGroup && file.file === finalFile;
+                    html += `<li><a href="tutorial.html?type=${encodeURIComponent(subKey)}&file=${file.file}" ${isActive ? 'class="active"' : ''}>${file.name}</a></li>`;
+                });
+                
+                html += `</ul></li>`;
+            });
+            
+            fileListDiv.innerHTML = html;
+            
+            // 绑定折叠事件
+            fileListDiv.querySelectorAll('.nav-group-header').forEach(header => {
+                header.addEventListener('click', (e) => {
+                    const group = header.parentElement;
+                    const arrow = header.querySelector('.nav-group-arrow');
+                    const isCollapsed = group.classList.contains('collapsed');
+
+                    if (isCollapsed) {
+                        // 折叠其他组，展开当前组
+                        fileListDiv.querySelectorAll('.nav-group').forEach(g => {
+                            g.classList.add('collapsed');
+                            g.querySelector('.nav-group-arrow').textContent = '▶';
+                        });
+                        group.classList.remove('collapsed');
+                        arrow.textContent = '▼';
+
+                        // 如果当前不在该组，跳转到该组的第一篇文章
+                        const groupKey = header.dataset.group;
+                        if (groupKey !== type) {
+                            const groupFiles = leftnav[groupKey] || [];
+                            if (groupFiles.length > 0) {
+                                window.location.href = `tutorial.html?type=${encodeURIComponent(groupKey)}&file=${groupFiles[0].file}`;
+                            }
+                        }
+                    } else {
+                        // 折叠当前组
+                        group.classList.add('collapsed');
+                        arrow.textContent = '▶';
+                    }
+                });
+            });
+
+            // 阻止分组标题下的链接点击冒泡到折叠逻辑
+            fileListDiv.querySelectorAll('.nav-group-items a').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                });
+            });
+            
+            // 如果文件不在列表中，重定向到默认文件
+            if (finalFile !== currentFile && getUrlParam('file')) {
+                window.location.href = `tutorial.html?type=${encodeURIComponent(type)}&file=${finalFile}`;
+            }
+        } else {
+            // 一级目录：原有逻辑
+            const files = leftnav[type] || [];
+            const defaultFile = getDefaultFile(files);
+            const currentFile = getUrlParam('file') || defaultFile;
+            const fileNames = files.map(f => f.file);
+            const finalFile = fileNames.includes(currentFile) ? currentFile : defaultFile;
+            
+            let html = '';
+            files.forEach(file => {
+                const isActive = file.file === finalFile;
+                html += `<li><a href="tutorial.html?type=${type}&file=${file.file}" ${isActive ? 'class="active"' : ''}>${file.name}</a></li>`;
+            });
+            
+            fileListDiv.innerHTML = html;
+            
+            if (finalFile !== currentFile && getUrlParam('file')) {
+                window.location.href = `tutorial.html?type=${type}&file=${finalFile}`;
+            }
         }
     } catch (error) {
         fileListDiv.innerHTML = `<li style="color: red;">加载失败</li>`;
@@ -73,7 +159,7 @@ async function loadMarkdown() {
             }
         }
         
-        // 加载markdown文件
+        // 加载markdown文件（支持二级目录路径如 dotnet/auth）
         const response = await fetch(`docs/${type}/${fileName}`);
         if (!response.ok) {
             throw new Error('文件加载失败');

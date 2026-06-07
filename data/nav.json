@@ -8,7 +8,14 @@
     "md": "Markdown语法指南",
     "openiddict": "OpenIddict教程",
     "aspire": "Aspire教程",
+    "dotnet": ".NET教程",
+    "dotnet/auth": "认证与授权",
     "article": "文章"
+  },
+  "subCategories": {
+    "dotnet": [
+      "auth"
+    ]
   },
   "excludeDirs": [
     "article"
@@ -268,6 +275,32 @@
       {
         "name": "多语言编排与测试",
         "file": "07多语言编排与测试.md"
+      }
+    ],
+    "dotnet/auth": [
+      {
+        "name": "认证基础与中间件管道",
+        "file": "01认证基础与中间件管道.md"
+      },
+      {
+        "name": "授权体系详解",
+        "file": "02授权体系详解.md"
+      },
+      {
+        "name": "自定义认证处理器",
+        "file": "03自定义认证处理器.md"
+      },
+      {
+        "name": "策略授权与需求处理器",
+        "file": "04策略授权与需求处理器.md"
+      },
+      {
+        "name": "Identity 实战集成",
+        "file": "05Identity实战集成.md"
+      },
+      {
+        "name": "OAuth2 客户端集成",
+        "file": "06OAuth2客户端集成.md"
       }
     ]
   }
