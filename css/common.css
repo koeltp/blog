@@ -29,6 +29,10 @@ nav {
     height: 100%;
     position: relative;
 }
+a {
+    color: #ff6b35;
+    text-decoration: none;
+}
 .logo {
     font-size: 1.5rem;
     font-weight: bold;
