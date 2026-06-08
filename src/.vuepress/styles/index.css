@@ -5,56 +5,54 @@
 .vp-sidebar,
 .vp-page-nav,
 .vp-page-meta {
-  display: none !important;
+    display: none !important;
 }
 
 /* 覆盖默认主题的代码块容器样式 */
-.content-container > div div[class*="language-"] {
-  border: none;
-  border-radius: 0;
-  overflow: hidden;
-  background-color: #0d1117;
-  margin: 0;
+.content-container>div div[class*="language-"] {
+    border: none;
+    border-radius: 0;
+    overflow: hidden;
+    background-color: #0d1117;
+    margin: 0;
 }
 
-.content-container > div div[class*="language-"] pre {
-  margin: 0 !important;
-  padding: 1rem !important;
-  background-color: #0d1117 !important;
-  border-radius: 0 !important;
+.content-container>div div[class*="language-"] pre {
+    margin: 0 !important;
+    padding: 1rem !important;
+    background-color: #0d1117 !important;
+    border-radius: 0 !important;
 }
 
-.content-container > div div[class*="language-"] code {
-  font-family: 'Fira Code', 'Consolas', 'Monaco', 'Courier New', monospace;
-  font-size: 0.9rem;
-  line-height: 1.5;
-  color: #e2e8f0;
+.content-container>div div[class*="language-"] code {
+    color: #e2e8f0;
+    padding: 0px 1.5rem;
 }
 
 /* 隐藏默认主题代码块的语言标签和复制按钮（自定义代码块有自己的） */
-.content-container > div div[class*="language-"] .lang,
-.content-container > div div[class*="language-"] .copy-code-button {
-  display: none !important;
+.content-container>div div[class*="language-"] .lang,
+.content-container>div div[class*="language-"] .copy-code-button {
+    display: none !important;
 }
 
 /* 重置默认主题的内容区域约束 */
 .vp-page,
 .theme-default-content,
 .theme-default-content:not(.custom) {
-  max-width: none !important;
-  padding: 0 !important;
-  margin: 0 !important;
+    max-width: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
 }
 
 /* body 顶部留出导航栏空间 */
 body {
-  padding-top: 64px;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
+    padding-top: 64px;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
 }
 
 body::-webkit-scrollbar {
-  display: none;
+    display: none;
 }
 
 /* ===== 全局重置与基础样式 ===== */
@@ -256,34 +254,34 @@ a.meta-tag:hover {
 }
 
 /* ===== Markdown 内容样式 ===== */
-.content-container > div {
+.content-container>div {
     line-height: 1.8;
     color: #334155;
 }
 
-.content-container > div h1,
-.content-container > div h2,
-.content-container > div h3,
-.content-container > div h4,
-.content-container > div h5,
-.content-container > div h6 {
+.content-container>div h1,
+.content-container>div h2,
+.content-container>div h3,
+.content-container>div h4,
+.content-container>div h5,
+.content-container>div h6 {
     margin-top: 2rem;
     margin-bottom: 1rem;
     color: #1e293b;
 }
 
-.content-container > div p {
+.content-container>div p {
     margin-bottom: 1rem;
 }
 
-.content-container > div img {
+.content-container>div img {
     max-width: 100%;
     height: auto;
     border-radius: 8px;
     margin: 1.5rem 0;
 }
 
-.content-container > div blockquote {
+.content-container>div blockquote {
     border-left: 4px solid #ff6b35;
     padding: 1rem;
     margin: 1.5rem 0;
@@ -292,96 +290,44 @@ a.meta-tag:hover {
     border-radius: 0 8px 8px 0;
 }
 
-.content-container > div ul,
-.content-container > div ol {
+.content-container>div ul,
+.content-container>div ol {
     margin: 1rem 0;
     padding-left: 1.5rem;
 }
 
-.content-container > div li {
+.content-container>div li {
     margin-bottom: 0.5rem;
 }
 
-.content-container > div a {
+.content-container>div a {
     color: #ff6b35;
     text-decoration: none;
 }
 
-.content-container > div a:hover {
+.content-container>div a:hover {
     text-decoration: none;
 }
 
-.content-container > div table {
+.content-container table {
     width: 100%;
-    display: block;
-    border-collapse: collapse;
-    margin: 1.5rem 0;
-    font-size: 0.9rem;
-    overflow: auto;
-    border: 1px solid #ebeef5;
-    background: #fff;
-    border-radius: 4px;
-}
-
-.content-container > div thead,
-.content-container > div tbody {
     display: table;
-    width: 100%;
-    table-layout: fixed;
 }
 
-.content-container > div th {
-    background: #f5f7fa;
-    color: #909399;
-    font-weight: 600;
+.content-container table thead tr,
+.content-container table tbody tr {
+    border: 1px solid #e9ecef;
+}
+
+.content-container table th,
+.content-container table td {
+    border: none;
     text-align: left;
-    padding: 12px 16px;
-    border-bottom: 1px solid #ebeef5;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    font-size: 0.85rem;
-    letter-spacing: 0.3px;
 }
 
-.content-container > div td {
-    padding: 12px 16px;
-    border-bottom: 1px solid #ebeef5;
-    color: #606266;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    line-height: 1.6;
-}
-
-/* 单元格内代码样式 */
-.content-container > div td code {
-    background: #f5f7fa;
-    color: #409eff;
-    padding: 2px 6px;
-    border-radius: 3px;
-    font-size: 0.82rem;
-}
-
-/* 单元格内链接样式 */
-.content-container > div td a {
-    color: #409eff;
-    text-decoration: none;
-}
-
-.content-container > div td a:hover {
-    color: #337ecc;
-    text-decoration: underline;
-}
-
-.content-container > div tbody tr {
-    transition: background-color 0.2s;
-}
-
-.content-container > div tbody tr:hover {
-    background-color: #f5f7fa;
-}
-
-.content-container > div tr:last-child td {
-    border-bottom: none;
+/* 鼠标悬停效果 */
+.content-container table tbody tr:hover {
+    background-color: #cceeff;
 }
 
 /* ===== 文章头部样式 ===== */
@@ -633,7 +579,10 @@ dd::before {
     user-select: none;
 }
 
-.mermaid-tab:hover { background: #f1f5f9; }
+.mermaid-tab:hover {
+    background: #f1f5f9;
+}
+
 .mermaid-tab.active {
     color: #1e293b;
     font-weight: 600;
@@ -691,7 +640,8 @@ dd::before {
 
 .mermaid-wrapper.fullscreen {
     position: fixed;
-    top: 0; left: 0;
+    top: 0;
+    left: 0;
     width: 100vw;
     height: 100vh;
     z-index: 9999;
