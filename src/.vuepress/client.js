@@ -7,6 +7,7 @@ import Home from './components/Home.vue'
 import Tutorials from './components/Tutorials.vue'
 import Articles from './components/Articles.vue'
 import Search from './components/Search.vue'
+import SvgIcon from './components/SvgIcon.vue'
 import './styles/index.css'
 
 // 初始化 Mermaid 图表渲染
@@ -456,6 +457,7 @@ export default defineClientConfig({
     app.component('Tutorials', Tutorials)
     app.component('Articles', Articles)
     app.component('Search', Search)
+    app.component('SvgIcon', SvgIcon)
   },
   layouts: {
     Layout: CustomLayout,

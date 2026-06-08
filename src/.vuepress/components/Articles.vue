@@ -8,26 +8,29 @@
         </h3>
         <div class="article-card-meta">
           <span v-if="article.authors" class="meta-item">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            <SvgIcon name="user" />
             {{ article.authors }}
           </span>
+          <span v-if="article.authors && (article.date || article.category)" class="meta-item-divider">|</span>
           <span v-if="article.date" class="meta-item">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            <SvgIcon name="calendar" />
             {{ formatDate(article.date) }}
           </span>
+          <span class="meta-item-divider">|</span>
           <span class="meta-item">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+            <SvgIcon name="folder" />
             {{ getCategoryLabel(article.category) }}
           </span>
+          <span v-if="article.tags && article.tags.length" class="meta-item-divider">|</span>
           <span v-if="article.tags && article.tags.length" class="meta-item meta-tags">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+            <SvgIcon name="tag" class-name="meta-tags-icon" />
             <RouterLink v-for="tag in article.tags" :key="tag" :to="`/search/?q=${encodeURIComponent(tag)}`" class="meta-tag">{{ tag }}</RouterLink>
           </span>
         </div>
         <p v-if="article.summary" class="article-card-summary">{{ article.summary }}</p>
         <RouterLink :to="`/docs/article/${article.filename.replace('.md', '.html')}`" class="article-card-link">
           阅读全文
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          <SvgIcon name="arrow-right" />
         </RouterLink>
       </div>
       <div v-if="articles.length === 0" class="msg-empty">暂无文章</div>

@@ -10,7 +10,7 @@
           @keydown.enter="doSearch"
         >
         <button class="search-page-btn" @click="doSearch">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <SvgIcon name="search" />
           搜索
         </button>
       </div>
@@ -28,20 +28,22 @@
           </h3>
           <div class="article-card-meta">
             <span v-if="item.authors" class="meta-item">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              <SvgIcon name="user" />
               {{ item.authors }}
             </span>
+            <span v-if="item.authors && item.date" class="meta-item-divider">|</span>
             <span v-if="item.date" class="meta-item">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              <SvgIcon name="calendar" />
               {{ item.date }}
             </span>
+            <span class="meta-item-divider">|</span>
             <span class="meta-item">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+              <SvgIcon name="folder" />
               {{ getCategoryLabel(item.category) }}
             </span>
             <span class="meta-item-divider">|</span>
             <span class="meta-tags">
-              <svg class="meta-tags-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+              <SvgIcon name="tag" class-name="meta-tags-icon" />
               <RouterLink
                 v-for="tag in parseTags(item.tags)"
                 :key="tag"
@@ -53,14 +55,14 @@
           <p v-if="item.snippet" class="article-card-summary" v-html="highlightText(item.snippet, query)" />
           <RouterLink :to="item.url" class="article-card-link">
             阅读全文
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            <SvgIcon name="arrow-right" />
           </RouterLink>
         </div>
       </div>
 
       <div v-else class="search-empty">
         <div class="search-empty-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <SvgIcon name="search" />
         </div>
         <p>未找到与 "<strong>{{ query }}</strong>" 相关的内容</p>
         <p class="search-empty-hint">试试其他关键词，或使用更简短的词语</p>
@@ -275,11 +277,6 @@ watch(() => route.query.q, async (newQ) => {
 .search-empty p { font-size: 1.1rem; margin-bottom: 0.5rem; }
 .search-empty-hint { font-size: 0.9rem; color: #94a3b8; }
 .search-loading { text-align: center; padding: 4rem; color: #64748b; font-size: 1.1rem; }
-
-.meta-item-divider {
-  color: #d1d5db;
-  margin: 0 2px;
-}
 
 .meta-tags {
   display: inline-flex;
