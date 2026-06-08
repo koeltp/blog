@@ -1,28 +1,36 @@
 <template>
   <div class="home-page">
-    <!-- 星空 Hero 区域 -->
-    <div class="hero">
-      <div class="stars">
-        <span v-for="i in 10" :key="i" class="star"></span>
-      </div>
+    <!-- Hero 区域 -->
+    <section class="hero">
+      <div class="hero-bg"></div>
       <div class="hero-content">
-        <h1>欢迎来到太皮</h1>
-        <p>这里分享各种技术教程和生活点滴，皮一下很开心！</p>
+        <p class="hero-badge">技术教程 & 生活分享</p>
+        <h1 class="hero-title">
+          你好，我是<span class="highlight">太皮</span>
+        </h1>
+        <p class="hero-desc">
+          一个热爱技术和生活的开发者。这里分享 .NET、Flutter、LangChain 等技术教程，
+          也聊聊财报分析和周易预测。<span class="hero-tagline">皮一下很开心。</span>
+        </p>
+        <div class="hero-actions">
+          <RouterLink to="/tutorials/" class="btn btn-primary">浏览教程</RouterLink>
+          <RouterLink to="/articles/" class="btn btn-secondary">阅读文章</RouterLink>
+        </div>
+        <div class="hero-socials">
+          <a href="#" class="social-icon" title="GitHub">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          </a>
+          <a href="#" class="social-icon" title="Email">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 01-2.06 0L2 7"/></svg>
+          </a>
+        </div>
       </div>
-    </div>
+      <!-- 底部装饰渐变 -->
+      <div class="hero-fade"></div>
+    </section>
 
     <!-- 主内容区 -->
     <main class="content-section">
-      <!-- 关于 -->
-      <div class="section about-section">
-        <h2>关于太皮</h2>
-        <p>嗨，我是太皮，一个热爱技术和生活的开发者。这里分享技术教程、编程心得、生活感悟，希望能给你带来一些启发和帮助。</p>
-        <div class="social-links">
-          <a href="#" class="social-link">GitHub</a>
-          <a href="#" class="social-link">Twitter</a>
-          <a href="#" class="social-link">Email</a>
-        </div>
-      </div>
 
       <!-- 最近更新 -->
       <div class="section latest-section">
@@ -88,111 +96,174 @@ onMounted(async () => {
 </script>
 
 <style scoped>
+/* ===== Hero 区域 ===== */
 .hero {
-  background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
-  color: white;
-  padding: 0 2rem;
-  text-align: center;
   position: relative;
+  padding: 6rem 2rem 5rem;
+  text-align: center;
   overflow: hidden;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-  max-width: none;
-  border-radius: 0;
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  /* 补偿固定导航栏的高度 */
-  margin-top: -64px;
-  padding-top: 64px;
 }
 
-.hero::before {
-  content: '';
+.hero-bg {
   position: absolute;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background-image:
-    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
-  background-size: 50px 50px;
+  inset: 0;
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 40%, #0f172a 100%);
   z-index: 0;
 }
 
-.hero::after {
+.hero-bg::before {
   content: '';
   position: absolute;
-  top: 20%; left: 20%;
-  width: 60%; height: 60%;
-  background: radial-gradient(circle, rgba(100,149,237,0.4) 0%, rgba(0,0,0,0) 70%);
-  animation: float 15s ease-in-out infinite;
-  z-index: 0;
-  filter: blur(30px);
+  top: -50%; right: -20%;
+  width: 80%; height: 120%;
+  background: radial-gradient(ellipse, rgba(59,130,246,0.15) 0%, transparent 70%);
+  animation: drift 12s ease-in-out infinite alternate;
 }
 
-@keyframes float {
-  0%   { transform: translate(0,0) scale(1); opacity: 0.3; }
-  25%  { transform: translate(20%,20%) scale(1.1); opacity: 0.5; }
-  50%  { transform: translate(0,40%) scale(1); opacity: 0.3; }
-  75%  { transform: translate(-20%,20%) scale(0.9); opacity: 0.4; }
-  100% { transform: translate(0,0) scale(1); opacity: 0.3; }
-}
-
-.stars {
+.hero-bg::after {
+  content: '';
   position: absolute;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  z-index: 1;
+  bottom: -30%; left: -10%;
+  width: 60%; height: 80%;
+  background: radial-gradient(ellipse, rgba(139,92,246,0.1) 0%, transparent 70%);
+  animation: drift 10s ease-in-out infinite alternate-reverse;
 }
 
-.star {
-  position: absolute;
-  width: 2px; height: 2px;
-  background: rgba(255,255,255,0.8);
-  border-radius: 50%;
-  animation: twinkle 3s ease-in-out infinite;
-}
-
-.star:nth-child(1)  { top: 10%; left: 20%; animation-delay: 0s; }
-.star:nth-child(2)  { top: 30%; left: 70%; animation-delay: 0.5s; }
-.star:nth-child(3)  { top: 50%; left: 30%; animation-delay: 1s; }
-.star:nth-child(4)  { top: 70%; left: 80%; animation-delay: 1.5s; }
-.star:nth-child(5)  { top: 20%; left: 50%; animation-delay: 2s; }
-.star:nth-child(6)  { top: 60%; left: 10%; animation-delay: 2.5s; }
-.star:nth-child(7)  { top: 80%; left: 40%; animation-delay: 0.2s; }
-.star:nth-child(8)  { top: 40%; left: 90%; animation-delay: 0.7s; }
-.star:nth-child(9)  { top: 90%; left: 60%; animation-delay: 1.2s; }
-.star:nth-child(10) { top: 15%; left: 85%; animation-delay: 1.7s; }
-
-@keyframes twinkle {
-  0%, 100% { transform: scale(0); opacity: 0; }
-  50%      { transform: scale(1); opacity: 1; }
+@keyframes drift {
+  from { transform: translate(0, 0); }
+  to   { transform: translate(3%, 4%); }
 }
 
 .hero-content {
   position: relative;
   z-index: 1;
-  max-width: 1200px;
+  max-width: 720px;
   margin: 0 auto;
 }
 
-.hero h1 {
-  font-size: 2.5rem;
-  margin-bottom: 1rem;
+.hero-badge {
+  display: inline-block;
+  padding: 0.35rem 1rem;
+  font-size: 0.85rem;
+  color: #93c5fd;
+  background: rgba(59,130,246,0.12);
+  border: 1px solid rgba(59,130,246,0.25);
+  border-radius: 100px;
+  margin-bottom: 1.75rem;
+  letter-spacing: 0.03em;
+}
+
+.hero-title {
+  font-size: 3.5rem;
+  font-weight: 800;
+  color: #f8fafc;
+  line-height: 1.15;
+  margin-bottom: 1.5rem;
+  letter-spacing: -0.02em;
+}
+
+.highlight {
+  background: linear-gradient(135deg, #60a5fa 0%, #a78bfa 50%, #f472b6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-desc {
+  font-size: 1.15rem;
+  color: #94a3b8;
+  line-height: 1.8;
+  margin-bottom: 2.5rem;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.hero-tagline {
+  color: #cbd5e1;
+  font-style: italic;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-bottom: 2.5rem;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.7rem 1.75rem;
+  border-radius: 10px;
+  font-size: 1rem;
   font-weight: 600;
+  text-decoration: none;
+  transition: all 0.25s ease;
+  cursor: pointer;
 }
 
-.hero p {
-  font-size: 1.2rem;
-  color: rgba(255,255,255,0.8);
-  max-width: 800px;
-  margin: 0 auto;
+.btn-primary {
+  background: linear-gradient(135deg, #3b82f6 0%, #6366f1 100%);
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(59,130,246,0.35);
 }
 
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(59,130,246,0.45);
+}
+
+.btn-secondary {
+  background: rgba(255,255,255,0.08);
+  color: #e2e8f0;
+  border: 1px solid rgba(255,255,255,0.15);
+}
+
+.btn-secondary:hover {
+  background: rgba(255,255,255,0.14);
+  transform: translateY(-2px);
+}
+
+.hero-socials {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: center;
+}
+
+.social-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px; height: 40px;
+  border-radius: 10px;
+  color: #94a3b8;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.08);
+  transition: all 0.25s ease;
+}
+
+.social-icon:hover {
+  color: #f8fafc;
+  background: rgba(255,255,255,0.12);
+  border-color: rgba(255,255,255,0.18);
+  transform: translateY(-2px);
+}
+
+/* 底部渐变过渡 */
+.hero-fade {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 120px;
+  background: linear-gradient(to bottom, transparent, var(--vp-c-bg, #ffffff));
+  z-index: 1;
+}
+
+/* ===== 主内容区 ===== */
 .content-section {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 3rem 2rem 4rem;
 }
 
 .content-section .section {
@@ -218,37 +289,8 @@ onMounted(async () => {
   position: absolute;
   bottom: -8px; left: 0;
   width: 60px; height: 4px;
-  background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+  background: linear-gradient(135deg, #3b82f6 0%, #6366f1 100%);
   border-radius: 2px;
-}
-
-.about-section p {
-  color: #64748b;
-  line-height: 1.6;
-  margin-bottom: 2rem;
-  font-size: 1.1rem;
-}
-
-.social-links {
-  display: flex;
-  gap: 1rem;
-}
-
-.social-link {
-  display: inline-block;
-  padding: 0.75rem 1.5rem;
-  background: #f8f9fa;
-  color: #495057;
-  text-decoration: none;
-  border-radius: 8px;
-  transition: all 0.3s ease;
-  font-weight: 500;
-}
-
-.social-link:hover {
-  background: #e9ecef;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
 .latest-items {
@@ -266,8 +308,8 @@ onMounted(async () => {
 }
 
 .latest-item:hover {
-  border-color: #ff6b35;
-  box-shadow: 0 8px 20px rgba(255,107,53,0.1);
+  border-color: #3b82f6;
+  box-shadow: 0 8px 20px rgba(59,130,246,0.1);
   transform: translateY(-5px);
 }
 
@@ -286,7 +328,7 @@ onMounted(async () => {
 }
 
 .read-more {
-  color: #ff6b35;
+  color: #3b82f6;
   text-decoration: none;
   font-weight: 600;
   transition: all 0.3s ease;
@@ -295,7 +337,7 @@ onMounted(async () => {
 
 .read-more:hover {
   transform: translateX(5px);
-  color: #f7931e;
+  color: #6366f1;
 }
 
 .skills {
@@ -325,13 +367,13 @@ onMounted(async () => {
 }
 
 @media (max-width: 768px) {
-  .hero { padding: 64px 1rem 0; }
-  .hero h1 { font-size: 2.5rem; }
-  .hero p { font-size: 1.2rem; }
-  .content-section { padding: 1rem; }
+  .hero { padding: 4rem 1.25rem 3.5rem; }
+  .hero-title { font-size: 2.5rem; }
+  .hero-desc { font-size: 1rem; }
+  .hero-actions { flex-direction: column; align-items: center; }
+  .btn { width: 100%; max-width: 240px; justify-content: center; }
+  .content-section { padding: 2rem 1rem 3rem; }
   .section h2 { font-size: 1.5rem; }
   .latest-items { grid-template-columns: 1fr; }
-  .social-links { flex-direction: column; }
-  .social-link { text-align: center; }
 }
 </style>

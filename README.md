@@ -1,184 +1,301 @@
-# 教程网站项目
+# 太皮 - 技术教程博客
 
-## 项目简介
-
-这是一个基于 HTML、CSS 和 JavaScript 开发的教程网站，用于展示和管理各种技术教程和文章。网站支持 Markdown 格式的内容，具有美观的界面和丰富的功能。
+基于 **VuePress 2** 构建的技术教程博客，涵盖 .NET、Flutter、LangChain、Docker、Aspire、财报分析、周易等多个领域。
 
 ## 项目结构
 
 ```
-itclass/
-├── articles/           # 文章页面
-│   ├── list.html       # 文章列表页
-│   └── detail.html     # 文章详情页
-├── css/               # 样式文件
-│   ├── common.css     # 通用样式
-│   ├── index.css      # 首页样式
-│   ├── tutorial.css   # 教程页样式
-│   └── detail.css     # 文章详情页样式
-├── data/              # 数据文件
-│   ├── nav.json       # 导航数据
-│   └── articles.json  # 文章列表数据（自动生成）
-├── docs/              # 文档目录
-│   ├── article/       # 文章文档
-│   ├── dart/          # Dart教程
-│   ├── flutter/       # Flutter教程
-│   ├── langchain/     # LangChain教程
-│   ├── md/            # Markdown语法指南
-│   └── yi/            # 周易预测教程
-├── js/                # JavaScript文件
-│   ├── common.js      # 公共JavaScript
-│   ├── index.js       # 首页JavaScript
-│   ├── tutorial.js    # 教程页JavaScript
-│   ├── list.js        # 文章列表页JavaScript
-│   ├── detail.js      # 文章详情页JavaScript
-│   └── markdown-parser.js  # Markdown解析器
-├── scripts/           # 脚本文件
-│   └── generate-articles.js  # 文章列表生成脚本
-├── index.html         # 首页
-├── tutorial.html      # 教程详情页
-└── README.md          # 项目说明
+blog/
+├── src/                          # VuePress 源码目录
+│   ├── .vuepress/                # VuePress 配置
+│   │   ├── components/           # 自定义组件
+│   │   ├── public/               # 静态资源（data、img）
+│   │   ├── styles/               # 全局样式
+│   │   ├── client.js             # 客户端入口（Mermaid、代码块增强等）
+│   │   └── config.js             # VuePress 配置文件
+│   └── docs/                     # Markdown 文档
+│       ├── article/              # 独立文章
+│       ├── aspire/               # .NET Aspire 教程
+│       ├── dart/                 # Dart 语言
+│       ├── dotnet/               # .NET 教程（认证授权、生命周期、配置体系）
+│       ├── flutter/              # Flutter 全套教程
+│       ├── freport/              # 财报分析
+│       ├── langchain/            # LangChain 教程
+│       ├── md/                   # Markdown 语法指南
+│       ├── openiddict/           # OpenIddict OAuth2 教程
+│       └── zhouyi/               # 周易预测
+├── img/                          # 图片资源
+├── package.json
+├── CNAME                         # 自定义域名
+└── README.md
 ```
-
-## 功能特性
-
-1. **响应式设计**：适配不同屏幕尺寸
-2. **Markdown支持**：使用 markdown-it 渲染 Markdown 内容
-3. **代码高亮**：使用 highlight.js 实现代码语法高亮
-4. **代码复制功能**：为代码块添加复制按钮
-5. **标签式代码块**：支持多个代码示例切换
-6. **YAML Front Matter**：支持文章标题、摘要、作者、日期等元数据
-7. **左侧导航**：显示教程文件列表
-8. **右侧目录**：根据文章标题自动生成（支持滚动高亮和自动滚动）
-9. **定义列表支持**：通过 markdown-it-deflist 插件实现
-10. **文章系统**：支持文章列表展示和详情查看
-11. **自动文章列表**：运行脚本自动生成文章列表 JSON
-12. **文章搜索**：支持按标题、摘要、标签搜索文章
 
 ## 技术栈
 
-- **前端**：HTML5, CSS3, JavaScript
-- **Markdown渲染**：markdown-it
-- **代码高亮**：highlight.js
-- **Markdown插件**：
-  - markdown-it-container（支持容器）
-  - markdown-it-deflist（支持定义列表）
+| 技术 | 用途 |
+|---|---|
+| VuePress 2 | 静态站点生成框架 |
+| Vite | 构建工具 |
+| Vue 3 | 前端框架 |
+| Sass | CSS 预处理器 |
+| Mermaid | 图表渲染 |
+| markdown-it | Markdown 解析扩展 |
 
-## 如何运行
+## 功能特性
 
-### 本地运行
+- **自定义布局**：首页、教程页、文章列表页、搜索页等独立布局
+- **Mermaid 图表**：支持图表/代码切换、缩放、下载、全屏
+- **代码块增强**：统一的头部栏（语言标签 + 复制按钮）、标签式多代码切换
+- **定义列表**：通过 `markdown-it-deflist` 插件支持
+- **响应式设计**：适配桌面端与移动端
 
-直接在浏览器中打开 `index.html` 文件，或使用本地服务器运行：
+## 快速开始
 
-```bash
-# 使用 Python 3
-python -m http.server 8000
-# 然后访问 http://localhost:8000
-```
-
-### 部署
-
-将所有文件上传到 Web 服务器即可。
-
-## 如何添加教程
-
-1. 在 `docs/` 目录下创建对应技术的文件夹（如 `new-tech/`）
-2. 在文件夹中创建 Markdown 文件（如 `index.md`）
-3. 在 Markdown 文件顶部添加 YAML Front Matter：
-   ```yaml
-   ---
-   title: 教程标题
-   summary: 教程简介
-   authors: 作者姓名
-   date: 2026-04-18
-   category: tech
-   tags: tag1, tag2, tag3
-   ---
-   ```
-4. 运行导航生成脚本自动更新导航：
-   ```bash
-   node scripts/generate-nav.js
-   ```
-
-## 如何添加文章
-
-1. 在 `docs/article/` 目录下创建 Markdown 文件
-2. 在 Markdown 文件顶部添加 YAML Front Matter：
-   ```yaml
-   ---
-   title: 文章标题
-   summary: 文章简介
-   authors: 作者姓名
-   date: 2026-04-18
-   category: tech
-   tags: tag1, tag2, tag3
-   ---
-   ```
-3. 运行文章列表生成脚本：
-   ```bash
-   node scripts/generate-articles.js
-   ```
-
-## Git 提交前自动生成数据
-
-项目提供了 `scripts/pre-commit.sh`，在 `git commit` 前自动运行三个生成脚本并暂存结果。
-
-### 安装（首次克隆后执行一次）
+### 安装依赖
 
 ```bash
-# Linux / macOS
-cp scripts/pre-commit.sh .git/hooks/pre-commit
-chmod +x .git/hooks/pre-commit
-
-# Windows (PowerShell)
-Copy-Item scripts/pre-commit.sh .git\hooks\pre-commit
+npm install
 ```
 
-安装后每次 `git commit` 会自动：
-1. 运行 `generate-nav.js` 生成导航数据
-2. 运行 `generate-articles.js` 生成文章列表
-3. 运行 `generate-search-index.js` 生成搜索索引
-4. 将 `data/nav.json`、`data/articles.json`、`data/search-index.json` 自动加入暂存区
+### 本地开发
 
-## 主要功能说明
+```bash
+npm run dev
+```
 
-### 首页
-- 展示网站介绍和教程分类
-- 响应式设计，适配不同设备
+### 构建生产版本
 
-### 教程页
-- 左侧导航：显示当前技术的教程文件列表
-- 右侧目录：根据文章标题自动生成，点击可跳转到对应位置
-- 文章头部：显示标题、摘要、作者和日期
-- 代码块：支持语法高亮和复制功能
-- 标签式代码块：可在多个代码示例之间切换
+```bash
+npm run build
+```
 
-### 文章列表页
-- 展示所有文章列表
-- 支持按标题、摘要、标签搜索
-- 文章按日期排序（最新在前）
-- 显示文章标签和发布日期
+构建产物输出到 `dist/` 目录。
 
-### 文章详情页
-- 完整的文章内容展示
-- 右侧目录（只显示1-3级标题）
-- 滚动时自动高亮当前目录项
-- 目录过长时自动滚动
+## 如何添加内容
 
-## 自定义样式
+1. 在 `src/docs/` 下对应分类目录创建 `.md` 文件
+2. 在文件顶部添加 Front Matter：
 
-- 修改 `css/` 目录下的样式文件来自定义网站外观
-- 主要样式文件：
-  - `common.css`：网站通用样式
-  - `tutorial.css`：教程页特有样式
-  - `index.css`：首页特有样式
-  - `detail.css`：文章详情页特有样式
+```yaml
+---
+title: 文章标题
+summary: 文章简介
+date: 2026-06-08
+---
+```
 
-## 浏览器兼容性
+3. 使用 Mermaid 图表时，代码块语言标记为 `mermaid`：
 
-- 支持现代浏览器：Chrome, Firefox, Safari, Edge
-- 响应式设计，适配桌面、平板和移动设备
+\`\`\`mermaid
+graph LR
+    A --> B
+\`\`\`
 
-## 许可证
+## 部署到 GitHub Pages
 
-本项目采用 MIT 许可证。
+本项目已配置 `CNAME` 文件用于自定义域名。以下是几种常见的 GitHub Pages 部署方式。
+
+### 前置准备
+
+1. 在 GitHub 上创建仓库（如 `koeltp/blog`）
+2. 确保仓库中包含 `CNAME` 文件（指向你的自定义域名），或删除它使用默认的 `*.github.io` 域名
+
+> **注意**：如果使用自定义域名，需在域名 DNS 管理处添加 CNAME 记录指向 `<username>.github.io`。
+
+---
+
+### 方式一：GitHub Actions 自动部署（推荐）
+
+每次 push 到 `main` 分支时自动构建并部署，无需手动操作。
+
+#### 1. 创建工作流文件
+
+在项目根目录创建 `.github/workflows/deploy.yml`：
+
+```yaml
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  # 也支持手动触发
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build VuePress site
+        run: npm run build
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./dist
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ github.event.repository.html_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+```
+
+#### 2. 配置 GitHub Pages 设置
+
+进入仓库 → **Settings** → **Pages** → **Build and deployment**：
+- **Source**：选择 **GitHub Actions**
+
+#### 3. 配置 VuePress base 路径（可选）
+
+如果仓库不是 `[username].github.io` 这种特殊仓库名，需要在 `src/.vuepress/config.js` 中设置 `base`：
+
+```js
+export default defineUserConfig({
+  // 仓库名为 blog 时，base 设为 /blog/
+  base: '/blog/',
+  // ...其他配置
+})
+```
+
+> 特殊仓库名（`<username>.github.io` 或 `<org>.github.io`）不需要设置 `base`，保持默认 `/` 即可。
+
+#### 4. 提交并推送
+
+```bash
+git add . && git commit -m "添加 GitHub Actions 部署工作流"
+git push origin main
+```
+
+推送后自动触发构建，完成后在仓库 **Actions** 页面查看状态，**Settings → Pages** 查看站点地址。
+
+---
+
+### 方式二：手动构建 + gh-pages 分支
+
+适合不想用 Actions 或需要手动控制发布时机的场景。
+
+#### 1. 安装 gh-pages 工具
+
+```bash
+npm install --save-dev gh-pages
+```
+
+#### 2. 在 package.json 中添加部署脚本
+
+```json
+{
+  "scripts": {
+    "deploy": "npm run build && gh-pages -d dist"
+  }
+}
+```
+
+#### 3. 执行部署
+
+```bash
+npm run deploy
+```
+
+这会将 `dist/` 目录内容推送到 `gh-pages` 分支。
+
+#### 4. 配置 GitHub Pages 来源
+
+进入仓库 → **Settings** → **Pages** → **Build and deployment**：
+- **Source**：选择 **Deploy from a branch**
+- **Branch**：选择 `gh-pages` / `(root)`
+
+---
+
+### 方式三：使用 vuepress-plugin-deploy 插件
+
+VuePress 官方提供的部署插件，集成度更高。
+
+#### 1. 安装插件
+
+```bash
+npm install --save-dev vuepress-plugin-deploy@next
+```
+
+#### 2. 在 config.js 中配置
+
+```js
+import { deployPlugin } from 'vuepress-plugin-deploy'
+
+export default defineUserConfig({
+  plugins: [
+    deployPlugin({
+      // 构建产物目录
+      buildDir: './dist',
+      // 目标分支
+      branch: 'gh-pages',
+      // 推送前是否清空目标分支
+      clearBeforePush: true,
+    }),
+  ],
+})
+```
+
+#### 3. 执行部署命令
+
+```bash
+npx vuepress-plugin-deploy deploy
+```
+
+或直接运行：
+
+```bash
+npm run build && npx vuepress-plugin-deploy deploy
+```
+
+---
+
+### 自定义域名配置
+
+如果使用自定义域名（如 `example.com`）：
+
+1. 确保 `CNAME` 文件存在于项目根目录（本项目已有）
+2. 在域名 DNS 管理面板添加记录：
+
+| 类型 | 主机记录 | 记录值 |
+|------|---------|--------|
+| CNAME | `@` | `<username>.github.io` |
+| CNAME | `www` | `<username>.github.io` |
+
+3. 在 GitHub 仓库 **Settings → Pages → Custom domain** 中填写域名
+4. 开启 **Enforce HTTPS**
+
+### 部署方式对比
+
+| | Actions 自动部署 | 手动 gh-pages | deploy 插件 |
+|---|---|---|---|
+| 自动化程度 | 全自动 | 手动执行 | 半自动 |
+| 适用场景 | 持续集成、团队协作 | 偶尔更新、简单场景 | 深度定制 |
+| 配置复杂度 | 中等 | 低 | 中等 |
+| 依赖外部工具 | GitHub Actions | gh-pages CLI | vuepress-plugin-deploy |
+| 推荐 | ★★★★★ | ★★★ | ★★★★ |
