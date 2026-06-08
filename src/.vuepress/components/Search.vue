@@ -39,6 +39,16 @@
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
               {{ getCategoryLabel(item.category) }}
             </span>
+            <span class="meta-item-divider">|</span>
+            <span class="meta-tags">
+              <svg class="meta-tags-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+              <RouterLink
+                v-for="tag in parseTags(item.tags)"
+                :key="tag"
+                :to="{ path: '/search/', query: { q: tag } }"
+                class="el-tag"
+              >{{ tag }}</RouterLink>
+            </span>
           </div>
           <p v-if="item.snippet" class="article-card-summary" v-html="highlightText(item.snippet, query)" />
           <RouterLink :to="item.url" class="article-card-link">
@@ -60,7 +70,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
 const categoryNames = {
@@ -70,6 +80,13 @@ const categoryNames = {
 
 function getCategoryLabel(category) {
   return categoryNames[category] || category || '技术'
+}
+
+function parseTags(tags) {
+  if (!tags) return []
+  if (Array.isArray(tags)) return tags.map(t => String(t).trim()).filter(Boolean)
+  if (typeof tags === 'string') return tags.split(',').map(t => t.trim()).filter(Boolean)
+  return []
 }
 
 function highlightText(text, q) {
@@ -134,11 +151,13 @@ async function loadMiniSearch() {
   return ms
 }
 
-async function doSearch() {
+async function doSearch(skipUrlUpdate) {
   const q = query.value.trim()
   if (!q) return
-  // 更新 URL
-  router.replace({ path: '/search/', query: { q } })
+  // 非路由触发时更新 URL
+  if (!skipUrlUpdate) {
+    router.replace({ path: '/search/', query: { q } })
+  }
   loading.value = true
   searched.value = true
   try {
@@ -160,7 +179,15 @@ onMounted(async () => {
   const q = route.query.q
   if (q) {
     query.value = q
-    await doSearch()
+    await doSearch(true)
+  }
+})
+
+// 监听路由 query 变化，支持标签点击跳转
+watch(() => route.query.q, async (newQ) => {
+  if (newQ && newQ !== query.value) {
+    query.value = newQ
+    await doSearch(true)
   }
 })
 </script>
@@ -248,6 +275,45 @@ onMounted(async () => {
 .search-empty p { font-size: 1.1rem; margin-bottom: 0.5rem; }
 .search-empty-hint { font-size: 0.9rem; color: #94a3b8; }
 .search-loading { text-align: center; padding: 4rem; color: #64748b; font-size: 1.1rem; }
+
+.meta-item-divider {
+  color: #d1d5db;
+  margin: 0 2px;
+}
+
+.meta-tags {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.meta-tags-icon {
+  width: 14px;
+  height: 14px;
+  opacity: 0.7;
+  color: #6b7280;
+  flex-shrink: 0;
+}
+
+.el-tag {
+  display: inline-block;
+  padding: 2px 10px;
+  font-size: 12px;
+  line-height: 20px;
+  border-radius: 4px;
+  background: #ecf5ff;
+  color: #409eff;
+  border: 1px solid #d9ecff;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+
+.el-tag:hover {
+  background: #d9ecff;
+  color: #337ecc;
+  border-color: #b3d8ff;
+}
 
 @media (max-width: 768px) {
   .search-main { padding: 1rem; }

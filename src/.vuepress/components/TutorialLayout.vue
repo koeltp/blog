@@ -43,6 +43,37 @@
       <!-- 内容区 -->
       <div class="content-area">
         <div class="content-container">
+          <!-- 文章 meta 数据 -->
+          <div v-if="frontmatter.title" class="article-meta-header">
+            <h1 class="article-meta-title">{{ frontmatter.title }}</h1>
+            <p v-if="frontmatter.summary" class="article-meta-summary">{{ frontmatter.summary }}</p>
+            <div class="article-meta-info">
+              <span v-if="frontmatter.authors" class="meta-info-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                {{ formatAuthors(frontmatter.authors) }}
+              </span>
+              <span class="meta-info-divider">|</span>
+              <span v-if="frontmatter.date" class="meta-info-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                {{ formatDate(frontmatter.date) }}
+              </span>
+              <span class="meta-info-divider">|</span>
+              <span v-if="frontmatter.category" class="meta-info-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+                {{ getCategoryLabel(frontmatter.category) }}
+              </span>
+              <span class="meta-info-divider">|</span>
+              <span class="meta-info-tags">
+                <svg class="meta-tags-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+                <RouterLink
+                  v-for="tag in tagList"
+                  :key="tag"
+                  :to="{ path: '/search/', query: { q: tag } }"
+                  class="el-tag"
+                >{{ tag }}</RouterLink>
+              </span>
+            </div>
+          </div>
           <Content />
           <!-- 上一篇/下一篇 -->
           <div v-if="prevNext.prev || prevNext.next" class="prev-next-nav">
@@ -84,10 +115,50 @@
 <script setup>
 import { ref, computed, onMounted, onUnmounted, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import { usePageFrontmatter } from '@vuepress/client'
 import NavBar from './NavBar.vue'
 
 const route = useRoute()
 const router = useRouter()
+const frontmatter = usePageFrontmatter()
+
+// 分类名称映射
+const categoryNames = {
+  tutorial: '教程', life: '生活', tech: '技术',
+  article: '文章', docker: 'Docker', finance: '财经'
+}
+
+function getCategoryLabel(category) {
+  return categoryNames[category] || category || '技术'
+}
+
+// 格式化日期：Date 对象或字符串统一转为 YYYY-MM-DD
+function formatDate(date) {
+  if (!date) return ''
+  const d = new Date(date)
+  if (isNaN(d.getTime())) return String(date)
+  const y = d.getFullYear()
+  const m = String(d.getMonth() + 1).padStart(2, '0')
+  const day = String(d.getDate()).padStart(2, '0')
+  return `${y}-${m}-${day}`
+}
+
+// 格式化作者：可能是字符串、数组或逗号分隔字符串
+function formatAuthors(authors) {
+  if (!authors) return ''
+  if (Array.isArray(authors)) return authors.join(', ')
+  if (typeof authors === 'string') return authors
+  return String(authors)
+}
+
+// 解析 tags：frontmatter 中 tags 可能是逗号分隔字符串、数组或 YAML 行内数组
+const tagList = computed(() => {
+  const tags = frontmatter.value.tags
+  if (!tags) return []
+  if (Array.isArray(tags)) return tags.map(t => String(t).trim()).filter(Boolean)
+  if (typeof tags === 'string') return tags.split(',').map(t => t.trim()).filter(Boolean)
+  return []
+})
 
 // 导航数据
 const navData = ref(null)
@@ -192,15 +263,28 @@ function buildPrevNext() {
   }
 }
 
-// 提取页面标题生成目录
+// 提取页面标题生成目录（跳过第一个 h1，因为它已在 meta header 中显示）
 function extractToc() {
   const container = document.querySelector('.content-container')
   if (!container) return
   const headings = container.querySelectorAll('h1, h2, h3')
   if (!headings.length) { tocItems.value = []; return }
 
+  // 隐藏 Content 中第一个 h1（与 meta header 重复）
+  const contentDiv = container.querySelector(':scope > div:not(.article-meta-header):not(.prev-next-nav)')
+  const firstH1 = contentDiv?.querySelector(':scope > h1')
+  if (firstH1 && frontmatter.value.title) {
+    firstH1.style.display = 'none'
+  }
+
   const items = []
+  let skippedFirstH1 = false
   headings.forEach((h, i) => {
+    // 跳过第一个 h1
+    if (h.tagName === 'H1' && !skippedFirstH1) {
+      skippedFirstH1 = true
+      return
+    }
     const id = h.id || `heading-${i}`
     if (!h.id) h.id = id
     items.push({
@@ -366,6 +450,92 @@ watch(() => route.path, () => {
   padding: 2rem 2.5rem;
 }
 
+/* 文章 meta 数据头部 */
+.article-meta-header {
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.article-meta-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0 0 0.75rem 0;
+  line-height: 1.3;
+}
+
+.article-meta-summary {
+  font-size: 1.05rem;
+  color: #64748b;
+  margin: 0 0 1rem 0;
+  line-height: 1.7;
+}
+
+.article-meta-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.meta-info-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: #6b7280;
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+
+.meta-info-item svg {
+  width: 14px;
+  height: 14px;
+  opacity: 0.7;
+}
+
+.meta-info-divider {
+  color: #d1d5db;
+  font-size: 0.85rem;
+}
+
+.meta-info-tags {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.meta-tags-icon {
+  width: 14px;
+  height: 14px;
+  opacity: 0.7;
+  color: #6b7280;
+  flex-shrink: 0;
+}
+
+/* Element Plus 风格标签 */
+.el-tag {
+  display: inline-block;
+  padding: 2px 10px;
+  font-size: 0.75rem;
+  line-height: 1.6;
+  border-radius: 4px;
+  border: 1px solid #d9ecff;
+  background-color: #ecf5ff;
+  color: #409eff;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.el-tag:hover {
+  background-color: #d9ecff;
+  color: #337ecc;
+  border-color: #b3d8ff;
+}
+
 .right-nav {
   position: sticky !important;
   top: 64px !important;
@@ -397,5 +567,7 @@ footer {
 @media (max-width: 768px) {
   .sidebar { display: none; }
   .content-container { padding: 1.5rem; }
+  .article-meta-title { font-size: 1.5rem; }
+  .article-meta-info { gap: 0.6rem; }
 }
 </style>

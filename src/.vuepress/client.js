@@ -140,7 +140,7 @@ function initCodeBlockHeaders() {
   const contentContainer = document.querySelector('.content-container')
   if (!contentContainer) return
 
-  const contentDiv = contentContainer.querySelector(':scope > div')
+  const contentDiv = contentContainer.querySelector(':scope > div:not(.article-meta-header):not(.prev-next-nav)')
   if (!contentDiv) return
 
   // 构建 header 的通用函数
@@ -287,7 +287,7 @@ function initCodeTabs() {
   const contentContainer = document.querySelector('.content-container')
   if (!contentContainer) return
 
-  const contentDiv = contentContainer.querySelector(':scope > div')
+  const contentDiv = contentContainer.querySelector(':scope > div:not(.article-meta-header):not(.prev-next-nav)')
   if (!contentDiv) return
 
   // 收集连续的 code-block-with-title 分组
