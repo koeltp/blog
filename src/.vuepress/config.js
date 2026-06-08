@@ -33,6 +33,32 @@ export default defineUserConfig({
     // 定义列表插件
     md.use(markdownItDeflist)
 
+    // 自定义图片语法：![alt|宽x高](url) 或 ![alt|宽](url) 或 ![alt|x高](url) 或 ![alt|80%](url)
+    const defaultImage = md.renderer.rules.image.bind(md.renderer.rules)
+    md.renderer.rules.image = (tokens, idx, options, env, slf) => {
+      const token = tokens[idx]
+      const alt = token.content || ''
+      const pipeIdx = alt.indexOf('|')
+      if (pipeIdx === -1) return defaultImage(tokens, idx, options, env, slf)
+
+      // 解析尺寸参数
+      token.content = alt.slice(0, pipeIdx)
+      const sizeStr = alt.slice(pipeIdx + 1)
+      let style = ''
+      const pxMatch = sizeStr.match(/^(\d*)(?:x(\d+))?$/)
+      const pctMatch = sizeStr.match(/^(\d+%)$/)
+
+      if (pxMatch) {
+        if (pxMatch[1]) style += `max-width:${pxMatch[1]}px;`
+        if (pxMatch[2]) style += `max-height:${pxMatch[2]}px;`
+      } else if (pctMatch) {
+        style += `max-width:${pctMatch[1]};`
+      }
+
+      const html = defaultImage(tokens, idx, options, env, slf)
+      return style ? html.replace('<img', `<img style="${style}"`) : html
+    }
+
     // 自定义 fence 渲染器：处理 mermaid 图表
     const defaultFence = md.renderer.rules.fence.bind(md.renderer.rules)
 
