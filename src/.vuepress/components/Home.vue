@@ -33,14 +33,16 @@
         <h2>最近更新</h2>
         <div class="latest-items">
           <div v-for="article in latestArticles" :key="article.filename" class="latest-item">
-            <div class="article-meta">
+          
+            <h3><RouterLink :to="`/docs/article/${article.filename.replace('.md', '.html')}`">{{ article.title }}</RouterLink></h3>
+              <div class="article-meta">
               <span :class="['article-category', article.category || 'tech']">{{ getCategoryLabel(article.category) }}</span>
               <span class="article-date">{{ formatDate(article.date) }}</span>
             </div>
-            <h3>{{ article.title }}</h3>
             <p>{{ article.summary || '' }}</p>
             <div class="article-tags">
-              <span v-for="tag in (article.tags || []).slice(0, 3)" :key="tag" class="tag">{{ tag }}</span>
+                 <RouterLink v-for="tag in article.tags" :key="tag" :to="`/search/?q=${encodeURIComponent(tag)}`" class="meta-tag">{{ tag }}</RouterLink>
+             
               <RouterLink :to="`/docs/article/${article.filename.replace('.md', '.html')}`" class="read-more">阅读更多 →</RouterLink>
             </div>
           </div>
@@ -64,7 +66,7 @@ import { ref, onMounted } from 'vue'
 
 const categoryNames = {
   tutorial: '教程', life: '生活', tech: '技术',
-  article: '文章', docker: 'Docker', finance: '财经'
+  article: '文章',  finance: '财经'
 }
 
 function getCategoryLabel(category) {
@@ -75,7 +77,7 @@ function formatDate(date) {
   return date ? new Date(date).toLocaleDateString('zh-CN') : ''
 }
 
-const skills = ['Python', 'JavaScript', 'Flutter', 'Dart', 'LangChain', 'React', 'Node.js', 'Docker']
+const skills = ['Python', 'JavaScript', 'Flutter', 'Dart', 'LangChain', 'React', '.NET', 'vue', 'Docker']
 const latestArticles = ref([])
 
 onMounted(async () => {
@@ -289,7 +291,8 @@ onMounted(async () => {
   text-decoration: none;
   font-weight: 600;
   transition: all 0.3s ease;
-  display: inline-block;
+  display: block;
+  text-align: right;
 }
 
 .read-more:hover {
@@ -332,5 +335,23 @@ onMounted(async () => {
   .content-section { padding: 2rem 1rem 3rem; }
   .section h2 { font-size: 1.5rem; }
   .latest-items { grid-template-columns: 1fr; }
+}
+/* ===== 标签药丸样式 ===== */
+a.meta-tag {
+    display: inline-block;
+    padding: 1px 8px;
+    background: rgb(217, 236, 255);
+    border-radius: 2px;
+    font-size: 0.75rem;
+    line-height: 1.6;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-left: 2px;
+}
+
+a.meta-tag:hover {
+    color: #047857;
+    text-decoration: none !important;
 }
 </style>

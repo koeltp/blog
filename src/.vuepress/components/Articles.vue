@@ -52,7 +52,7 @@ import { ref, onMounted } from 'vue'
 
 const categoryNames = {
   tutorial: '教程', life: '生活', tech: '技术',
-  article: '文章', docker: 'Docker', finance: '财经'
+  article: '文章', finance: '财经'
 }
 
 function getCategoryLabel(category) {

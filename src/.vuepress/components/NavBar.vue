@@ -153,7 +153,6 @@ header {
   -webkit-backdrop-filter: blur(20px);
   border-bottom: 1px solid rgba(0, 0, 0, 0.06);
   height: 64px;
-  will-change: transform;
 }
 
 nav {

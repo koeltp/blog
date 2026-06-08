@@ -1,6 +1,6 @@
 import { defineClientConfig } from '@vuepress/client'
 import { onMounted, watch } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { useRoute } from 'vue-router'
 import Layout from './components/Layout.vue'
 import TutorialLayout from './components/TutorialLayout.vue'
 import Home from './components/Home.vue'
