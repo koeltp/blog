@@ -1,5 +1,22 @@
 [
   {
+    "title": "EF Core 高级实战：从性能调优到领域建模",
+    "date": "2026-06-08",
+    "category": "tech",
+    "tags": [
+      ".NET",
+      "EF Core",
+      "Entity Framework",
+      "性能优化",
+      "领域驱动",
+      "并发控制",
+      "仓储模式"
+    ],
+    "summary": "深入 EF Core 高级用法：查询优化、并发控制、全局查询过滤器、拦截器、值对象映射、批量操作与仓储模式实战",
+    "authors": "",
+    "filename": "efcore-advanced.md"
+  },
+  {
     "title": "Cloudflare Tunnel 完全指南",
     "date": "2026-06-07",
     "category": "tech",
