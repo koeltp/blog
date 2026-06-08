@@ -40,7 +40,7 @@
       "IT",
       "Docker"
     ],
-    "summary": "经常遇到docker image pull失败的，这是经过社区验证的几个比好用的镜像地址： 修改步骤： 打开 Docker Desktop。 点击右上角的 设置（Settings） 图标（小齿轮）。 在左侧菜单选择 Docker Engine。 你将看到一个 JSON 配置文件。 替换为上面的。",
+    "summary": "Docker 镜像加速地址汇总，解决 docker image pull 失败问题",
     "authors": "",
     "filename": "Docker Registry.md"
   },
