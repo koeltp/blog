@@ -3,7 +3,6 @@
     <!-- Hero 区域：留白叙事风格 -->
     <section class="hero">
       <div class="hero-content">
-        <p class="hero-badge">技术教程 & 生活分享</p>
         <h1 class="hero-title">
           你好，我是<span class="highlight">TaiPi</span>
         </h1>
@@ -115,18 +114,6 @@ onMounted(async () => {
   margin: 0 auto;
 }
 
-.hero-badge {
-  display: inline-block;
-  padding: 0.35rem 1rem;
-  font-size: 0.85rem;
-  color: #8b7355;
-  background: rgba(74,59,44,0.08);
-  border: 1px solid rgba(74,59,44,0.15);
-  border-radius: 100px;
-  margin-bottom: 1.75rem;
-  letter-spacing: 0.03em;
-}
-
 .hero-title {
   font-size: 3.5rem;
   font-weight: 700;
@@ -137,10 +124,11 @@ onMounted(async () => {
 }
 
 .highlight {
-  background: linear-gradient(135deg, #c9a227 0%, #d4a574 50%, #b8860b 100%);
+  background: orangered;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  margin-left: 10px;
 }
 
 .hero-desc {
@@ -243,15 +231,6 @@ onMounted(async () => {
   display: inline-block;
 }
 
-.section h2::after {
-  content: '';
-  position: absolute;
-  bottom: -8px; left: 0;
-  width: 60px; height: 4px;
-  background: linear-gradient(135deg, #3b82f6 0%, #6366f1 100%);
-  border-radius: 2px;
-}
-
 .latest-items {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -267,7 +246,6 @@ onMounted(async () => {
 }
 
 .latest-item:hover {
-  border-color: #3b82f6;
   box-shadow: 0 8px 20px rgba(59,130,246,0.1);
   transform: translateY(-5px);
 }
@@ -320,8 +298,7 @@ onMounted(async () => {
 }
 
 .skill-tag:hover {
-  background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
-  color: white;
+  color: orangered;
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(14,165,233,0.3);
 }
