@@ -1,5 +1,10 @@
 /* ===== 覆盖 VuePress 默认主题样式 ===== */
 
+/* 全局平滑滚动 */
+html {
+  scroll-behavior: smooth;
+}
+
 /* 隐藏默认主题的导航栏和侧边栏 */
 .vp-navbar,
 .vp-sidebar,

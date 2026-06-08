@@ -299,3 +299,55 @@ npm run build && npx vuepress-plugin-deploy deploy
 | 配置复杂度 | 中等 | 低 | 中等 |
 | 依赖外部工具 | GitHub Actions | gh-pages CLI | vuepress-plugin-deploy |
 | 推荐 | ★★★★★ | ★★★ | ★★★★ |
+
+---
+
+## 组件架构
+
+### 组件依赖关系图
+
+```
+client.js（入口，注册所有组件和布局）
+  │
+  ├── Layout.vue ────────── 默认布局（首页/文章列表/搜索页等使用）
+  │     └── NavBar.vue
+  │           └── SvgIcon.vue
+  │
+  ├── TutorialLayout.vue ── 教程/文章详情页布局（三栏：侧边栏 + 内容 + 目录）
+  │     ├── NavBar.vue
+  │     │     └── SvgIcon.vue
+  │     └── SvgIcon.vue
+  │
+  ├── Home.vue ───────────── 首页（留白叙事风格）
+  ├── Articles.vue ───────── 文章列表页（几何秩序风格 Hero）
+  │     └── SvgIcon.vue
+  ├── Search.vue ────────── 搜索页（几何秩序风格 Hero）
+  │     └── SvgIcon.vue
+  ├── Tutorials.vue ─────── 教程总览页（卡片网格）
+  └── SvgIcon.vue ────────── 图标工具组件（被多处引用）
+```
+
+### 各组件职责
+
+| 组件 | 类型 | 职责 | 对应路由 |
+|------|------|------|----------|
+| **Layout** | 布局 | 全站默认外壳：NavBar + `<Content />` 插槽 + Footer | `/`, `/articles/`, `/search/`, `/tutorials/` 等非详情页 |
+| **TutorialLayout** | 布局 | 教程/文章详情页三栏布局：左侧导航 + 中间内容 + 右侧 TOC 目录 | `/docs/**` 详情页 |
+| **NavBar** | 组件 | 固定顶部毛玻璃导航栏，含 Logo、导航链接、搜索弹出框、移动端汉堡菜单 | 被 Layout 和 TutorialLayout 引用 |
+| **SvgIcon** | 工具组件 | 内联 SVG 图标集合（search / user / calendar / folder / tag / arrow-right），通过 `name` prop 切换 | 被 NavBar、Articles、Search、TutorialLayout 引用 |
+| **Home** | 页面 | 首页 Hero 区（留白叙事风格：奶油色背景）+ 最近更新 + 技术栈 | `/` |
+| **Articles** | 页面 | 文章列表页（几何秩序风格 Hero）+ 全部文章卡片列表 | `/articles/` |
+| **Search** | 页面 | 搜索页（几何秩序风格 Hero，搜索框内嵌）+ MiniSearch 结果展示 | `/search/` |
+| **Tutorials** | 页面 | 教程总览页（卡片网格），从 nav.json 动态生成教程分类卡片 | `/tutorials/` |
+
+### 布局选择逻辑
+
+- **Layout** 作为默认 Layout，大部分页面走这个布局，`<Content />` 插槽会渲染对应路由的页面组件（Home / Articles / Search / Tutorials）
+- **TutorialLayout** 仅用于 `/docs/` 下的 Markdown 详情页，提供独立的侧边导航和目录功能
+- 两者都包含独立的 NavBar 和 Footer（TutorialLayout 自带一套，不共用 Layout 的）
+
+### 样式约定
+
+- 首页 Hero：**留白叙事** — 奶油暖调 `#fef9e8`，极简舒适
+- 文章列表/搜索页 Hero：**几何秩序** — 浅灰蓝 `#eef2f5`，建筑感装饰元素
+- 导航栏：毛玻璃效果 `backdrop-filter: blur(20px)`，固定顶部 64px 高度

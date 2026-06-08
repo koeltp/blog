@@ -5,7 +5,7 @@ import markdownItDeflist from 'markdown-it-deflist'
 
 export default defineUserConfig({
   lang: 'zh-CN',
-  title: '太皮',
+  title: 'TaiPi - TaiPi.Top',
   description: '技术教程与生活分享，涵盖 .NET、Flutter、LangChain、Docker 等技术领域',
 
   source: 'src',
@@ -13,7 +13,7 @@ export default defineUserConfig({
 
   head: [
     ['link', { rel: 'icon', href: '/img/logo/logo.png' }],
-    ['meta', { name: 'keywords', content: '太皮,技术教程,编程,.NET,Flutter,LangChain,Docker,周易' }],
+    ['meta', { name: 'keywords', content: 'TaiPi,技术教程,编程,.NET,Flutter,LangChain,Docker,周易' }],
     ['meta', { property: 'og:locale', content: 'zh_CN' }],
   ],
 

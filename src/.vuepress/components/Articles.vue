@@ -1,7 +1,15 @@
 <template>
-  <div class="articles-container">
-    <h1 class="page-title">文章列表</h1>
-    <div class="articles-list">
+  <div class="articles-page">
+    <!-- 几何秩序风格 Hero（撑满整行） -->
+    <section class="geo-hero">
+      <div class="geo-hero-inner">
+        <h1 class="geo-hero-title">文章列表</h1>
+        <p class="geo-hero-desc">记录技术探索与生活感悟的每一篇文字</p>
+      </div>
+    </section>
+
+    <div class="articles-container">
+      <div class="articles-list">
       <div v-for="article in articles" :key="article.filename" class="article-card">
         <h3 class="article-card-title">
           <RouterLink :to="`/docs/article/${article.filename.replace('.md', '.html')}`">{{ article.title }}</RouterLink>
@@ -34,6 +42,7 @@
         </RouterLink>
       </div>
       <div v-if="articles.length === 0" class="msg-empty">暂无文章</div>
+    </div>
     </div>
   </div>
 </template>
@@ -68,28 +77,59 @@ onMounted(async () => {
 </script>
 
 <style scoped>
+.articles-page {
+  background: var(--vp-c-bg, #ffffff);
+}
+
 .articles-container {
   max-width: 900px;
   margin: 0 auto;
-  padding: 2rem;
 }
 
-.page-title {
-  font-size: 2rem;
-  font-weight: 700;
-  color: #1e293b;
-  margin-bottom: 2rem;
+/* 几何秩序风格 Hero */
+.geo-hero {
+  background: #eef2f5;
+  border-bottom: 1px solid #dde3ea;
+  padding: 4rem 2rem;
+  text-align: center;
   position: relative;
-  display: inline-block;
+  overflow: hidden;
+  margin-bottom: 2rem;
 }
 
-.page-title::after {
-  content: '';
+.geo-hero::before {
+  content: '⬚ ◇ ◯ △';
   position: absolute;
-  bottom: -8px; left: 0;
-  width: 60px; height: 4px;
-  background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
-  border-radius: 2px;
+  font-size: 130px;
+  bottom: 0;
+  left: 0;
+  opacity: 0.08;
+  font-weight: bold;
+  pointer-events: none;
+  white-space: pre;
+  line-height: 1;
+  color: #1a2a3a;
+}
+
+.geo-hero-inner {
+  position: relative;
+  z-index: 1;
+}
+
+.geo-hero-title {
+  font-size: clamp(2rem, 5vw, 2.8rem);
+  font-weight: 800;
+  color: #1a2a3a;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.75rem;
+}
+
+.geo-hero-desc {
+  font-size: 1.05rem;
+  color: #5a6a7a;
+  max-width: 500px;
+  margin: 0 auto;
+  line-height: 1.6;
 }
 
 .articles-list {
@@ -99,7 +139,8 @@ onMounted(async () => {
 }
 
 @media (max-width: 768px) {
-  .articles-container { padding: 1rem; }
+  .articles-container { padding: 0 1rem; }
+  .geo-hero { padding: 3rem 1.25rem; }
   .articles-list { gap: 0.75rem; }
 }
 </style>

@@ -1,7 +1,7 @@
 import { defineClientConfig } from '@vuepress/client'
 import { onMounted, watch } from 'vue'
-import { useRoute } from 'vue-router'
-import CustomLayout from './components/CustomLayout.vue'
+import { useRoute, useRouter } from 'vue-router'
+import Layout from './components/Layout.vue'
 import TutorialLayout from './components/TutorialLayout.vue'
 import Home from './components/Home.vue'
 import Tutorials from './components/Tutorials.vue'
@@ -451,7 +451,7 @@ function initPage() {
 
 export default defineClientConfig({
   enhance({ app }) {
-    app.component('CustomLayout', CustomLayout)
+    app.component('Layout', Layout)
     app.component('TutorialLayout', TutorialLayout)
     app.component('Home', Home)
     app.component('Tutorials', Tutorials)
@@ -460,7 +460,7 @@ export default defineClientConfig({
     app.component('SvgIcon', SvgIcon)
   },
   layouts: {
-    Layout: CustomLayout,
+    Layout,
     TutorialLayout,
   },
   setup() {

@@ -1,36 +1,27 @@
 <template>
   <div class="home-page">
-    <!-- Hero 区域 -->
+    <!-- Hero 区域：留白叙事风格 -->
     <section class="hero">
-      <div class="hero-bg"></div>
       <div class="hero-content">
         <p class="hero-badge">技术教程 & 生活分享</p>
         <h1 class="hero-title">
-          你好，我是<span class="highlight">太皮</span>
+          你好，我是<span class="highlight">TaiPi</span>
         </h1>
         <p class="hero-desc">
-          一个热爱技术和生活的开发者。这里分享 .NET、Flutter、LangChain 等技术教程，
-          也聊聊财报分析和周易预测。
+          希望能像鸟一样随着季节迁徙 ————鸟人
         </p>
         <div class="hero-actions">
           <RouterLink to="/tutorials/" class="btn btn-primary">浏览教程</RouterLink>
           <RouterLink to="/articles/" class="btn btn-secondary">阅读文章</RouterLink>
         </div>
         <div class="hero-socials">
-          <a href="https://github.com/koeltp" class="social-icon" title="GitHub">
+          <a href="https://github.com/koeltp" class="social-icon" title="GitHub" target="_blank">
             <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
           </a>
           <a href="mailto:tp@taipi.top" class="social-icon" title="Email">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 01-2.06 0L2 7"/></svg>
           </a>
         </div>
-      </div>
-      <!-- 底部波浪 -->
-      <div class="hero-wave">
-        <svg viewBox="0 0 1440 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-          <path class="wave wave-1" d="M0,64 C288,120 576,8 864,56 C1152,104 1344,40 1440,48 L1440,120 L0,120 Z" fill="var(--vp-c-bg, #ffffff)"/>
-          <path class="wave wave-2" d="M0,80 C320,24 640,112 960,72 C1280,32 1384,88 1440,96 L1440,120 L0,120 Z" fill="var(--vp-c-bg, #ffffff)"/>
-        </svg>
       </div>
     </section>
 
@@ -101,42 +92,18 @@ onMounted(async () => {
 </script>
 
 <style scoped>
-/* ===== Hero 区域 ===== */
+/* ===== Hero 区域：留白叙事风格（奶油极简暖调） ===== */
+.home-page {
+  background: var(--vp-c-bg, #ffffff);
+}
+
 .hero {
   position: relative;
   padding: 6rem 2rem 5rem;
   text-align: center;
   overflow: hidden;
-}
-
-.hero-bg {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, #0f172a 0%, #1e293b 40%, #0f172a 100%);
-  z-index: 0;
-}
-
-.hero-bg::before {
-  content: '';
-  position: absolute;
-  top: -50%; right: -20%;
-  width: 80%; height: 120%;
-  background: radial-gradient(ellipse, rgba(59,130,246,0.15) 0%, transparent 70%);
-  animation: drift 12s ease-in-out infinite alternate;
-}
-
-.hero-bg::after {
-  content: '';
-  position: absolute;
-  bottom: -30%; left: -10%;
-  width: 60%; height: 80%;
-  background: radial-gradient(ellipse, rgba(139,92,246,0.1) 0%, transparent 70%);
-  animation: drift 10s ease-in-out infinite alternate-reverse;
-}
-
-@keyframes drift {
-  from { transform: translate(0, 0); }
-  to   { transform: translate(3%, 4%); }
+  background: #fef9e8;
+  border-bottom: 1px solid #f0e2c5;
 }
 
 .hero-content {
@@ -150,9 +117,9 @@ onMounted(async () => {
   display: inline-block;
   padding: 0.35rem 1rem;
   font-size: 0.85rem;
-  color: #93c5fd;
-  background: rgba(59,130,246,0.12);
-  border: 1px solid rgba(59,130,246,0.25);
+  color: #8b7355;
+  background: rgba(74,59,44,0.08);
+  border: 1px solid rgba(74,59,44,0.15);
   border-radius: 100px;
   margin-bottom: 1.75rem;
   letter-spacing: 0.03em;
@@ -160,15 +127,15 @@ onMounted(async () => {
 
 .hero-title {
   font-size: 3.5rem;
-  font-weight: 800;
-  color: #f8fafc;
+  font-weight: 700;
+  color: #4a3b2c;
   line-height: 1.15;
   margin-bottom: 1.5rem;
   letter-spacing: -0.02em;
 }
 
 .highlight {
-  background: linear-gradient(135deg, #60a5fa 0%, #a78bfa 50%, #f472b6 100%);
+  background: linear-gradient(135deg, #c9a227 0%, #d4a574 50%, #b8860b 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -176,17 +143,12 @@ onMounted(async () => {
 
 .hero-desc {
   font-size: 1.15rem;
-  color: #94a3b8;
+  color: #7a6b55;
   line-height: 1.8;
   margin-bottom: 2.5rem;
   max-width: 600px;
   margin-left: auto;
   margin-right: auto;
-}
-
-.hero-tagline {
-  color: #cbd5e1;
-  font-style: italic;
 }
 
 .hero-actions {
@@ -200,33 +162,33 @@ onMounted(async () => {
   display: inline-flex;
   align-items: center;
   padding: 0.7rem 1.75rem;
-  border-radius: 10px;
+  border-radius: 4px;
   font-size: 1rem;
   font-weight: 600;
   text-decoration: none;
   transition: all 0.25s ease;
   cursor: pointer;
+  letter-spacing: 0.3px;
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, #3b82f6 0%, #6366f1 100%);
-  color: #fff;
-  box-shadow: 0 4px 14px rgba(59,130,246,0.35);
+  background: #4a3b2c;
+  color: #fef9e8;
 }
 
 .btn-primary:hover {
+  background: #6e5540;
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(59,130,246,0.45);
 }
 
 .btn-secondary {
-  background: rgba(255,255,255,0.08);
-  color: #e2e8f0;
-  border: 1px solid rgba(255,255,255,0.15);
+  background: transparent;
+  color: #4a3b2c;
+  border: 1.5px solid #c4b49a;
 }
 
 .btn-secondary:hover {
-  background: rgba(255,255,255,0.14);
+  background: rgba(74,59,44,0.06);
   transform: translateY(-2px);
 }
 
@@ -241,49 +203,17 @@ onMounted(async () => {
   align-items: center;
   justify-content: center;
   width: 40px; height: 40px;
-  border-radius: 10px;
-  color: #94a3b8;
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 8px;
+  color: #9a8a70;
+  background: rgba(74,59,44,0.06);
+  border: 1px solid rgba(74,59,44,0.1);
   transition: all 0.25s ease;
 }
 
 .social-icon:hover {
-  color: #f8fafc;
-  background: rgba(255,255,255,0.12);
-  border-color: rgba(255,255,255,0.18);
+  color: #4a3b2c;
+  background: rgba(74,59,44,0.12);
   transform: translateY(-2px);
-}
-
-/* 底部波浪过渡 */
-.hero-wave {
-  position: absolute;
-  bottom: 0; left: 0; right: 0;
-  height: 120px;
-  z-index: 1;
-  line-height: 0;
-}
-
-.hero-wave svg {
-  display: block;
-  width: 100%;
-  height: 100%;
-}
-
-.wave {
-  animation: wave-flow 8s ease-in-out infinite;
-}
-
-.wave-2 {
-  opacity: 0.5;
-  animation-delay: -4s;
-  animation-duration: 10s;
-}
-
-@keyframes wave-flow {
-  0%   { transform: translateX(0) translateY(0); }
-  50%  { transform: translateX(-25px) translateY(6px); }
-  100% { transform: translateX(0) translateY(0); }
 }
 
 /* ===== 主内容区 ===== */

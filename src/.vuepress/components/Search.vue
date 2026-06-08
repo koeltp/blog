@@ -1,6 +1,12 @@
 <template>
-  <div class="search-main">
-    <div class="search-hero">
+  <div class="search-page">
+    <!-- 几何秩序风格 Hero（撑满整行） -->
+    <section class="geo-hero">
+      <div class="geo-hero-inner">
+        <h1 class="geo-hero-title">搜索</h1>
+        <p class="geo-hero-desc">探索知识库，找到你感兴趣的内容</p>
+      </div>
+      <!-- 搜索框内嵌到 Hero 中 -->
       <div class="search-page-input-wrapper">
         <input
           v-model="query"
@@ -14,7 +20,9 @@
           搜索
         </button>
       </div>
-    </div>
+    </section>
+
+    <div class="search-main">
 
     <div v-if="loading" class="search-loading">搜索中...</div>
 
@@ -67,6 +75,7 @@
         <p>未找到与 "<strong>{{ query }}</strong>" 相关的内容</p>
         <p class="search-empty-hint">试试其他关键词，或使用更简短的词语</p>
       </div>
+    </div>
     </div>
   </div>
 </template>
@@ -195,15 +204,61 @@ watch(() => route.query.q, async (newQ) => {
 </script>
 
 <style scoped>
+.search-page {
+  background: var(--vp-c-bg, #ffffff);
+}
+
 .search-main {
   max-width: 860px;
   margin: 0 auto;
-  padding: 2rem 1.5rem;
+  padding: 0 1.5rem;
 }
 
-.search-hero {
+/* 几何秩序风格 Hero */
+.geo-hero {
+  background: #eef2f5;
+  border-bottom: 1px solid #dde3ea;
+  padding: 4rem 2rem 3rem;
   text-align: center;
-  padding: 2.5rem 0 1.5rem;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+}
+
+.geo-hero::before {
+  content: '⬚ ◇ ◯ △';
+  position: absolute;
+  font-size: 130px;
+  bottom: 0;
+  left: 0;
+  opacity: 0.08;
+  font-weight: bold;
+  pointer-events: none;
+  white-space: pre;
+  line-height: 1;
+  color: #1a2a3a;
+}
+
+.geo-hero-inner {
+  position: relative;
+  z-index: 1;
+  margin-bottom: 2rem;
+}
+
+.geo-hero-title {
+  font-size: clamp(2rem, 5vw, 2.8rem);
+  font-weight: 800;
+  color: #1a2a3a;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.5rem;
+}
+
+.geo-hero-desc {
+  font-size: 1.05rem;
+  color: #5a6a7a;
+  max-width: 500px;
+  margin: 0 auto;
+  line-height: 1.6;
 }
 
 .search-page-input-wrapper {
@@ -211,31 +266,33 @@ watch(() => route.query.q, async (newQ) => {
   margin: 0 auto;
   display: flex;
   align-items: center;
+  position: relative;
+  z-index: 1;
 }
 
 .search-page-input-wrapper input {
   flex: 1;
   padding: 14px 20px;
-  border: 2px solid #3b82f6;
+  border: 2px solid #1a2a3a;
   border-right: none;
-  border-radius: 12px 0 0 12px;
+  border-radius: 0 0 0 0;
   font-size: 1.05rem;
   outline: none;
   transition: box-shadow 0.2s;
-  background: white;
+  background: #ffffff;
 }
 
 .search-page-input-wrapper input:focus {
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+  box-shadow: 0 0 0 3px rgba(26,42,58,0.12);
 }
 
 .search-page-btn {
   padding: 14px 18px;
-  border: 2px solid #3b82f6;
+  border: 2px solid #1a2a3a;
   border-left: none;
-  border-radius: 0 12px 12px 0;
-  background: #3b82f6;
-  color: white;
+  border-radius: 0 0 0 0;
+  background: #1a2a3a;
+  color: #eef2f5;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -250,8 +307,8 @@ watch(() => route.query.q, async (newQ) => {
 }
 
 .search-page-btn:hover {
-  background: #2563eb;
-  border-color: #2563eb;
+  background: #2c4c6c;
+  border-color: #2c4c6c;
 }
 
 .search-count {
@@ -313,7 +370,7 @@ watch(() => route.query.q, async (newQ) => {
 }
 
 @media (max-width: 768px) {
-  .search-main { padding: 1rem; }
-  .search-hero { padding: 1.5rem 0 1rem; }
+  .search-main { padding: 0 1rem; }
+  .geo-hero { padding: 3rem 1.25rem 2rem; }
 }
 </style>
