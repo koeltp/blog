@@ -58,6 +58,7 @@ const navItems = [
   { name: '首页', url: '/' },
   { name: '文章', url: '/articles/' },
   { name: '教程', url: '/tutorials/' },
+  { name: '关于', url: '/about/' },
 ]
 
 const mobileMenuOpen = ref(false)

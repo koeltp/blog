@@ -1,5 +1,6 @@
 ---
 layout: Layout
+permalink: /
 ---
 
 <Home />
