@@ -2,309 +2,167 @@
 
 基于 **VuePress 2** 构建的技术教程博客，涵盖 .NET、Flutter、LangChain、Docker、Aspire、财报分析、周易等多个领域。
 
+---
+
+## 快速开始
+
+### 环境要求
+
+- Node.js 20+
+- npm
+
+### 安装与运行
+
+```bash
+# 安装依赖
+npm install
+
+# 本地开发（自动生成数据 + 启动热更新服务器）
+npm run dev
+
+# 生产构建
+npm run build
+```
+
+开发服务器启动后访问 `http://localhost:8080`。
+
+---
+
 ## 项目结构
 
 ```
 blog/
-├── src/                          # VuePress 源码目录
-│   ├── .vuepress/                # VuePress 配置
-│   │   ├── components/           # 自定义组件
-│   │   ├── public/               # 静态资源（data、img）
-│   │   ├── styles/               # 全局样式
-│   │   ├── client.js             # 客户端入口（Mermaid、代码块增强等）
-│   │   └── config.js             # VuePress 配置文件
-│   └── docs/                     # Markdown 文档
-│       ├── article/              # 独立文章
-│       ├── aspire/               # .NET Aspire 教程
-│       ├── dart/                 # Dart 语言
-│       ├── dotnet/               # .NET 教程（认证授权、生命周期、配置体系）
-│       ├── flutter/              # Flutter 全套教程
-│       ├── freport/              # 财报分析
-│       ├── langchain/            # LangChain 教程
-│       ├── md/                   # Markdown 语法指南
-│       ├── openiddict/           # OpenIddict OAuth2 教程
-│       └── zhouyi/               # 周易预测
-├── img/                          # 图片资源
+├── scripts/
+│   └── generate-data.js        # 数据生成脚本（自动从 md 生成 JSON）
+├── src/
+│   ├── .vuepress/
+│   │   ├── components/         # Vue 组件
+│   │   │   ├── Layout.vue       # 默认布局（首页/文章列表/搜索页）
+│   │   │   ├── TutorialLayout.vue  # 教程详情页布局（三栏）
+│   │   │   ├── NavBar.vue       # 顶部导航栏
+│   │   │   ├── Home.vue         # 首页
+│   │   │   ├── Articles.vue     # 文章列表页
+│   │   │   ├── Search.vue       # 搜索页
+│   │   │   ├── Tutorials.vue    # 教程总览页
+│   │   │   └── SvgIcon.vue      # SVG 图标工具组件
+│   │   ├── public/
+│   │   │   ├── data/            # 自动生成的 JSON 数据（勿手动编辑）
+│   │   │   │   ├── articles.json
+│   │   │   │   ├── search-index.json
+│   │   │   │   └── nav.json
+│   │   │   └── img/             # 图片资源
+│   │   ├── styles/
+│   │   │   └── index.css        # 全局样式
+│   │   ├── client.js            # 客户端入口（Mermaid、代码块增强等）
+│   │   └── config.js            # VuePress 配置
+│   └── docs/                    # Markdown 文档源码
+│       ├── article/             # 独立文章
+│       ├── aspire/              # Aspire 教程
+│       ├── dart/                # Dart 教程
+│       ├── dotnet/              # .NET 教程
+│       │   └── auth/            # 认证与授权（子分类）
+│       ├── flutter/             # Flutter 教程
+│       ├── freport/             # 财报分析
+│       ├── langchain/           # LangChain 教程
+│       ├── md/                  # Markdown 语法指南
+│       ├── openiddict/          # OpenIddict 教程
+│       └── zhouyi/              # 周易预测
 ├── package.json
-├── CNAME                         # 自定义域名
-└── README.md
+└── CNAME                        # 自定义域名
 ```
 
-## 技术栈
-
-| 技术 | 用途 |
-|---|---|
-| VuePress 2 | 静态站点生成框架 |
-| Vite | 构建工具 |
-| Vue 3 | 前端框架 |
-| Sass | CSS 预处理器 |
-| Mermaid | 图表渲染 |
-| markdown-it | Markdown 解析扩展 |
-
-## 功能特性
-
-- **自定义布局**：首页、教程页、文章列表页、搜索页等独立布局
-- **Mermaid 图表**：支持图表/代码切换、缩放、下载、全屏
-- **代码块增强**：统一的头部栏（语言标签 + 复制按钮）、标签式多代码切换
-- **定义列表**：通过 `markdown-it-deflist` 插件支持
-- **响应式设计**：适配桌面端与移动端
-
-## 快速开始
-
-### 安装依赖
-
-```bash
-npm install
-```
-
-### 本地开发
-
-```bash
-npm run dev
-```
-
-### 构建生产版本
-
-```bash
-npm run build
-```
-
-构建产物输出到 `dist/` 目录。
+---
 
 ## 如何添加内容
 
-1. 在 `src/docs/` 下对应分类目录创建 `.md` 文件
-2. 在文件顶部添加 Front Matter：
+### 添加一篇文章
+
+1. 在 `src/docs/article/` 下创建 `.md` 文件
+2. 填写 frontmatter：
 
 ```yaml
 ---
+layout: TutorialLayout
 title: 文章标题
-summary: 文章简介
 date: 2026-06-08
----
-```
-
-3. 使用 Mermaid 图表时，代码块语言标记为 `mermaid`：
-
-\`\`\`mermaid
-graph LR
-    A --> B
-\`\`\`
-
-## 部署到 GitHub Pages
-
-本项目已配置 `CNAME` 文件用于自定义域名。以下是几种常见的 GitHub Pages 部署方式。
-
-### 前置准备
-
-1. 在 GitHub 上创建仓库（如 `koeltp/blog`）
-2. 确保仓库中包含 `CNAME` 文件（指向你的自定义域名），或删除它使用默认的 `*.github.io` 域名
-
-> **注意**：如果使用自定义域名，需在域名 DNS 管理处添加 CNAME 记录指向 `<username>.github.io`。
-
+category: tech
+tags: 标签1, 标签2, 标签3
+summary: 一句话简介
+authors: 作者名（可选）
 ---
 
-### 方式一：GitHub Actions 自动部署（推荐）
-
-每次 push 到 `main` 分支时自动构建并部署，无需手动操作。
-
-#### 1. 创建工作流文件
-
-在项目根目录创建 `.github/workflows/deploy.yml`：
-
-```yaml
-name: Deploy to GitHub Pages
-
-on:
-  push:
-    branches: [main]
-  # 也支持手动触发
-  workflow_dispatch:
-
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: pages
-  cancel-in-progress: false
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: npm
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Build VuePress site
-        run: npm run build
-
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: ./dist
-
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ github.event.repository.html_url }}
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+正文内容...
 ```
 
-#### 2. 配置 GitHub Pages 设置
+3. 运行 `npm run dev` 或 `npm run build`，数据自动生成
 
-进入仓库 → **Settings** → **Pages** → **Build and deployment**：
-- **Source**：选择 **GitHub Actions**
+### 添加一个教程
 
-#### 3. 配置 VuePress base 路径（可选）
+1. 在 `src/docs/` 下创建新目录（如 `src/docs/my-tutorial/`）
+2. 在目录下创建 `.md` 文件，编号前缀会自动排序：
 
-如果仓库不是 `[username].github.io` 这种特殊仓库名，需要在 `src/.vuepress/config.js` 中设置 `base`：
+```
+src/docs/my-tutorial/
+├── 01入门.md
+├── 02进阶.md
+└── index.md          # 教程首页（可选，title 会作为分类显示名）
+```
+
+3. 每个文件的 frontmatter 同上
+4. 如果需要自定义分类显示名，在 `scripts/generate-data.js` 的 `DISPLAY_NAMES` 中添加映射：
 
 ```js
-export default defineUserConfig({
-  // 仓库名为 blog 时，base 设为 /blog/
-  base: '/blog/',
-  // ...其他配置
-})
-```
-
-> 特殊仓库名（`<username>.github.io` 或 `<org>.github.io`）不需要设置 `base`，保持默认 `/` 即可。
-
-#### 4. 提交并推送
-
-```bash
-git add . && git commit -m "添加 GitHub Actions 部署工作流"
-git push origin main
-```
-
-推送后自动触发构建，完成后在仓库 **Actions** 页面查看状态，**Settings → Pages** 查看站点地址。
-
----
-
-### 方式二：手动构建 + gh-pages 分支
-
-适合不想用 Actions 或需要手动控制发布时机的场景。
-
-#### 1. 安装 gh-pages 工具
-
-```bash
-npm install --save-dev gh-pages
-```
-
-#### 2. 在 package.json 中添加部署脚本
-
-```json
-{
-  "scripts": {
-    "deploy": "npm run build && gh-pages -d dist"
-  }
+const DISPLAY_NAMES = {
+  // ...
+  'my-tutorial': '我的教程',
 }
 ```
 
-#### 3. 执行部署
+5. 运行 `npm run dev`，导航和搜索数据自动更新
 
-```bash
-npm run deploy
-```
+### 添加子分类
 
-这会将 `dist/` 目录内容推送到 `gh-pages` 分支。
-
-#### 4. 配置 GitHub Pages 来源
-
-进入仓库 → **Settings** → **Pages** → **Build and deployment**：
-- **Source**：选择 **Deploy from a branch**
-- **Branch**：选择 `gh-pages` / `(root)`
+目录嵌套即子分类。例如 `src/docs/dotnet/auth/` 会自动成为 `dotnet` 的子分类，左侧导航会显示分组折叠。
 
 ---
 
-### 方式三：使用 vuepress-plugin-deploy 插件
+## Frontmatter 字段说明
 
-VuePress 官方提供的部署插件，集成度更高。
-
-#### 1. 安装插件
-
-```bash
-npm install --save-dev vuepress-plugin-deploy@next
-```
-
-#### 2. 在 config.js 中配置
-
-```js
-import { deployPlugin } from 'vuepress-plugin-deploy'
-
-export default defineUserConfig({
-  plugins: [
-    deployPlugin({
-      // 构建产物目录
-      buildDir: './dist',
-      // 目标分支
-      branch: 'gh-pages',
-      // 推送前是否清空目标分支
-      clearBeforePush: true,
-    }),
-  ],
-})
-```
-
-#### 3. 执行部署命令
-
-```bash
-npx vuepress-plugin-deploy deploy
-```
-
-或直接运行：
-
-```bash
-npm run build && npx vuepress-plugin-deploy deploy
-```
+| 字段 | 必填 | 说明 |
+|------|------|------|
+| `layout` | 是 | 固定 `TutorialLayout` |
+| `title` | 是 | 文章/教程标题 |
+| `date` | 是 | 发布日期，格式 `YYYY-MM-DD` |
+| `category` | 是 | 分类：`tech`（技术）、`life`（生活）、`tutorial`（教程）、`finance`（财经） |
+| `tags` | 是 | 标签，逗号分隔：`tags: .NET, Docker, 微服务` |
+| `summary` | 是 | 一句话简介，显示在文章卡片和搜索结果中 |
+| `authors` | 否 | 作者，字符串或 YAML 列表 |
 
 ---
 
-### 自定义域名配置
+## 数据生成机制
 
-如果使用自定义域名（如 `example.com`）：
+**核心原则：只管写 md，数据全自动。**
 
-1. 确保 `CNAME` 文件存在于项目根目录（本项目已有）
-2. 在域名 DNS 管理面板添加记录：
+`npm run dev` 和 `npm run build` 都会先执行 `node scripts/generate-data.js`，该脚本：
 
-| 类型 | 主机记录 | 记录值 |
-|------|---------|--------|
-| CNAME | `@` | `<username>.github.io` |
-| CNAME | `www` | `<username>.github.io` |
+1. 扫描 `src/docs/` 下所有 `.md` 文件
+2. 解析 frontmatter
+3. 自动生成三个 JSON 文件到 `src/.vuepress/public/data/`：
 
-3. 在 GitHub 仓库 **Settings → Pages → Custom domain** 中填写域名
-4. 开启 **Enforce HTTPS**
+| 文件 | 用途 | 数据来源 |
+|------|------|---------|
+| `articles.json` | 文章列表页 | `article/` 下的 md |
+| `search-index.json` | 全站搜索索引 | 所有 md |
+| `nav.json` | 教程左侧导航 + 分类名 | 目录结构 + index.md 的 title |
 
-### 部署方式对比
-
-| | Actions 自动部署 | 手动 gh-pages | deploy 插件 |
-|---|---|---|---|
-| 自动化程度 | 全自动 | 手动执行 | 半自动 |
-| 适用场景 | 持续集成、团队协作 | 偶尔更新、简单场景 | 深度定制 |
-| 配置复杂度 | 中等 | 低 | 中等 |
-| 依赖外部工具 | GitHub Actions | gh-pages CLI | vuepress-plugin-deploy |
-| 推荐 | ★★★★★ | ★★★ | ★★★★ |
+也可以单独运行：`npm run generate`
 
 ---
 
 ## 组件架构
 
-### 组件依赖关系图
+### 组件依赖关系
 
 ```
 client.js（入口，注册所有组件和布局）
@@ -327,27 +185,47 @@ client.js（入口，注册所有组件和布局）
   └── SvgIcon.vue ────────── 图标工具组件（被多处引用）
 ```
 
-### 各组件职责
-
-| 组件 | 类型 | 职责 | 对应路由 |
-|------|------|------|----------|
-| **Layout** | 布局 | 全站默认外壳：NavBar + `<Content />` 插槽 + Footer | `/`, `/articles/`, `/search/`, `/tutorials/` 等非详情页 |
-| **TutorialLayout** | 布局 | 教程/文章详情页三栏布局：左侧导航 + 中间内容 + 右侧 TOC 目录 | `/docs/**` 详情页 |
-| **NavBar** | 组件 | 固定顶部毛玻璃导航栏，含 Logo、导航链接、搜索弹出框、移动端汉堡菜单 | 被 Layout 和 TutorialLayout 引用 |
-| **SvgIcon** | 工具组件 | 内联 SVG 图标集合（search / user / calendar / folder / tag / arrow-right），通过 `name` prop 切换 | 被 NavBar、Articles、Search、TutorialLayout 引用 |
-| **Home** | 页面 | 首页 Hero 区（留白叙事风格：奶油色背景）+ 最近更新 + 技术栈 | `/` |
-| **Articles** | 页面 | 文章列表页（几何秩序风格 Hero）+ 全部文章卡片列表 | `/articles/` |
-| **Search** | 页面 | 搜索页（几何秩序风格 Hero，搜索框内嵌）+ MiniSearch 结果展示 | `/search/` |
-| **Tutorials** | 页面 | 教程总览页（卡片网格），从 nav.json 动态生成教程分类卡片 | `/tutorials/` |
-
 ### 布局选择逻辑
 
-- **Layout** 作为默认 Layout，大部分页面走这个布局，`<Content />` 插槽会渲染对应路由的页面组件（Home / Articles / Search / Tutorials）
-- **TutorialLayout** 仅用于 `/docs/` 下的 Markdown 详情页，提供独立的侧边导航和目录功能
-- 两者都包含独立的 NavBar 和 Footer（TutorialLayout 自带一套，不共用 Layout 的）
+- **Layout** — 默认布局，首页/文章列表/搜索页/教程总览页使用
+- **TutorialLayout** — 教程/文章详情页使用，提供左侧导航 + 右侧目录
 
 ### 样式约定
 
-- 首页 Hero：**留白叙事** — 奶油暖调 `#fef9e8`，极简舒适
-- 文章列表/搜索页 Hero：**几何秩序** — 浅灰蓝 `#eef2f5`，建筑感装饰元素
-- 导航栏：毛玻璃效果 `backdrop-filter: blur(20px)`，固定顶部 64px 高度
+- 首页 Hero：**留白叙事** — 奶油暖调 `#fef9e8`
+- 文章列表/搜索页 Hero：**几何秩序** — 浅灰蓝 `#eef2f5`
+- 导航栏：毛玻璃效果 `backdrop-filter: blur(20px)`，固定顶部 64px
+
+---
+
+## 技术栈
+
+| 技术 | 用途 |
+|---|---|
+| VuePress 2 | 静态站点生成框架 |
+| Vite | 构建工具 |
+| Vue 3 | 前端框架 |
+| MiniSearch | 客户端全文搜索 |
+| Mermaid | 图表渲染 |
+| markdown-it-deflist | 定义列表插件 |
+
+---
+
+## 部署
+
+### GitHub Actions 自动部署（推荐）
+
+每次 push 到 `main` 分支时自动构建并部署。
+
+1. 创建 `.github/workflows/deploy.yml`（参考 VuePress 官方文档）
+2. 仓库 Settings → Pages → Source 选择 **GitHub Actions**
+3. 推送后自动构建，Settings → Pages 查看站点地址
+
+### 自定义域名
+
+项目根目录已有 `CNAME` 文件。如需更换域名：
+
+1. 修改 `CNAME` 文件内容
+2. 在域名 DNS 添加 CNAME 记录指向 `<username>.github.io`
+3. GitHub 仓库 Settings → Pages → Custom domain 填写新域名
+4. 开启 **Enforce HTTPS**

@@ -7,8 +7,9 @@
     "doc": "docs"
   },
   "scripts": {
-    "dev": "vuepress dev src",
-    "build": "vuepress build src",
+    "dev": "node scripts/generate-data.js && vuepress dev src",
+    "build": "node scripts/generate-data.js && vuepress build src",
+    "generate": "node scripts/generate-data.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

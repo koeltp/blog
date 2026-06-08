@@ -1,9 +1,10 @@
-﻿---
+---
 layout: TutorialLayout
 title: Docker Registry
 date: 2026-05-08
 category: tech
 tags: IT, Docker
+summary: Docker 镜像加速地址汇总，解决 docker image pull 失败问题
 ---
 
 经常遇到docker image pull失败的，这是经过社区验证的几个比好用的镜像地址：

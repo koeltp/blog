@@ -1,5 +1,10 @@
 ---
 layout: TutorialLayout
+title: Dart教程
+date: 2026-06-07
+category: tech
+tags: .NET, ASP.NET Core, 依赖注入, DI, 服务生命周期, Singleton, Scoped, Transient, IDisposable
+summary: 从直觉到原理理解 .NET 依赖注入的三种服务生命周期：实例创建时机、俘获依赖陷阱、IDisposable 释放规则与最佳实践
 ---
 
 # Dart教程

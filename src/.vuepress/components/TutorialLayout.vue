@@ -169,17 +169,16 @@ const prevNext = ref({ prev: null, next: null })
 
 // 当前文件信息
 const navType = computed(() => {
-  const path = route.path
+  const path = decodeURIComponent(route.path)
   const match = path.match(/^\/docs\/(.+?)\/[^/]+\.html$/)
   return match ? match[1] : ''
 })
-
 const parentType = computed(() => navType.value.split('/')[0])
 const currentSubKey = computed(() => {
   return navType.value.includes('/') ? navType.value : ''
 })
 const currentFile = computed(() => {
-  const path = route.path
+  const path = decodeURIComponent(route.path)
   const match = path.match(/\/([^/]+)\.html$/)
   return match ? match[1] + '.md' : ''
 })
@@ -361,7 +360,7 @@ watch(() => route.path, () => {
 }
 
 .sidebar.has-nav {
-  padding-left: 100px;
+  padding-left: 5px;
 }
 
 .sidebar h3 {
