@@ -1,0 +1,349 @@
+{
+  "displayNames": {
+    "zhouyi": "周易预测",
+    "langchain": "LangChain教程",
+    "flutter": "Flutter教程",
+    "dart": "Dart教程",
+    "freport": "财报",
+    "md": "Markdown语法指南",
+    "openiddict": "OpenIddict教程",
+    "aspire": "Aspire教程",
+    "dotnet": ".NET教程",
+    "dotnet/auth": "认证与授权",
+    "article": "文章"
+  },
+  "subCategories": {
+    "dotnet": [
+      "auth"
+    ]
+  },
+  "excludeDirs": [
+    "article"
+  ],
+  "topnavBase": [
+    {
+      "name": "首页",
+      "url": "/"
+    },
+    {
+      "name": "文章",
+      "url": "/articles/"
+    },
+    {
+      "name": "教程",
+      "url": "/tutorials/"
+    }
+  ],
+  "topnav": [
+    {
+      "name": "首页",
+      "url": "/"
+    },
+    {
+      "name": "文章",
+      "url": "/articles/"
+    },
+    {
+      "name": "教程",
+      "url": "/tutorials/"
+    }
+  ],
+  "leftnav": {
+    "zhouyi": [
+      {
+        "name": "基础知识",
+        "file": "01基础知识.md"
+      },
+      {
+        "name": "卦象法则",
+        "file": "02卦象法则.md"
+      }
+    ],
+    "langchain": [
+      {
+        "name": "概述与环境搭建",
+        "file": "01概述与环境搭建.md"
+      },
+      {
+        "name": "Python 速览",
+        "file": "02Python速览.md"
+      },
+      {
+        "name": "LLM 与 Prompt 工程",
+        "file": "03LLM与Prompt工程.md"
+      },
+      {
+        "name": "输出解析与结构化",
+        "file": "04输出解析与结构化.md"
+      },
+      {
+        "name": "链与 LCEL",
+        "file": "05链与LCEL.md"
+      },
+      {
+        "name": "对话记忆",
+        "file": "06对话记忆.md"
+      },
+      {
+        "name": "文档加载与分割",
+        "file": "07文档加载与分割.md"
+      },
+      {
+        "name": "向量存储与检索",
+        "file": "08向量存储与检索.md"
+      },
+      {
+        "name": "RAG 检索增强生成",
+        "file": "09RAG检索增强生成.md"
+      },
+      {
+        "name": "Agent 与工具调用",
+        "file": "10Agent与工具调用.md"
+      },
+      {
+        "name": "自定义工具与多 Agent",
+        "file": "11自定义工具与多Agent.md"
+      },
+      {
+        "name": "对话系统实战",
+        "file": "12对话系统实战.md"
+      },
+      {
+        "name": "评估与测试",
+        "file": "13评估与测试.md"
+      },
+      {
+        "name": "部署与生产化",
+        "file": "14部署与生产化.md"
+      },
+      {
+        "name": "LangChain 从菜鸟到高手",
+        "file": "index.md"
+      }
+    ],
+    "flutter": [
+      {
+        "name": "概述与环境搭建",
+        "file": "01概述与环境搭建.md"
+      },
+      {
+        "name": "Dart 语言速览（上）",
+        "file": "02Dart语言速览（上）.md"
+      },
+      {
+        "name": "Dart 语言速览（下）",
+        "file": "02Dart语言速览（下）.md"
+      },
+      {
+        "name": "Widget 一切皆组件",
+        "file": "03Widget一切皆组件.md"
+      },
+      {
+        "name": "布局系统",
+        "file": "04布局系统.md"
+      },
+      {
+        "name": "路由与导航",
+        "file": "05路由与导航.md"
+      },
+      {
+        "name": "状态管理（上）",
+        "file": "06状态管理（上）.md"
+      },
+      {
+        "name": "状态管理（下）",
+        "file": "07状态管理（下）.md"
+      },
+      {
+        "name": "网络请求",
+        "file": "08网络请求.md"
+      },
+      {
+        "name": "本地存储",
+        "file": "09本地存储.md"
+      },
+      {
+        "name": "动画基础与进阶",
+        "file": "10动画基础与进阶.md"
+      },
+      {
+        "name": "自定义绘制与 Sliver",
+        "file": "11自定义绘制与Sliver.md"
+      },
+      {
+        "name": "手势与交互",
+        "file": "12手势与交互.md"
+      },
+      {
+        "name": "平台交互与插件",
+        "file": "13平台交互与插件.md"
+      },
+      {
+        "name": "架构设计",
+        "file": "14架构设计.md"
+      },
+      {
+        "name": "测试全攻略",
+        "file": "15测试全攻略.md"
+      },
+      {
+        "name": "性能优化",
+        "file": "16性能优化.md"
+      },
+      {
+        "name": "主题与国际化",
+        "file": "17主题与国际化.md"
+      },
+      {
+        "name": "打包与发布",
+        "file": "18打包与发布.md"
+      },
+      {
+        "name": "Flutter 从菜鸟到高手",
+        "file": "index.md"
+      }
+    ],
+    "dart": [
+      {
+        "name": "index",
+        "file": "index.md"
+      }
+    ],
+    "freport": [
+      {
+        "name": "财报基础与信息披露",
+        "file": "01财报基础与信息披露.md"
+      },
+      {
+        "name": "资产负债表（上）",
+        "file": "02资产负债表（上）.md"
+      },
+      {
+        "name": "资产负债表（下）",
+        "file": "03资产负债表（下）.md"
+      },
+      {
+        "name": "利润表",
+        "file": "04利润表.md"
+      },
+      {
+        "name": "现金流量表",
+        "file": "05现金流量表.md"
+      },
+      {
+        "name": "财报附注与审计意见",
+        "file": "06财报附注与审计意见.md"
+      },
+      {
+        "name": "财务指标分析",
+        "file": "07财务指标分析.md"
+      },
+      {
+        "name": "实战读财报",
+        "file": "08实战读财报.md"
+      }
+    ],
+    "md": [
+      {
+        "name": "Markdown语法指南",
+        "file": "index.md"
+      }
+    ],
+    "openiddict": [
+      {
+        "name": "OpenIddict 概述与快速上手",
+        "file": "01概述与快速上手.md"
+      },
+      {
+        "name": "OpenIddict 授权码流程详解",
+        "file": "02授权码流程详解.md"
+      },
+      {
+        "name": "OpenIddict 客户端凭证与资源服务器",
+        "file": "03客户端凭证与资源服务器.md"
+      },
+      {
+        "name": "OpenIddict 令牌管理",
+        "file": "04令牌管理.md"
+      },
+      {
+        "name": "OpenIddict 自定义扩展与踩坑",
+        "file": "05自定义扩展与踩坑.md"
+      },
+      {
+        "name": "OpenIddict 核心类关系解析",
+        "file": "06核心类关系解析.md"
+      }
+    ],
+    "aspire": [
+      {
+        "name": "概述与快速上手",
+        "file": "01概述与快速上手.md"
+      },
+      {
+        "name": "App Host 编排模型",
+        "file": "02AppHost编排模型.md"
+      },
+      {
+        "name": "服务通信与发现",
+        "file": "03服务通信与发现.md"
+      },
+      {
+        "name": "集成外部依赖",
+        "file": "04集成外部依赖.md"
+      },
+      {
+        "name": "可观测性与 Dashboard",
+        "file": "05可观测性与Dashboard.md"
+      },
+      {
+        "name": "部署与发布",
+        "file": "06部署与发布.md"
+      },
+      {
+        "name": "多语言编排与测试",
+        "file": "07多语言编排与测试.md"
+      }
+    ],
+    "dotnet": [
+      {
+        "name": "服务生命周期详解",
+        "file": "服务生命周期详解.md"
+      },
+      {
+        "name": "配置体系详解",
+        "file": "配置体系详解.md"
+      }
+    ],
+    "dotnet/auth": [
+      {
+        "name": "认证基础与中间件管道",
+        "file": "01认证基础与中间件管道.md"
+      },
+      {
+        "name": "授权体系详解",
+        "file": "02授权体系详解.md"
+      },
+      {
+        "name": "自定义认证处理器",
+        "file": "03自定义认证处理器.md"
+      },
+      {
+        "name": "策略授权与需求处理器",
+        "file": "04策略授权与需求处理器.md"
+      },
+      {
+        "name": "Identity 深入解析（上）",
+        "file": "05Identity深入解析（上）.md"
+      },
+      {
+        "name": "Identity 实战集成（下）",
+        "file": "05Identity实战集成（下）.md"
+      },
+      {
+        "name": "OAuth2 客户端集成",
+        "file": "06OAuth2客户端集成.md"
+      }
+    ]
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "name": "blog",
+  "version": "1.0.0",
+  "description": "这是一个基于 HTML、CSS 和 JavaScript 开发的教程网站，用于展示和管理各种技术教程和文章。网站支持 Markdown 格式的内容，具有美观的界面和丰富的功能。",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "dev": "vuepress dev src",
+    "build": "vuepress build src",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/koeltp/blog.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/koeltp/blog/issues"
+  },
+  "homepage": "https://github.com/koeltp/blog#readme",
+  "devDependencies": {
+    "@vuepress/bundler-vite": "^2.0.0-rc.30",
+    "@vuepress/client": "^2.0.0-rc.30",
+    "@vuepress/plugin-register-components": "^2.0.0-rc.130",
+    "@vuepress/plugin-search": "^2.0.0-rc.130",
+    "@vuepress/theme-default": "^2.0.0-rc.130",
+    "markdown-it-deflist": "^3.0.1",
+    "mermaid": "^11.15.0",
+    "sass": "^1.100.0",
+    "sass-loader": "^16.0.8",
+    "vue": "^3.5.35",
+    "vuepress": "^2.0.0-rc.30"
+  },
+  "dependencies": {
+    "markdown-it-container": "^4.0.0",
+    "minisearch": "^7.2.0"
+  }
+}

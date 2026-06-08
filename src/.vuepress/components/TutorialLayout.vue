@@ -1,0 +1,401 @@
+<template>
+  <div class="tutorial-layout">
+    <NavBar />
+
+    <div class="page-wrapper">
+      <!-- 左侧导航 -->
+      <aside class="sidebar" :class="{ 'has-nav': hasSidebar }">
+        <h3 v-if="hasSidebar">目录</h3>
+        <ul v-if="hasSidebar" id="file-list">
+          <!-- 根目录文件 -->
+          <template v-if="rootFiles.length">
+            <li v-for="file in rootFiles" :key="file.file">
+              <RouterLink :to="getLink(parentType, file.file)" :class="{ active: currentFile === file.file }">
+                {{ file.name }}
+              </RouterLink>
+            </li>
+          </template>
+          <!-- 子目录分组 -->
+          <li v-for="sub in subGroups" :key="sub.key" class="nav-group" :class="{ collapsed: sub.key !== currentSubKey }">
+            <div class="nav-group-header" @click="toggleGroup(sub)">
+              <span class="nav-group-arrow">{{ sub.key === currentSubKey ? '▼' : '▶' }}</span>
+              <span class="nav-group-title">{{ sub.displayName }}</span>
+            </div>
+            <ul class="nav-group-items">
+              <li v-for="file in sub.files" :key="file.file">
+                <RouterLink :to="getLink(sub.key, file.file)" :class="{ active: currentSubKey === sub.key && currentFile === file.file }">
+                  {{ file.name }}
+                </RouterLink>
+              </li>
+            </ul>
+          </li>
+          <!-- 普通一级目录文件 -->
+          <template v-if="!rootFiles.length && !subGroups.length">
+            <li v-for="file in allFiles" :key="file.file">
+              <RouterLink :to="getLink(navType, file.file)" :class="{ active: currentFile === file.file }">
+                {{ file.name }}
+              </RouterLink>
+            </li>
+          </template>
+        </ul>
+      </aside>
+
+      <!-- 内容区 -->
+      <div class="content-area">
+        <div class="content-container">
+          <Content />
+          <!-- 上一篇/下一篇 -->
+          <div v-if="prevNext.prev || prevNext.next" class="prev-next-nav">
+            <RouterLink v-if="prevNext.prev" :to="prevNext.prev.url" class="prev-next-link prev">
+              <span class="prev-next-label">上一篇</span>
+              <span class="prev-next-title">{{ prevNext.prev.name }}</span>
+            </RouterLink>
+            <span v-else class="prev-next-link prev disabled"></span>
+            <RouterLink v-if="prevNext.next" :to="prevNext.next.url" class="prev-next-link next">
+              <span class="prev-next-label">下一篇</span>
+              <span class="prev-next-title">{{ prevNext.next.name }}</span>
+            </RouterLink>
+            <span v-else class="prev-next-link next disabled"></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 右侧目录 -->
+      <div class="right-nav" v-if="tocItems.length">
+        <div class="right-nav-title">目录</div>
+        <ul>
+          <li v-for="item in tocItems" :key="item.id">
+            <a :href="'#' + item.id" :class="['toc-' + item.level, { active: activeHeading === item.id }]" @click.prevent="scrollTo(item.id)">
+              {{ item.text }}
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 页脚 -->
+    <footer>
+      <p>&copy; 2026 太皮. 保留所有权利.</p>
+    </footer>
+
+  </div>
+</template>
+
+<script setup>
+import { ref, computed, onMounted, onUnmounted, watch } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import NavBar from './NavBar.vue'
+
+const route = useRoute()
+const router = useRouter()
+
+// 导航数据
+const navData = ref(null)
+const rootFiles = ref([])
+const subGroups = ref([])
+const allFiles = ref([])
+const prevNext = ref({ prev: null, next: null })
+
+// 当前文件信息
+const navType = computed(() => {
+  const path = route.path
+  const match = path.match(/^\/docs\/(.+?)\/[^/]+\.html$/)
+  return match ? match[1] : ''
+})
+
+const parentType = computed(() => navType.value.split('/')[0])
+const currentSubKey = computed(() => {
+  return navType.value.includes('/') ? navType.value : ''
+})
+const currentFile = computed(() => {
+  const path = route.path
+  const match = path.match(/\/([^/]+)\.html$/)
+  return match ? match[1] + '.md' : ''
+})
+
+// 是否显示左侧导航栏：文章详情页没有导航数据，不显示
+const hasSidebar = computed(() => {
+  return rootFiles.value.length > 0 || subGroups.value.length > 0 || allFiles.value.length > 0
+})
+
+// 目录
+const tocItems = ref([])
+const activeHeading = ref('')
+
+function getLink(type, file) {
+  return `/docs/${type}/${file.replace('.md', '.html')}`
+}
+
+function toggleGroup(sub) {
+  if (sub.key !== currentSubKey.value) {
+    const files = sub.files
+    if (files.length > 0) {
+      router.push(getLink(sub.key, files[0].file))
+    }
+  }
+}
+
+function scrollTo(id) {
+  const el = document.getElementById(id)
+  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+}
+
+// 加载导航数据
+async function loadNavData() {
+  try {
+    const resp = await fetch('/data/nav.json')
+    navData.value = await resp.json()
+    buildSidebar()
+    buildPrevNext()
+  } catch (e) {
+    console.warn('加载导航数据失败:', e)
+  }
+}
+
+function buildSidebar() {
+  if (!navData.value) return
+  const leftnav = navData.value.leftnav || {}
+  const displayNames = navData.value.displayNames || {}
+  const subCategories = navData.value.subCategories || {}
+  const type = navType.value
+  const parent = parentType.value
+  const subs = subCategories[parent] || []
+
+  if (subs.length > 0) {
+    rootFiles.value = leftnav[parent] || []
+    subGroups.value = subs.map(sub => ({
+      key: `${parent}/${sub}`,
+      displayName: displayNames[`${parent}/${sub}`] || sub,
+      files: leftnav[`${parent}/${sub}`] || []
+    }))
+    allFiles.value = []
+  } else {
+    rootFiles.value = []
+    subGroups.value = []
+    allFiles.value = leftnav[type] || []
+  }
+}
+
+function buildPrevNext() {
+  if (!navData.value) return
+  const leftnav = navData.value.leftnav || {}
+  const type = navType.value
+  const files = leftnav[type] || []
+  const idx = files.findIndex(f => f.file === currentFile.value)
+  if (idx === -1) {
+    prevNext.value = { prev: null, next: null }
+    return
+  }
+  prevNext.value = {
+    prev: idx > 0 ? { name: files[idx - 1].name, url: getLink(type, files[idx - 1].file) } : null,
+    next: idx < files.length - 1 ? { name: files[idx + 1].name, url: getLink(type, files[idx + 1].file) } : null
+  }
+}
+
+// 提取页面标题生成目录
+function extractToc() {
+  const container = document.querySelector('.content-container')
+  if (!container) return
+  const headings = container.querySelectorAll('h1, h2, h3')
+  if (!headings.length) { tocItems.value = []; return }
+
+  const items = []
+  headings.forEach((h, i) => {
+    const id = h.id || `heading-${i}`
+    if (!h.id) h.id = id
+    items.push({
+      id,
+      text: h.textContent,
+      level: h.tagName.toLowerCase().replace('h', '')
+    })
+  })
+  tocItems.value = items
+}
+
+// 滚动监听
+function onScroll() {
+  const headings = tocItems.value.map(item => ({
+    id: item.id,
+    el: document.getElementById(item.id)
+  })).filter(h => h.el)
+
+  let current = null
+  let minDist = Infinity
+  headings.forEach(({ id, el }) => {
+    const dist = Math.abs(el.getBoundingClientRect().top - 100)
+    if (dist < minDist) { minDist = dist; current = id }
+  })
+  if (current) activeHeading.value = current
+}
+
+let scrollHandler = null
+
+onMounted(async () => {
+  await loadNavData()
+  setTimeout(() => {
+    extractToc()
+    scrollHandler = onScroll
+    window.addEventListener('scroll', onScroll)
+  }, 500)
+})
+
+onUnmounted(() => {
+  if (scrollHandler) window.removeEventListener('scroll', scrollHandler)
+})
+
+watch(() => route.path, () => {
+  buildSidebar()
+  buildPrevNext()
+  setTimeout(extractToc, 500)
+})
+</script>
+
+<style scoped>
+.tutorial-layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.page-wrapper {
+  position: relative;
+  display: flex;
+  width: 100%;
+  flex: 1;
+}
+
+.sidebar {
+  width: 350px;
+  background-color: #f8fafc;
+  padding: 1.5rem 0;
+  flex-shrink: 0;
+  border-right: 1px solid #e2e8f0;
+  position: sticky;
+  top: 64px;
+  height: calc(100vh - 64px);
+  overflow-y: auto;
+}
+
+.sidebar.has-nav {
+  padding-left: 100px;
+}
+
+.sidebar h3 {
+  margin: 0 1rem 0.75rem;
+  color: #1e293b;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding-bottom: 0.4rem;
+}
+
+.sidebar ul { list-style: none; padding: 0; margin: 0; }
+.sidebar ul li { list-style: none; margin: 0; padding: 0; }
+
+.sidebar a {
+  color: #475569;
+  text-decoration: none;
+  display: block;
+  padding: 12px 16px;
+  transition: all 0.2s ease;
+  font-size: 1rem;
+  font-weight: 500;
+  border-left: 3px solid transparent;
+}
+
+.sidebar a:hover { background-color: #f1f5f9; color: #1e293b; }
+.sidebar a.active { background-color: #eff6ff; color: #2563eb; font-weight: 600; border-left-color: #2563eb; }
+
+.sidebar-empty {
+  color: #94a3b8;
+  font-size: 0.9rem;
+  text-align: center;
+  padding: 2rem 1rem;
+  margin: 0;
+}
+
+.nav-group { list-style: none; margin: 0; padding: 0; }
+
+.nav-group-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 12px 16px;
+  cursor: pointer;
+  color: #1e293b;
+  font-size: 1rem;
+  font-weight: 600;
+  border-left: 3px solid transparent;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.nav-group-header:hover { background-color: #f1f5f9; }
+
+.nav-group-arrow {
+  font-size: 0.7rem;
+  color: #94a3b8;
+  transition: transform 0.2s ease;
+  width: 14px;
+  text-align: center;
+}
+
+.nav-group-title { flex: 1; }
+
+.sidebar .nav-group-items {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  padding-left: 3rem;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+.sidebar .nav-group.collapsed .nav-group-items { max-height: 0 !important; }
+.sidebar .nav-group:not(.collapsed) .nav-group-items { max-height: 1000px; }
+
+.content-area {
+  flex: 1;
+  min-width: 0;
+  padding: 0;
+}
+
+.content-container {
+  background-color: white;
+  padding: 2rem 2.5rem;
+}
+
+.right-nav {
+  position: sticky !important;
+  top: 64px !important;
+  width: 400px;
+  flex-shrink: 0;
+  background-color: #fafafa;
+  border-left: 1px solid #e2e8f0;
+  padding: 1.5rem 1.5rem 1.5rem 2rem;
+  height: calc(100vh - 64px);
+  max-height: none;
+  overflow-y: auto;
+  z-index: 1;
+}
+
+footer {
+  background-color: #333;
+  color: white;
+  text-align: center;
+  padding: 2rem 0;
+  margin-top: 4rem;
+}
+
+@media (max-width: 1200px) {
+  .right-nav { display: none !important; }
+  .sidebar { width: 200px; }
+  .sidebar.has-nav { padding-left: 40px; }
+}
+
+@media (max-width: 768px) {
+  .sidebar { display: none; }
+  .content-container { padding: 1.5rem; }
+}
+</style>
