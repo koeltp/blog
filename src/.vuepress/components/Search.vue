@@ -1,24 +1,29 @@
 <template>
   <div class="search-page">
-    <!-- 几何秩序风格 Hero（撑满整行） -->
-    <section class="geo-hero">
-      <div class="geo-hero-inner">
-        <h1 class="geo-hero-title">搜索</h1>
-        <p class="geo-hero-desc">探索知识库，找到你感兴趣的内容</p>
-      </div>
-      <!-- 搜索框内嵌到 Hero 中 -->
-      <div class="search-page-input-wrapper">
-        <input
-          v-model="query"
-          type="text"
-          placeholder="输入关键词搜索..."
-          autocomplete="off"
-          @keydown.enter="doSearch"
-        >
-        <button class="search-page-btn" @click="doSearch">
-          <SvgIcon name="search" />
-          搜索
-        </button>
+    <!-- Hero 区域：CI/CD Pipeline 风格 -->
+    <section class="sch-hero">
+      <div class="sch-hero-container">
+        <div class="sch-hero-content">
+          <div class="sch-hero-badge">CI/CD PIPELINE</div>
+          <h1 class="sch-hero-title">从 commit 到 production<br>自动化信仰</h1>
+          <p class="sch-hero-desc">GitHub Actions, GitLab CI — 让每次推送都自信满满。</p>
+        </div>
+        <!-- 搜索框内嵌到 Hero 中 -->
+        <div class="sch-input-wrapper">
+          <input
+            id="search-input"
+            name="search"
+            v-model="query"
+            type="text"
+            placeholder="输入关键词搜索..."
+            autocomplete="off"
+            @keydown.enter="doSearch"
+          >
+          <button class="sch-btn" @click="doSearch">
+            <SvgIcon name="search" />
+            搜索
+          </button>
+        </div>
       </div>
     </section>
 
@@ -214,103 +219,129 @@ watch(() => route.query.q, async (newQ) => {
   padding: 0 1.5rem;
 }
 
-/* 几何秩序风格 Hero */
-.geo-hero {
-  background: #eef2f5;
-  border-bottom: 1px solid #dde3ea;
-  padding: 4rem 2rem 3rem;
-  text-align: center;
+/* ===== Hero：CI/CD Pipeline 风格（深灰 + 紫色按钮）===== */
+.sch-hero {
   position: relative;
-  overflow: hidden;
-  margin-bottom: 1.5rem;
-}
-
-.geo-hero::before {
-  content: '⬚ ◇ ◯ △';
-  position: absolute;
-  font-size: 130px;
-  bottom: 0;
-  left: 0;
-  opacity: 0.08;
-  font-weight: bold;
-  pointer-events: none;
-  white-space: pre;
-  line-height: 1;
-  color: #1a2a3a;
-}
-
-.geo-hero-inner {
-  position: relative;
-  z-index: 1;
-  margin-bottom: 2rem;
-}
-
-.geo-hero-title {
-  font-size: clamp(2rem, 5vw, 2.8rem);
-  font-weight: 800;
-  color: #1a2a3a;
-  letter-spacing: -0.02em;
-  margin-bottom: 0.5rem;
-}
-
-.geo-hero-desc {
-  font-size: 1.05rem;
-  color: #5a6a7a;
-  max-width: 500px;
-  margin: 0 auto;
-  line-height: 1.6;
-}
-
-.search-page-input-wrapper {
-  max-width: 600px;
-  margin: 0 auto;
+  width: 100%;
   display: flex;
   align-items: center;
-  position: relative;
-  z-index: 1;
+  justify-content: center;
+  overflow: hidden;
+  margin-bottom: 2rem;
+  background: #2a2a2e;
+  color: #b8e1fc;
+  border-bottom: 1px solid rgba(108, 92, 231, 0.2);
 }
 
-.search-page-input-wrapper input {
+.sch-hero-container {
+  width: 100%;
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 4rem 2rem;
+  position: relative;
+  z-index: 2;
+}
+
+.sch-hero-content {
+  max-width: 750px;
+  margin-bottom: 2.5rem;
+}
+
+.sch-hero-badge {
+  font-family: monospace;
+  font-size: 0.75rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+  display: inline-block;
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(4px);
+  padding: 0.2rem 0.8rem;
+  border-radius: 20px;
+  color: #c8b8f0;
+}
+
+.sch-hero-title {
+  font-size: clamp(2.2rem, 6vw, 4.2rem);
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 1.2rem;
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+.sch-hero-desc {
+  font-size: 1rem;
+  line-height: 1.5;
+  margin-bottom: 2rem;
+  opacity: 0.85;
+  max-width: 550px;
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+.sch-input-wrapper {
+  max-width: 600px;
+  display: flex;
+  align-items: stretch;
+  transition: box-shadow 0.2s;
+}
+
+.sch-input-wrapper:focus-within {
+  box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.3);
+}
+
+.sch-input-wrapper input {
   flex: 1;
   padding: 14px 20px;
-  border: 2px solid #1a2a3a;
+  border: 2px solid #6c5ce7;
   border-right: none;
-  border-radius: 0 0 0 0;
+  border-radius: 0;
   font-size: 1.05rem;
   outline: none;
   transition: box-shadow 0.2s;
-  background: #ffffff;
+  background: rgba(0, 0, 0, 0.3);
+  color: #b8e1fc;
+  font-family: 'JetBrains Mono', monospace;
+  box-sizing: border-box;
 }
 
-.search-page-input-wrapper input:focus {
-  box-shadow: 0 0 0 3px rgba(26,42,58,0.12);
+.sch-input-wrapper input::placeholder {
+  color: rgba(184, 225, 252, 0.4);
 }
 
-.search-page-btn {
+.sch-input-wrapper input:focus {
+  outline: none;
+}
+
+.sch-btn {
   padding: 14px 18px;
-  border: 2px solid #1a2a3a;
+  border: 2px solid #6c5ce7;
   border-left: none;
-  border-radius: 0 0 0 0;
-  background: #1a2a3a;
-  color: #eef2f5;
+  border-radius: 0;
+  background: #6c5ce7;
+  color: white;
   cursor: pointer;
   display: flex;
   align-items: center;
   transition: all 0.2s ease;
   flex-shrink: 0;
   font-weight: 500;
+  font-family: 'JetBrains Mono', monospace;
+  box-sizing: border-box;
 }
 
-.search-page-btn svg {
+.sch-btn svg {
   width: 20px; height: 20px;
   margin-right: 0.5rem;
 }
 
-.search-page-btn:hover {
-  background: #2c4c6c;
-  border-color: #2c4c6c;
+.sch-btn:hover {
+  background: #7d6ef0;
+  border-color: #7d6ef0;
 }
 
+/* ===== 搜索结果区 ===== */
 .search-count {
   color: #64748b;
   font-size: 0.9rem;
@@ -370,7 +401,7 @@ watch(() => route.query.q, async (newQ) => {
 }
 
 @media (max-width: 768px) {
+  .sch-hero-container { padding: 2.5rem 1.5rem; }
   .search-main { padding: 0 1rem; }
-  .geo-hero { padding: 3rem 1.25rem 2rem; }
 }
 </style>

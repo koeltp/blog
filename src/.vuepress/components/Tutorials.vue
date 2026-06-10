@@ -1,9 +1,26 @@
 <template>
-  <div class="tutorials-container">
-    <div class="tutorials-header">
-      <h1>教程总览</h1>
-      <p>选择你感兴趣的教程，开始学习之旅</p>
-    </div>
+  <div class="tutorials-page">
+    <!-- Hero 区域：Git Graph 风格 -->
+    <section class="tut-hero">
+      <div class="tut-hero-container">
+        <div class="tut-hero-content">
+          <div class="tut-hero-badge">git log --oneline --graph</div>
+          <h1 class="tut-hero-title">版本控制人生<br>每一次commit都是成长</h1>
+          <p class="tut-hero-desc">从第一个commit到开源贡献者，代码仓库见证我的技术演变。</p>
+          <div class="tut-btn-group">
+            <a href="#tutorials-grid" class="tut-btn tut-btn-primary" @click.prevent="scrollToGrid">
+              <i class="fab fa-git-alt"></i> 浏览教程
+            </a>
+            <a href="https://github.com/koeltp" class="tut-btn tut-btn-outline" target="_blank" rel="noopener noreferrer">
+              <i class="fab fa-github"></i> 开源项目
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 教程卡片区 -->
+    <div id="tutorials-grid" class="tutorials-container">
     <div class="tutorials-grid">
       <RouterLink
         v-for="item in tutorialCards"
@@ -21,11 +38,16 @@
         </div>
       </RouterLink>
     </div>
+    </div>
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue'
+
+function scrollToGrid() {
+  document.getElementById('tutorials-grid')?.scrollIntoView({ behavior: 'smooth' })
+}
 
 const tutorialConfig = {
   langchain:   { icon: '🦜', desc: '学习 LangChain 框架，构建强大的 AI 应用与智能代理' },
@@ -96,42 +118,114 @@ onMounted(async () => {
 </script>
 
 <style scoped>
+/* ===== Hero：Git Graph 风格（深紫渐变 + 橙黄标题）===== */
+.tutorials-page {
+  background: var(--vp-c-bg, #ffffff);
+}
+
+.tut-hero {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: linear-gradient(145deg, #1e1b2c, #0f0c1a);
+  color: #f5e6ff;
+  border-bottom: 1px solid rgba(255, 184, 108, 0.15);
+}
+
+.tut-hero-container {
+  width: 100%;
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 4rem 2rem;
+  position: relative;
+  z-index: 2;
+}
+
+.tut-hero-content {
+  max-width: 750px;
+}
+
+.tut-hero-badge {
+  font-family: monospace;
+  font-size: 0.75rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+  display: inline-block;
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(4px);
+  padding: 0.2rem 0.8rem;
+  border-radius: 20px;
+  color: #c9b8e8;
+}
+
+.tut-hero-title {
+  font-size: clamp(2.2rem, 6vw, 4.2rem);
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 1.2rem;
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: -0.02em;
+  color: #ffb86c;
+}
+
+.tut-hero-desc {
+  font-size: 1rem;
+  line-height: 1.5;
+  margin-bottom: 2rem;
+  opacity: 0.85;
+  max-width: 550px;
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+.tut-btn-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.tut-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0.8rem 1.8rem;
+  border-radius: 40px;
+  font-weight: 600;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85rem;
+  text-decoration: none;
+  transition: 0.2s;
+  cursor: pointer;
+}
+
+.tut-btn-primary {
+  background: #ffb86c;
+  color: #1e1b2c;
+}
+
+.tut-btn-primary:hover {
+  filter: brightness(1.05);
+  transform: translateY(-2px);
+}
+
+.tut-btn-outline {
+  border: 1px solid #ffb86c;
+  color: #ffb86c;
+  background: transparent;
+}
+
+.tut-btn-outline:hover {
+  background: rgba(255, 184, 108, 0.08);
+  transform: translateY(-2px);
+}
+/* ===== 教程卡片区 ===== */
 .tutorials-container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 2rem;
-}
-
-.tutorials-header {
-  text-align: center;
-  margin-bottom: 3rem;
-  padding: 2rem 0;
-}
-
-.tutorials-header h1 {
-  font-size: 2.5rem;
-  font-weight: 700;
-  color: #1e293b;
-  margin-bottom: 0.75rem;
-  position: relative;
-  display: inline-block;
-}
-
-.tutorials-header h1::after {
-  content: '';
-  position: absolute;
-  bottom: -10px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 80px; height: 4px;
-  background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
-  border-radius: 2px;
-}
-
-.tutorials-header p {
-  color: #64748b;
-  font-size: 1.1rem;
-  margin-top: 1.5rem;
 }
 
 .tutorials-grid {
@@ -235,8 +329,10 @@ onMounted(async () => {
 .tutorial-card[data-type="zhouyi"]     { --card-color: #8b5cf6; --card-bg: #f5f3ff; }
 
 @media (max-width: 768px) {
+  .tut-hero-container { padding: 2.5rem 1.5rem; }
+  .tut-btn-group { flex-direction: column; align-items: flex-start; }
+  .tut-btn { width: 100%; max-width: 240px; justify-content: center; }
   .tutorials-container { padding: 1rem; }
-  .tutorials-header h1 { font-size: 1.8rem; }
   .tutorials-grid { grid-template-columns: 1fr; gap: 1rem; }
   .tutorial-card { padding: 1.5rem; }
   .tutorial-card-icon { width: 56px; height: 56px; font-size: 1.6rem; }

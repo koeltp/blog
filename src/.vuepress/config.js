@@ -15,6 +15,8 @@ export default defineUserConfig({
     ['link', { rel: 'icon', href: '/img/logo/logo.png' }],
     ['meta', { name: 'keywords', content: 'TaiPi,技术教程,编程,.NET,Flutter,LangChain,Docker,周易' }],
     ['meta', { property: 'og:locale', content: 'zh_CN' }],
+    ['link', { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700&display=swap' }],
+    ['link', { rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css' }],
   ],
 
   bundler: viteBundler(),

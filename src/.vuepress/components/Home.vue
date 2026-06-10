@@ -1,25 +1,24 @@
 <template>
   <div class="home-page">
-    <!-- Hero 区域：留白叙事风格 -->
+    <!-- Hero 区域：经典终端风格 -->
     <section class="hero">
-      <div class="hero-content">
-        <h1 class="hero-title">
-          你好，我是<span class="highlight">TaiPi</span>
-        </h1>
-        <p class="hero-desc">
-          希望能像鸟一样随着季节迁徙 ————鸟人
-        </p>
-        <div class="hero-actions">
-          <RouterLink to="/tutorials/" class="btn btn-primary">浏览教程</RouterLink>
-          <RouterLink to="/articles/" class="btn btn-secondary">阅读文章</RouterLink>
-        </div>
-        <div class="hero-socials">
-          <a href="https://github.com/koeltp" class="social-icon" title="GitHub" target="_blank">
-            <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
-          </a>
-          <a href="mailto:tp@taipi.top" class="social-icon" title="Email">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 01-2.06 0L2 7"/></svg>
-          </a>
+      <div class="hero-container">
+        <div class="hero-content">
+          <div class="hero-badge">❯ cat README.md</div>
+          <h1 class="hero-title">$ echo "Hello, World!"<span class="cursor-blink">_</span></h1>
+            <p class="hero-desc">不爱吹牛，只爱解决问题。如果你有技术问题或者想聊聊开源，欢迎找我。</p>
+          <div class="hero-actions">
+            <a href="#latest" class="btn btn-primary" @click.prevent="scrollToLatest">
+              <i class="fas fa-terminal"></i> 进入博客
+            </a>
+
+            <a href="https://github.com/koeltp" class="btn btn-outline" target="_blank" rel="noopener noreferrer">
+              <i class="fab fa-github"></i> GitHub
+            </a>
+            <a href="mailto:tp@taipi.top" class="btn btn-outline">
+              <i class="fas fa-envelope"></i> 邮箱
+            </a>
+          </div>
         </div>
       </div>
     </section>
@@ -28,7 +27,7 @@
     <main class="content-section">
 
       <!-- 最近更新 -->
-      <div class="section latest-section">
+      <div id="latest" class="section latest-section">
         <h2>最近更新</h2>
         <div class="latest-items">
           <div v-for="article in latestArticles" :key="article.filename" class="latest-item">
@@ -76,7 +75,7 @@ function formatDate(date) {
   return date ? new Date(date).toLocaleDateString('zh-CN') : ''
 }
 
-const skills = ['Python', 'JavaScript', 'Flutter', 'Dart', 'LangChain', 'React', '.NET', 'vue', 'Docker']
+const skills = ['.NET', 'C#', 'ASP.NET Core', 'EF Core', 'Vue', 'TypeScript', 'Flutter', 'Dart', 'Docker']
 const latestArticles = ref([])
 
 onMounted(async () => {
@@ -90,119 +89,132 @@ onMounted(async () => {
     console.warn('加载最新文章失败:', e)
   }
 })
+
+function scrollToLatest() {
+  document.getElementById('latest')?.scrollIntoView({ behavior: 'smooth' })
+}
 </script>
 
 <style scoped>
-/* ===== Hero 区域：留白叙事风格（奶油极简暖调） ===== */
+/* ===== Hero 区域：经典终端风格（深色极客） ===== */
 .home-page {
   background: var(--vp-c-bg, #ffffff);
 }
 
 .hero {
   position: relative;
-  padding: 6rem 2rem 5rem;
-  text-align: center;
+  width: 100%;
+  min-height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   overflow: hidden;
-  background: #fef9e8;
-  border-bottom: 1px solid #f0e2c5;
+  background: #0a0e17;
+  color: #c3e8e1;
+  border-bottom: 1px solid rgba(0, 255, 255, 0.1);
+}
+
+.hero-container {
+  width: 100%;
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 4rem 2rem;
+  position: relative;
+  z-index: 2;
 }
 
 .hero-content {
-  position: relative;
-  z-index: 1;
-  max-width: 720px;
-  margin: 0 auto;
+  max-width: 950px;
+}
+
+.hero-badge {
+  font-family: monospace;
+  font-size: 0.75rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+  display: inline-block;
+  background: rgba(0,0,0,0.3);
+  backdrop-filter: blur(4px);
+  padding: 0.2rem 0.8rem;
+  border-radius: 20px;
 }
 
 .hero-title {
-  font-size: 3.5rem;
+  font-size: clamp(2.2rem, 6vw, 4.2rem);
   font-weight: 700;
-  color: #4a3b2c;
-  line-height: 1.15;
-  margin-bottom: 1.5rem;
+  line-height: 1.2;
+  margin-bottom: 1.2rem;
+  font-family: 'JetBrains Mono', monospace;
   letter-spacing: -0.02em;
+  color: #2dd4bf;
+  text-shadow: 0 0 5px #2dd4bf40;
+  white-space: nowrap;
 }
 
-.highlight {
-  background: orangered;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  margin-left: 10px;
+.cursor-blink {
+  display: inline-block;
+  width: 5px;
+  height: 1.2rem;
+  background-color: #2dd4bf;
+  vertical-align: middle;
+  margin-left: 4px;
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
 }
 
 .hero-desc {
-  font-size: 1.15rem;
-  color: #7a6b55;
-  line-height: 1.8;
-  margin-bottom: 2.5rem;
-  max-width: 600px;
-  margin-left: auto;
-  margin-right: auto;
+  font-size: 1rem;
+  line-height: 1.5;
+  margin-bottom: 2rem;
+  opacity: 0.85;
+  max-width: 550px;
+  font-family: 'Inter', system-ui, sans-serif;
 }
 
 .hero-actions {
   display: flex;
+  flex-wrap: wrap;
   gap: 1rem;
-  justify-content: center;
-  margin-bottom: 2.5rem;
+  margin-bottom: 2rem;
 }
 
 .btn {
   display: inline-flex;
   align-items: center;
-  padding: 0.7rem 1.75rem;
-  border-radius: 4px;
-  font-size: 1rem;
+  gap: 8px;
+  padding: 0.8rem 1.8rem;
+  border-radius: 40px;
   font-weight: 600;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85rem;
   text-decoration: none;
-  transition: all 0.25s ease;
+  transition: 0.2s;
   cursor: pointer;
-  letter-spacing: 0.3px;
 }
 
 .btn-primary {
-  background: #4a3b2c;
-  color: #fef9e8;
+  background: #2dd4bf;
+  color: #0a0e17;
 }
 
 .btn-primary:hover {
-  background: #6e5540;
+  filter: brightness(1.05);
   transform: translateY(-2px);
 }
 
-.btn-secondary {
+.btn-outline {
+  border: 1px solid #2dd4bf;
+  color: #2dd4bf;
   background: transparent;
-  color: #4a3b2c;
-  border: 1.5px solid #c4b49a;
 }
 
-.btn-secondary:hover {
-  background: rgba(74,59,44,0.06);
-  transform: translateY(-2px);
-}
-
-.hero-socials {
-  display: flex;
-  gap: 0.75rem;
-  justify-content: center;
-}
-
-.social-icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px; height: 40px;
-  border-radius: 8px;
-  color: #9a8a70;
-  background: rgba(74,59,44,0.06);
-  border: 1px solid rgba(74,59,44,0.1);
-  transition: all 0.25s ease;
-}
-
-.social-icon:hover {
-  color: #4a3b2c;
-  background: rgba(74,59,44,0.12);
+.btn-outline:hover {
+  background: rgba(255,255,255,0.05);
   transform: translateY(-2px);
 }
 
@@ -304,10 +316,8 @@ onMounted(async () => {
 }
 
 @media (max-width: 768px) {
-  .hero { padding: 4rem 1.25rem 3.5rem; }
-  .hero-title { font-size: 2.5rem; }
-  .hero-desc { font-size: 1rem; }
-  .hero-actions { flex-direction: column; align-items: center; }
+  .hero-container { padding: 2.5rem 1rem; }
+  .hero-actions { flex-direction: column; align-items: flex-start; }
   .btn { width: 100%; max-width: 240px; justify-content: center; }
   .content-section { padding: 2rem 1rem 3rem; }
   .section h2 { font-size: 1.5rem; }
