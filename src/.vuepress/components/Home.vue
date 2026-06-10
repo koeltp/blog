@@ -48,19 +48,20 @@
         </div>
       </div>
 
-      <!-- 技术栈 -->
-      <div class="section skills-section">
-        <h2>技术栈</h2>
-        <div class="skill-categories">
-          <div v-for="cat in skillCategories" :key="cat.label" class="skill-category">
-            <span class="skill-category-label">{{ cat.label }}</span>
-            <div class="skill-category-tags">
-              <span v-for="skill in cat.items" :key="skill.name" class="skill-tag" :style="{ '--skill-color': skill.color }">
-                <i :class="skill.icon" class="skill-icon"></i>
-                {{ skill.name }}
-              </span>
+      <!-- 精选项目 -->
+      <div class="section projects-section">
+        <h2>精选项目</h2>
+        <div class="home-projects">
+          <a v-for="proj in featuredProjects" :key="proj.name" :href="proj.url" target="_blank" class="home-project-card">
+            <div class="home-project-icon" :style="{ background: proj.bg }">
+              <i :class="proj.icon"></i>
             </div>
-          </div>
+            <div class="home-project-body">
+              <h3>{{ proj.name }}<span v-if="proj.site" class="home-project-site">{{ proj.site }}</span></h3>
+              <p>{{ proj.desc }}</p>
+              <span class="home-project-lang">{{ proj.lang }}</span>
+            </div>
+          </a>
         </div>
       </div>
     </main>
@@ -83,36 +84,11 @@ function formatDate(date) {
   return date ? new Date(date).toLocaleDateString('zh-CN') : ''
 }
 
-const skillCategories = [
-  {
-    label: '后端',
-    items: [
-      { name: '.NET',       icon: 'fab fa-microsoft', color: '#512bd4' },
-      { name: 'C#',         icon: 'fas fa-code',      color: '#68217a' },
-      { name: 'ASP.NET',    icon: 'fas fa-server',    color: '#512bd4' },
-      { name: 'EF Core',    icon: 'fas fa-database',  color: '#007acc' },
-    ]
-  },
-  {
-    label: '前端',
-    items: [
-      { name: 'Vue',        icon: 'fab fa-vuejs',     color: '#42b883' },
-      { name: 'TypeScript', icon: 'fas fa-code',      color: '#3178c6' },
-    ]
-  },
-  {
-    label: '移动端',
-    items: [
-      { name: 'Flutter',    icon: 'fas fa-mobile-alt', color: '#02569b' },
-      { name: 'Dart',       icon: 'fas fa-dart',       color: '#0175c2' },
-    ]
-  },
-  {
-    label: '工具',
-    items: [
-      { name: 'Docker',     icon: 'fab fa-docker',    color: '#2496ed' },
-    ]
-  },
+const featuredProjects = [
+  { name: 'Blog',      desc: '个人技术博客，涵盖 .NET、Flutter、LangChain 等教程', lang: 'Vue + VuePress',  url: 'https://github.com/koeltp/blog',    site: 'taipi.top',   icon: 'fas fa-book',       bg: '#42b883' },
+  { name: 'TPSSO',     desc: '基于 OpenIddict 的前后端分离单点登录系统',             lang: 'C# + Vue',        url: 'https://github.com/koeltp/tpsso',   site: '',            icon: 'fas fa-shield-alt', bg: '#512bd4' },
+  { name: 'TZ',        desc: '投资周报自动化采集与数据分析系统',                       lang: 'JavaScript',      url: 'https://github.com/koeltp/tz',      site: 'tz.taipi.top', icon: 'fas fa-chart-line', bg: '#0369a1' },
+  { name: 'TPCore',    desc: '.NET 核心类库，通用基础设施与工具集',                     lang: 'C# + .NET',       url: 'https://github.com/koeltp/TPCore',  site: '',            icon: 'fas fa-cube',       bg: '#f97316' },
 ]
 const latestArticles = ref([])
 
@@ -328,67 +304,79 @@ function scrollToLatest() {
   color: #6366f1;
 }
 
-.skill-categories {
-  display: flex;
-  flex-direction: column;
+/* ===== 精选项目 ===== */
+.home-projects {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 1.25rem;
   margin-top: 2rem;
 }
 
-.skill-category {
+.home-project-card {
   display: flex;
-  align-items: flex-start;
   gap: 1rem;
+  padding: 1.25rem 1.5rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  text-decoration: none;
+  transition: all 0.25s ease;
+  background: #fff;
+  cursor: pointer;
 }
 
-.skill-category-label {
-  flex-shrink: 0;
-  width: 56px;
-  padding-top: 0.45rem;
-  text-align: right;
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: #94a3b8;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  font-family: 'JetBrains Mono', monospace;
+.home-project-card:hover {
+  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+  transform: translateY(-4px);
+  border-color: #cbd5e1;
 }
 
-.skill-category-tags {
+.home-project-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.625rem;
-  flex: 1;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  color: #fff;
+  flex-shrink: 0;
 }
 
-.skill-tag {
-  display: inline-flex;
+.home-project-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.home-project-body h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1e293b;
+  margin: 0 0 0.3rem;
+  display: flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.5rem 1.1rem;
-  background: white;
-  border: 1.5px solid #e2e8f0;
-  border-radius: 10px;
+}
+
+.home-project-site {
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: #3b82f6;
+}
+
+.home-project-body p {
+  font-size: 0.85rem;
+  color: #64748b;
+  line-height: 1.5;
+  margin: 0 0 0.5rem;
+}
+
+.home-project-lang {
+  font-size: 0.7rem;
   font-weight: 500;
-  font-size: 0.9rem;
-  color: #334155;
-  transition: all 0.25s ease;
-  cursor: default;
-  font-family: 'JetBrains Mono', monospace;
-}
-
-.skill-icon {
-  font-size: 1rem;
-  color: var(--skill-color, #64748b);
-  flex-shrink: 0;
-}
-
-.skill-tag:hover {
-  border-color: var(--skill-color, #64748b);
-  color: var(--skill-color, #334155);
-  background: rgba(255,255,255,0.8);
-  transform: translateY(-3px);
-  box-shadow: 0 6px 16px -4px color-mix(in srgb, var(--skill-color) 30%, transparent);
+  padding: 2px 8px;
+  border-radius: 10px;
+  background: #f1f5f9;
+  color: #475569;
 }
 
 @media (max-width: 768px) {
@@ -398,8 +386,7 @@ function scrollToLatest() {
   .content-section { padding: 2rem 1rem 3rem; }
   .section h2 { font-size: 1.5rem; }
   .latest-items { grid-template-columns: 1fr; }
-  .skill-category { flex-direction: column; gap: 0.5rem; }
-  .skill-category-label { text-align: left; width: auto; padding-top: 0; }
+  .home-projects { grid-template-columns: 1fr; }
 }
 /* ===== 标签药丸样式 ===== */
 a.meta-tag {
