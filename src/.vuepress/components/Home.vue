@@ -51,8 +51,16 @@
       <!-- 技术栈 -->
       <div class="section skills-section">
         <h2>技术栈</h2>
-        <div class="skills">
-          <span v-for="skill in skills" :key="skill" class="skill-tag">{{ skill }}</span>
+        <div class="skill-categories">
+          <div v-for="cat in skillCategories" :key="cat.label" class="skill-category">
+            <span class="skill-category-label">{{ cat.label }}</span>
+            <div class="skill-category-tags">
+              <span v-for="skill in cat.items" :key="skill.name" class="skill-tag" :style="{ '--skill-color': skill.color }">
+                <i :class="skill.icon" class="skill-icon"></i>
+                {{ skill.name }}
+              </span>
+            </div>
+          </div>
         </div>
       </div>
     </main>
@@ -75,7 +83,37 @@ function formatDate(date) {
   return date ? new Date(date).toLocaleDateString('zh-CN') : ''
 }
 
-const skills = ['.NET', 'C#', 'ASP.NET Core', 'EF Core', 'Vue', 'TypeScript', 'Flutter', 'Dart', 'Docker']
+const skillCategories = [
+  {
+    label: '后端',
+    items: [
+      { name: '.NET',       icon: 'fab fa-microsoft', color: '#512bd4' },
+      { name: 'C#',         icon: 'fas fa-code',      color: '#68217a' },
+      { name: 'ASP.NET',    icon: 'fas fa-server',    color: '#512bd4' },
+      { name: 'EF Core',    icon: 'fas fa-database',  color: '#007acc' },
+    ]
+  },
+  {
+    label: '前端',
+    items: [
+      { name: 'Vue',        icon: 'fab fa-vuejs',     color: '#42b883' },
+      { name: 'TypeScript', icon: 'fas fa-code',      color: '#3178c6' },
+    ]
+  },
+  {
+    label: '移动端',
+    items: [
+      { name: 'Flutter',    icon: 'fas fa-mobile-alt', color: '#02569b' },
+      { name: 'Dart',       icon: 'fas fa-dart',       color: '#0175c2' },
+    ]
+  },
+  {
+    label: '工具',
+    items: [
+      { name: 'Docker',     icon: 'fab fa-docker',    color: '#2496ed' },
+    ]
+  },
+]
 const latestArticles = ref([])
 
 onMounted(async () => {
@@ -290,29 +328,67 @@ function scrollToLatest() {
   color: #6366f1;
 }
 
-.skills {
+.skill-categories {
   display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
+  flex-direction: column;
+  gap: 1.25rem;
   margin-top: 2rem;
 }
 
+.skill-category {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.skill-category-label {
+  flex-shrink: 0;
+  width: 56px;
+  padding-top: 0.45rem;
+  text-align: right;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #94a3b8;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.skill-category-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.625rem;
+  flex: 1;
+}
+
 .skill-tag {
-  display: inline-block;
-  padding: 0.5rem 1.25rem;
-  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
-  color: #0369a1;
-  border-radius: 20px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1.1rem;
+  background: white;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 10px;
   font-weight: 500;
   font-size: 0.9rem;
-  transition: all 0.3s ease;
-  border: 1px solid #bae6fd;
+  color: #334155;
+  transition: all 0.25s ease;
+  cursor: default;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.skill-icon {
+  font-size: 1rem;
+  color: var(--skill-color, #64748b);
+  flex-shrink: 0;
 }
 
 .skill-tag:hover {
-  color: orangered;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(14,165,233,0.3);
+  border-color: var(--skill-color, #64748b);
+  color: var(--skill-color, #334155);
+  background: rgba(255,255,255,0.8);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px -4px color-mix(in srgb, var(--skill-color) 30%, transparent);
 }
 
 @media (max-width: 768px) {
@@ -322,6 +398,8 @@ function scrollToLatest() {
   .content-section { padding: 2rem 1rem 3rem; }
   .section h2 { font-size: 1.5rem; }
   .latest-items { grid-template-columns: 1fr; }
+  .skill-category { flex-direction: column; gap: 0.5rem; }
+  .skill-category-label { text-align: left; width: auto; padding-top: 0; }
 }
 /* ===== 标签药丸样式 ===== */
 a.meta-tag {

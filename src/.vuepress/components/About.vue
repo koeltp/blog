@@ -78,11 +78,14 @@
             <!-- 技术栈 -->
             <section class="about-section">
                 <h2>技术栈</h2>
-                <div class="tech-groups">
-                    <div v-for="group in techGroups" :key="group.name" class="tech-group">
-                        <h3>{{ group.name }}</h3>
-                        <div class="tech-tags">
-                            <span v-for="tech in group.items" :key="tech" class="tech-tag">{{ tech }}</span>
+                <div class="skill-categories">
+                    <div v-for="cat in techGroups" :key="cat.label" class="skill-category">
+                        <span class="skill-category-label">{{ cat.label }}</span>
+                        <div class="skill-category-tags">
+                            <span v-for="skill in cat.items" :key="skill.name" class="skill-tag" :style="{ '--skill-color': skill.color }">
+                                <i :class="skill.icon" class="skill-icon"></i>
+                                {{ skill.name }}
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -146,12 +149,52 @@ const timeline = [
 
 // 技术栈分组
 const techGroups = [
-    { name: '后端', items: ['C#', '.NET', 'ASP.NET Core', 'Entity Framework', 'OpenIddict', 'SQL Server', 'Redis'] },
-    { name: '前端', items: ['Vue', 'TypeScript', 'JavaScript', 'CSS', 'Element Plus'] },
-    { name: '移动端', items: ['Flutter', 'Dart'] },
-    { name: 'AI', items: ['Python', 'LangChain', 'RAG', 'Agent', 'DeepSeek', 'Ollama'] },
-    { name: 'DevOps', items: ['Docker', 'GitHub Actions', 'GitLab CI', 'Nginx', 'Cloudflare'] },
-    { name: '其他', items: ['Git', 'VuePress', 'Markdown', '投资分析'] },
+    {
+        label: '后端',
+        items: [
+            { name: '.NET',          icon: 'fab fa-microsoft',  color: '#512bd4' },
+            { name: 'C#',            icon: 'fas fa-code',       color: '#68217a' },
+            { name: 'ASP.NET Core',  icon: 'fas fa-server',     color: '#512bd4' },
+            { name: 'EF Core',       icon: 'fas fa-database',   color: '#007acc' },
+            { name: 'OpenIddict',    icon: 'fas fa-shield-alt', color: '#e11d48' },
+            { name: 'SQL Server',    icon: 'fas fa-database',   color: '#cc2927' },
+            { name: 'Redis',         icon: 'fas fa-bolt',       color: '#dc382d' },
+        ]
+    },
+    {
+        label: '前端',
+        items: [
+            { name: 'Vue',           icon: 'fab fa-vuejs',      color: '#42b883' },
+            { name: 'TypeScript',    icon: 'fas fa-code',       color: '#3178c6' },
+            { name: 'JavaScript',    icon: 'fab fa-js',         color: '#f7df1e' },
+            { name: 'Element Plus',  icon: 'fas fa-cube',       color: '#409eff' },
+        ]
+    },
+    {
+        label: '移动端',
+        items: [
+            { name: 'Flutter',       icon: 'fas fa-mobile-alt', color: '#02569b' },
+            { name: 'Dart',          icon: 'fas fa-dart',       color: '#0175c2' },
+        ]
+    },
+    {
+        label: 'AI',
+        items: [
+            { name: 'Python',        icon: 'fab fa-python',     color: '#3776ab' },
+            { name: 'LangChain',     icon: 'fas fa-link',       color: '#1c3d5a' },
+            { name: 'RAG',           icon: 'fas fa-search',     color: '#059669' },
+            { name: 'DeepSeek',      icon: 'fas fa-robot',      color: '#4f46e5' },
+        ]
+    },
+    {
+        label: 'DevOps',
+        items: [
+            { name: 'Docker',        icon: 'fab fa-docker',     color: '#2496ed' },
+            { name: 'GitHub Actions',icon: 'fab fa-github',     color: '#2088ff' },
+            { name: 'Cloudflare',    icon: 'fab fa-cloudflare', color: '#f38020' },
+            { name: 'Nginx',         icon: 'fas fa-server',     color: '#009639' },
+        ]
+    },
 ]
 
 // 开源项目
@@ -341,50 +384,66 @@ function langClass(lang) {
 }
 
 /* ===== 技术栈 ===== */
-.tech-groups {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 1.5rem;
+.skill-categories {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
 }
 
-.tech-group {
-    background: #f8fafc;
-    border-radius: 12px;
-    padding: 1.25rem 1.5rem;
-    border: 1px solid #e2e8f0;
+.skill-category {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
 }
 
-.tech-group h3 {
-    font-size: 0.9rem;
+.skill-category-label {
+    flex-shrink: 0;
+    width: 60px;
+    padding-top: 0.45rem;
+    text-align: right;
+    font-size: 0.8rem;
     font-weight: 600;
-    color: #475569;
-    margin: 0 0 0.75rem;
+    color: #94a3b8;
+    letter-spacing: 0.05em;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    font-family: 'JetBrains Mono', monospace;
 }
 
-.tech-tags {
+.skill-category-tags {
     display: flex;
     flex-wrap: wrap;
+    gap: 0.625rem;
+    flex: 1;
+}
+
+.skill-tag {
+    display: inline-flex;
+    align-items: center;
     gap: 0.5rem;
-}
-
-.tech-tag {
-    display: inline-block;
-    padding: 0.35rem 0.85rem;
-    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
-    color: #0369a1;
-    border-radius: 20px;
-    font-size: 0.85rem;
+    padding: 0.45rem 1rem;
+    background: white;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 10px;
     font-weight: 500;
-    border: 1px solid #bae6fd;
-    transition: all 0.2s ease;
+    font-size: 0.85rem;
+    color: #334155;
+    transition: all 0.25s ease;
+    cursor: default;
+    font-family: 'JetBrains Mono', monospace;
 }
 
-.tech-tag:hover {
-    color: orangered;
-    transform: translateY(-1px);
-    box-shadow: 0 2px 8px rgba(14, 165, 233, 0.2);
+.skill-icon {
+    font-size: 0.95rem;
+    color: var(--skill-color, #64748b);
+    flex-shrink: 0;
+}
+
+.skill-tag:hover {
+    border-color: var(--skill-color, #64748b);
+    color: var(--skill-color, #334155);
+    background: rgba(255,255,255,0.8);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 16px -4px color-mix(in srgb, var(--skill-color) 30%, transparent);
 }
 
 /* ===== 项目卡片 ===== */
@@ -571,6 +630,17 @@ function langClass(lang) {
 
     .tech-groups {
         grid-template-columns: 1fr;
+    }
+
+    .skill-category {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .skill-category-label {
+        text-align: left;
+        width: auto;
+        padding-top: 0;
     }
 }
 </style>
