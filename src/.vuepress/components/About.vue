@@ -5,12 +5,16 @@
             <div class="about-hero-content">
                 <img :src="avatarUrl" alt="TaiPi" class="about-avatar" />
                 <div class="about-intro">
-                    <h1 class="about-name">TaiPi</h1>
+                    <h1 class="about-name">
+                        TaiPi
+                        <span class="open-badge"><span class="open-dot"></span> Open to Work</span>
+                    </h1>
                     <p class="about-tagline">.NET 高级工程师 / 10年+开发经验</p>
                     <p class="about-bio">
                         希望能像鸟一样随着季节迁徙。<br />
                         专注 .NET 后端架构、微服务，兼顾前端与跨端开发。<br />
                         写代码是工作，写教程是乐趣，投资是爱好。<br />
+                        <span class="about-looking">🎯 目前正在寻找新机会，深圳 / 远程均可，随时到岗。</span>
                     </p>
                     <div class="about-links">
                         <a href="https://github.com/koeltp" target="_blank" class="about-link">
@@ -47,7 +51,7 @@
                             </svg>
                             TP OAuth
                         </a>
-                        <a href="mailto:koeltp@163.com" class="about-link">
+                        <a href="mailto:tp@taipi.top" class="about-link">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18"
                                 height="18">
                                 <rect x="2" y="4" width="20" height="16" rx="2" />
@@ -82,7 +86,8 @@
                     <div v-for="cat in techGroups" :key="cat.label" class="skill-category">
                         <span class="skill-category-label">{{ cat.label }}</span>
                         <div class="skill-category-tags">
-                            <span v-for="skill in cat.items" :key="skill.name" class="skill-tag" :style="{ '--skill-color': skill.color }">
+                            <span v-for="skill in cat.items" :key="skill.name" class="skill-tag"
+                                :style="{ '--skill-color': skill.color }">
                                 <i :class="skill.icon" class="skill-icon"></i>
                                 {{ skill.name }}
                             </span>
@@ -140,13 +145,13 @@ const avatarUrl = 'https://avatars.githubusercontent.com/u/2775276?v=4'
 
 // 经历时间线
 const timeline = [
-    { year: '2026-如今', title: '自由职业', desc: '专注全栈开发，涵盖 .NET 后端、Flutter 跨端、AI 应用集成' },
-    { year: '2018-2025', title: '久久香港有限公司 · 高级工程师', desc: '负责外汇交易管理系统架构与需求分析，主导微服务设计与第三方对接' },
-    { year: '2017-2018', title: '深圳市海钜信达 · 高级工程师', desc: '信贷业务管理系统开发，负责三方接口设计与资金账户模块' },
-    { year: '2016-2017', title: '深圳市有芯电子 · 高级工程师', desc: '电子元器件电商平台开发，日均查询5万次，负责用户中心与支付重构' },
-    { year: '2015-2016', title: '深圳市横溢科技 · 高级工程师', desc: '参与多个企业级应用开发，积累 .NET 全栈经验' },
-    { year: '2013-2015', title: '深圳市软商科技 · 软件工程师', desc: 'VC营销平台开发，负责微餐饮、微官网等产品的设计与开发' },
-    { year: '2011-2013', title: '深圳市经理人传媒 · 软件工程师', desc: '开启编程之路，积累早期开发经验' },
+    { year: '2025-如今', title: '自由职业', desc: '专注全栈开发，涵盖 .NET 后端、Flutter 跨端、AI 应用集成' },
+    { year: '2019-2025', title: '香港某某公司 · 高级工程师', desc: '负责外汇交易管理系统架构与需求分析，主导微服务设计与第三方对接' },
+    { year: '2017-2019', title: '海钜信达 · 高级工程师', desc: '信贷业务管理系统开发，负责三方接口设计与资金账户模块' },
+    { year: '2016-2017', title: '有芯电子 · 高级工程师', desc: '电子元器件电商平台开发，日均查询5万次，负责用户中心与支付重构' },
+    { year: '2015-2016', title: '横溢科技 · 高级工程师', desc: '参与多个企业级应用开发，积累 .NET 全栈经验' },
+    { year: '2013-2015', title: '软商科技 · 软件工程师', desc: 'VC营销平台开发，负责微餐饮、微官网等产品的设计与开发' },
+    { year: '2011-2013', title: '经理人传媒 · 软件工程师', desc: '开启编程之路，积累早期开发经验' },
 ]
 
 // 技术栈分组
@@ -154,56 +159,56 @@ const techGroups = [
     {
         label: '后端',
         items: [
-            { name: '.NET',          icon: 'fab fa-microsoft',  color: '#512bd4' },
-            { name: 'C#',            icon: 'fas fa-code',       color: '#68217a' },
-            { name: 'ASP.NET Core',  icon: 'fas fa-server',     color: '#512bd4' },
-            { name: 'EF Core',       icon: 'fas fa-database',   color: '#007acc' },
-            { name: 'gRPC',          icon: 'fas fa-network-wired', color: '#24a57a' },
-            { name: 'Web API',       icon: 'fas fa-plug',       color: '#0369a1' },
+            { name: '.NET', icon: 'fab fa-microsoft', color: '#512bd4' },
+            { name: 'C#', icon: 'fas fa-code', color: '#68217a' },
+            { name: 'ASP.NET Core', icon: 'fas fa-server', color: '#512bd4' },
+            { name: 'EF Core', icon: 'fas fa-database', color: '#007acc' },
+            { name: 'gRPC', icon: 'fas fa-network-wired', color: '#24a57a' },
+            { name: 'Web API', icon: 'fas fa-plug', color: '#0369a1' },
         ]
     },
     {
         label: '数据库',
         items: [
-            { name: 'MySQL',         icon: 'fas fa-database',   color: '#4479a1' },
-            { name: 'SQL Server',    icon: 'fas fa-database',   color: '#cc2927' },
-            { name: 'Oracle',        icon: 'fas fa-database',   color: '#f80000' },
-            { name: 'Redis',         icon: 'fas fa-bolt',       color: '#dc382d' },
+            { name: 'MySQL', icon: 'fas fa-database', color: '#4479a1' },
+            { name: 'SQL Server', icon: 'fas fa-database', color: '#cc2927' },
+            { name: 'Oracle', icon: 'fas fa-database', color: '#f80000' },
+            { name: 'Redis', icon: 'fas fa-bolt', color: '#dc382d' },
         ]
     },
     {
         label: '前端',
         items: [
-            { name: 'Vue',           icon: 'fab fa-vuejs',      color: '#42b883' },
-            { name: 'TypeScript',    icon: 'fas fa-code',       color: '#3178c6' },
-            { name: 'JavaScript',    icon: 'fab fa-js',         color: '#f7df1e' },
-            { name: 'Element Plus',  icon: 'fas fa-cube',       color: '#409eff' },
+            { name: 'Vue', icon: 'fab fa-vuejs', color: '#42b883' },
+            { name: 'TypeScript', icon: 'fas fa-code', color: '#3178c6' },
+            { name: 'JavaScript', icon: 'fab fa-js', color: '#f7df1e' },
+            { name: 'Element Plus', icon: 'fas fa-cube', color: '#409eff' },
         ]
     },
     {
         label: '移动端',
         items: [
-            { name: 'Flutter',       icon: 'fas fa-mobile-alt', color: '#02569b' },
-            { name: 'Dart',          icon: 'fas fa-dart',       color: '#0175c2' },
+            { name: 'Flutter', icon: 'fas fa-mobile-alt', color: '#02569b' },
+            { name: 'Dart', icon: 'fas fa-dart', color: '#0175c2' },
         ]
     },
     {
         label: 'AI',
         items: [
-            { name: 'Python',        icon: 'fab fa-python',     color: '#3776ab' },
-            { name: 'LangChain',     icon: 'fas fa-link',       color: '#1c3d5a' },
-            { name: 'RAG',           icon: 'fas fa-search',     color: '#059669' },
-            { name: 'DeepSeek',      icon: 'fas fa-robot',      color: '#4f46e5' },
+            { name: 'Python', icon: 'fab fa-python', color: '#3776ab' },
+            { name: 'LangChain', icon: 'fas fa-link', color: '#1c3d5a' },
+            { name: 'RAG', icon: 'fas fa-search', color: '#059669' },
+            { name: 'DeepSeek', icon: 'fas fa-robot', color: '#4f46e5' },
         ]
     },
     {
         label: '工具',
         items: [
-            { name: 'Docker',        icon: 'fab fa-docker',     color: '#2496ed' },
-            { name: 'Nginx',         icon: 'fas fa-server',     color: '#009639' },
-            { name: 'RabbitMQ',      icon: 'fas fa-envelope',   color: '#ff6600' },
-            { name: 'Git',           icon: 'fab fa-git-alt',    color: '#f05032' },
-            { name: 'Linux',         icon: 'fab fa-linux',      color: '#333' },
+            { name: 'Docker', icon: 'fab fa-docker', color: '#2496ed' },
+            { name: 'Nginx', icon: 'fas fa-server', color: '#009639' },
+            { name: 'RabbitMQ', icon: 'fas fa-envelope', color: '#ff6600' },
+            { name: 'Git', icon: 'fab fa-git-alt', color: '#f05032' },
+            { name: 'Linux', icon: 'fab fa-linux', color: '#333' },
         ]
     },
 ]
@@ -211,22 +216,20 @@ const techGroups = [
 // 开源项目
 const projects = [
     { name: 'blog', desc: '个人技术博客，基于 VuePress 2 构建，涵盖 .NET、Flutter、Dart 等技术教程', lang: 'Vue', url: 'https://github.com/koeltp/blog', site: 'taipi.top' },
-    { name: 'tpsso', desc: '基于 OpenIddict 的前后端分离 SSO 单点登录项目', lang: 'C#', url: 'https://github.com/koeltp/tpsso' },
+    { name: 'tpsso', desc: '基于 OpenIddict 的前后端分离 SSO 单点登录项目', lang: 'C#', url: 'https://github.com/koeltp/tpsso' , site: 'admin.taipi.top' },
     { name: 'TPAdminApi', desc: '后台管理系统后端，基于 .NET 的权限管理框架', lang: 'C#', url: 'https://gitlab.com/taipi/tpadminapi' },
-    { name: 'TPAdminWeb', desc: '后台管理系统前端，基于 Vue + TypeScript 的管理后台界面', lang: 'Vue', url: 'https://gitlab.com/taipi/tpadminweb' },
+    { name: 'TPAdminWeb', desc: '后台管理系统前端，基于 Vue + TypeScript 的管理后台界面', lang: 'Vue', url: 'https://gitlab.com/taipi/tpadminweb'},
     { name: 'tz', desc: '投资周报自动化采集与分析系统', lang: 'JavaScript', url: 'https://github.com/koeltp/tz', site: 'tz.taipi.top' },
-    { name: 'TPCore', desc: '.NET 核心类库，通用基础设施与工具集', lang: 'C#', url: 'https://github.com/koeltp/TPCore' },
-    { name: '外汇交易管理系统', desc: '基于 MT4 交互的交易管理微服务架构，涵盖资金存取、汇率、返佣、CMS 等模块', lang: 'C#', url: '' },
-    { name: '信贷管理系统', desc: '贷前/贷后/存管三大模块，负责三方接口与资金账户开发', lang: 'C#', url: '' },
+    { name: 'TPCore', desc: '.NET 核心类库，通用基础设施与工具集', lang: 'C#', url: 'https://github.com/koeltp/TPCore' }
 ]
 
 // 网站与产品
 const sites = [
     { name: 'TaiPi.Top', desc: '技术博客与教程站', url: 'https://www.taipi.top', emoji: 'T', color: '#4a3b2c' },
     { name: 'TZ.TaiPi.Top', desc: '投资周报与数据分析', url: 'https://tz.taipi.top', emoji: 'Z', color: '#0369a1' },
-    { name: 'ByteEpoch', desc: '字节时代，技术探索', url: 'https://www.byteepoch.com', emoji: 'B', color: '#7c3aed' },
-    { name: 'Nav.TaiPi.Top', desc: 'AI 与编程资源导航站', url: 'https://nav.taipi.top', emoji: 'N', color: '#059669' },
-    { name: 'Tools.TaiPi.Top', desc: '开发者在线工具箱', url: 'https://tools.taipi.top', emoji: 'S', color: '#d97706' },
+    { name: '字节时代', desc: '字节时代，技术探索', url: 'https://www.byteepoch.com', emoji: 'B', color: '#7c3aed' },
+    { name: 'AI 导航站', desc: 'AI 与编程资源导航站', url: 'https://nav.taipi.top', emoji: 'N', color: '#059669' },
+    { name: '开发者工具箱', desc: '开发者在线工具箱', url: 'https://tools.taipi.top', emoji: 'S', color: '#d97706' },
     { name: '结了么', desc: '免注册的真诚交友平台', url: 'https://www.jieleme.top', emoji: 'J', color: '#e11d48' },
 ]
 
@@ -313,6 +316,54 @@ function langClass(lang) {
 .about-link:hover {
     background: rgba(74, 59, 44, 0.12);
     transform: translateY(-2px);
+}
+
+/* ===== 求职状态徽章 ===== */
+.open-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #166534;
+    background: #dcfce7;
+    border: 1px solid #bbf7d0;
+    border-radius: 20px;
+    padding: 0.2rem 0.75rem;
+    vertical-align: middle;
+    margin-left: 0.5rem;
+    letter-spacing: 0.03em;
+}
+
+.open-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #22c55e;
+    animation: pulse-dot 2s ease-in-out infinite;
+}
+
+@keyframes pulse-dot {
+
+    0%,
+    100% {
+        opacity: 1;
+        box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4);
+    }
+
+    50% {
+        opacity: 0.6;
+        box-shadow: 0 0 0 5px rgba(34, 197, 94, 0);
+    }
+}
+
+.about-looking {
+    display: inline;
+    font-size: 0.9rem;
+    color: #166534;
+    background: #dcfce7;
+    border-radius: 4px;
+    padding: 0.15rem 0.4rem;
 }
 
 /* ===== 内容区 ===== */
@@ -454,7 +505,7 @@ function langClass(lang) {
 .skill-tag:hover {
     border-color: var(--skill-color, #64748b);
     color: var(--skill-color, #334155);
-    background: rgba(255,255,255,0.8);
+    background: rgba(255, 255, 255, 0.8);
     transform: translateY(-3px);
     box-shadow: 0 6px 16px -4px color-mix(in srgb, var(--skill-color) 30%, transparent);
 }
@@ -623,6 +674,12 @@ function langClass(lang) {
 
     .about-links {
         justify-content: center;
+    }
+
+    .open-badge {
+        display: flex;
+        margin-left: 0;
+        margin-top: 0.5rem;
     }
 
     .about-content {

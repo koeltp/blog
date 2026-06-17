@@ -29,7 +29,7 @@
         class="tutorial-card"
         :data-type="item.type"
       >
-        <div class="tutorial-card-icon">{{ item.icon }}</div>
+        <div class="tutorial-card-icon"><i :class="item.icon"></i></div>
         <div class="tutorial-card-title">{{ item.displayName }}</div>
         <div class="tutorial-card-desc">{{ item.desc }}</div>
         <div class="tutorial-card-meta">
@@ -50,15 +50,15 @@ function scrollToGrid() {
 }
 
 const tutorialConfig = {
-  langchain:   { icon: '🦜', desc: '学习 LangChain 框架，构建强大的 AI 应用与智能代理' },
-  flutter:     { icon: '📱', desc: '使用 Flutter 开发跨平台移动应用，一套代码多端运行' },
-  dart:        { icon: '🎯', desc: '掌握 Dart 编程语言，为 Flutter 开发打下坚实基础' },
-  freport:     { icon: '📊', desc: '学会阅读财务报表，看懂企业经营的真实状况' },
-  md:          { icon: '📝', desc: '掌握 Markdown 语法，高效编写技术文档与笔记' },
-  openiddict:  { icon: '🔐', desc: '深入理解 OpenIddict，搭建企业级 OAuth2/OpenID Connect 认证中心' },
-  dotnet:      { icon: '💻', desc: '深入 .NET 技术栈，从认证授权到微服务架构全面掌握' },
-  aspire:      { icon: '☁️', desc: '学习 .NET Aspire，构建云原生分布式应用' },
-  zhouyi:      { icon: '☯️', desc: '探索周易预测，理解卦象法则与传统文化智慧' },
+  langchain:   { icon: 'fas fa-robot',         desc: '学习 LangChain 框架，构建强大的 AI 应用与智能代理' },
+  flutter:     { icon: 'fab fa-flutter',        desc: '使用 Flutter 开发跨平台移动应用，一套代码多端运行' },
+  dart:        { icon: 'fas fa-bullseye',       desc: '掌握 Dart 编程语言，为 Flutter 开发打下坚实基础' },
+  freport:     { icon: 'fas fa-chart-pie',      desc: '学会阅读财务报表，看懂企业经营的真实状况' },
+  md:          { icon: 'fab fa-markdown',       desc: '掌握 Markdown 语法，高效编写技术文档与笔记' },
+  openiddict:  { icon: 'fas fa-key',            desc: '深入理解 OpenIddict，搭建企业级 OAuth2/OpenID Connect 认证中心' },
+  dotnet:      { icon: 'fab fa-microsoft',      desc: '深入 .NET 技术栈，从认证授权到微服务架构全面掌握' },
+  aspire:      { icon: 'fas fa-cloud',          desc: '学习 .NET Aspire，构建云原生分布式应用' },
+  zhouyi:      { icon: 'fas fa-yin-yang',       desc: '探索周易预测，理解卦象法则与传统文化智慧' },
 }
 
 const tutorialCards = ref([])
@@ -273,9 +273,11 @@ onMounted(async () => {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 2rem;
+  font-size: 1.75rem;
   margin-bottom: 1.5rem;
-  background: var(--card-bg, #fff5f0);
+  background: linear-gradient(135deg, var(--card-bg, #fff5f0) 0%, var(--card-bg, #fff5f0) 60%, var(--card-color, #ff6b35) 200%);
+  color: var(--card-color, #ff6b35);
+  box-shadow: 0 4px 12px -4px rgba(0, 0, 0, 0.1);
 }
 
 .tutorial-card-title {
@@ -335,7 +337,7 @@ onMounted(async () => {
   .tutorials-container { padding: 1rem; }
   .tutorials-grid { grid-template-columns: 1fr; gap: 1rem; }
   .tutorial-card { padding: 1.5rem; }
-  .tutorial-card-icon { width: 56px; height: 56px; font-size: 1.6rem; }
+  .tutorial-card-icon { width: 56px; height: 56px; font-size: 1.4rem; }
   .tutorial-card-title { font-size: 1.2rem; }
 }
 </style>
