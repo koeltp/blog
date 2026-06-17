@@ -44,11 +44,17 @@
     margin: 0 !important;
 }
 
-/* body 顶部留出导航栏空间 */
+/* body 顶部留出导航栏空间，优化滚动性能 */
+html {
+    scroll-behavior: smooth;
+}
+
 body {
     padding-top: 64px;
     scrollbar-width: none;
     -ms-overflow-style: none;
+    overflow-y: auto;
+    overscroll-behavior-y: none;
 }
 
 body::-webkit-scrollbar {
@@ -85,7 +91,7 @@ a {
     border-radius: 12px;
     padding: 1.5rem 2rem;
     color: inherit;
-    transition: all 0.25s ease;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
     margin-bottom: 1rem;
     overflow: hidden;
 }
@@ -205,7 +211,7 @@ a.meta-tag {
     line-height: 1.6;
     text-decoration: none;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: color 0.2s ease, background-color 0.2s ease;
     margin-left: 2px;
 }
 
@@ -224,7 +230,7 @@ a.meta-tag:hover {
     line-height: 1.6;
     text-decoration: none;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: color 0.2s ease, background-color 0.2s ease;
     margin-bottom: 10px;
     margin-right: 10px;
 }
@@ -260,9 +266,12 @@ a.meta-tag:hover {
 }
 
 /* ===== Markdown 内容样式 ===== */
+/* content-visibility 让浏览器跳过不可见区域的渲染，大幅提升长页面滚动性能 */
 .content-container>div {
     line-height: 1.8;
     color: #334155;
+    content-visibility: auto;
+    contain-intrinsic-size: auto 1200px;
 }
 
 .content-container>div h1,
@@ -412,7 +421,7 @@ a.meta-tag:hover {
     cursor: pointer;
     padding: 0.25rem;
     border-radius: 4px;
-    transition: all 0.2s ease;
+    transition: color 0.2s ease, background-color 0.2s ease;
 }
 
 .code-block-copy:hover {
@@ -454,7 +463,7 @@ a.meta-tag:hover {
     padding: 0.4rem 0.8rem;
     border-radius: 6px;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: background-color 0.2s ease, color 0.2s ease;
     display: flex;
     align-items: center;
 }
@@ -501,7 +510,7 @@ a.meta-tag:hover {
     cursor: pointer;
     padding: 0.25rem;
     border-radius: 4px;
-    transition: all 0.2s ease;
+    transition: color 0.2s ease, background-color 0.2s ease;
 }
 
 .code-tabs-copy:hover {
@@ -582,7 +591,7 @@ dd::before {
     cursor: pointer;
     color: #666;
     border-radius: 4px;
-    transition: all 0.2s;
+    transition: background-color 0.2s, color 0.2s;
     user-select: none;
 }
 
@@ -613,7 +622,7 @@ dd::before {
     cursor: pointer;
     font-size: 14px;
     color: #64748b;
-    transition: all 0.15s;
+    transition: background-color 0.15s, color 0.15s, border-color 0.15s;
 }
 
 .mermaid-action:hover {
@@ -682,7 +691,7 @@ dd::before {
     border: 1px solid #e5e7eb;
     border-radius: 10px;
     text-decoration: none;
-    transition: all 0.2s ease;
+    transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .prev-next-link:hover {
@@ -731,6 +740,8 @@ dd::before {
     overflow-y: auto;
     scrollbar-width: none;
     -ms-overflow-style: none;
+    will-change: transform;
+    transform: translateZ(0);
 }
 
 .right-nav::-webkit-scrollbar {
@@ -763,7 +774,7 @@ dd::before {
     text-decoration: none;
     padding: 0.3rem 0.5rem;
     border-radius: 4px;
-    transition: all 0.2s ease;
+    transition: color 0.2s ease, background-color 0.2s ease, border-left-color 0.2s ease;
     border-left: 2px solid transparent;
 }
 

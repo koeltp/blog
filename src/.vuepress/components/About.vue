@@ -216,21 +216,23 @@ const techGroups = [
 // 开源项目
 const projects = [
     { name: 'blog', desc: '个人技术博客，基于 VuePress 2 构建，涵盖 .NET、Flutter、Dart 等技术教程', lang: 'Vue', url: 'https://github.com/koeltp/blog', site: 'taipi.top' },
-    { name: 'tpsso', desc: '基于 OpenIddict 的前后端分离 SSO 单点登录项目', lang: 'C#', url: 'https://github.com/koeltp/tpsso' , site: 'admin.taipi.top' },
+    { name: 'tpsso', desc: '基于 OpenIddict 的前后端分离 SSO 单点登录项目', lang: 'C#', url: 'https://github.com/koeltp/tpsso', site: 'admin.taipi.top' },
     { name: 'TPAdminApi', desc: '后台管理系统后端，基于 .NET 的权限管理框架', lang: 'C#', url: 'https://gitlab.com/taipi/tpadminapi' },
-    { name: 'TPAdminWeb', desc: '后台管理系统前端，基于 Vue + TypeScript 的管理后台界面', lang: 'Vue', url: 'https://gitlab.com/taipi/tpadminweb'},
+    { name: 'TPAdminWeb', desc: '后台管理系统前端，基于 Vue + TypeScript 的管理后台界面', lang: 'Vue', url: 'https://gitlab.com/taipi/tpadminweb' },
     { name: 'tz', desc: '投资周报自动化采集与分析系统', lang: 'JavaScript', url: 'https://github.com/koeltp/tz', site: 'tz.taipi.top' },
     { name: 'TPCore', desc: '.NET 核心类库，通用基础设施与工具集', lang: 'C#', url: 'https://github.com/koeltp/TPCore' }
 ]
 
 // 网站与产品
 const sites = [
+    { name: 'TP SSO', desc: '基于 OpenIddict 的前后端分离 SSO 单点登录项目', url: 'https://admin.taipi.top', emoji: 'S', color: '#ffa500' },
     { name: 'TaiPi.Top', desc: '技术博客与教程站', url: 'https://www.taipi.top', emoji: 'T', color: '#4a3b2c' },
     { name: 'TZ.TaiPi.Top', desc: '投资周报与数据分析', url: 'https://tz.taipi.top', emoji: 'Z', color: '#0369a1' },
     { name: '字节时代', desc: '字节时代，技术探索', url: 'https://www.byteepoch.com', emoji: 'B', color: '#7c3aed' },
     { name: 'AI 导航站', desc: 'AI 与编程资源导航站', url: 'https://nav.taipi.top', emoji: 'N', color: '#059669' },
     { name: '开发者工具箱', desc: '开发者在线工具箱', url: 'https://tools.taipi.top', emoji: 'S', color: '#d97706' },
     { name: '结了么', desc: '免注册的真诚交友平台', url: 'https://www.jieleme.top', emoji: 'J', color: '#e11d48' },
+
 ]
 
 function langClass(lang) {

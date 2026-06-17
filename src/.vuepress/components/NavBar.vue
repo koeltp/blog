@@ -149,11 +149,11 @@ header {
   position: fixed;
   top: 0; left: 0; right: 0;
   z-index: 1000;
-  background: rgba(255, 255, 255, 0.72);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  background: rgba(255, 255, 255, 0.96);
   border-bottom: 1px solid rgba(0, 0, 0, 0.06);
   height: 64px;
+  will-change: transform;
+  transform: translateZ(0);
 }
 
 nav {
@@ -259,9 +259,7 @@ nav {
   position: relative;
   width: 480px;
   max-width: 90vw;
-  background: rgba(255,255,255,0.92);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
+  background: #ffffff;
   border: 1px solid rgba(0,0,0,0.08);
   border-radius: 14px;
   overflow: hidden;
@@ -352,15 +350,13 @@ nav {
   .nav-links {
     position: fixed;
     top: 64px; left: 0; right: 0;
-    background: rgba(255,255,255,0.95);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    background: #ffffff;
     flex-direction: column;
     height: auto;
     padding: 0;
     transform: translateY(-100%);
     opacity: 0;
-    transition: all 0.3s ease;
+    transition: transform 0.3s ease, opacity 0.3s ease;
     pointer-events: none;
     z-index: 1000;
     border-top: 1px solid rgba(0,0,0,0.06);

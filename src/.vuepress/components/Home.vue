@@ -86,7 +86,7 @@ function formatDate(date) {
 
 const featuredProjects = [
   { name: 'Blog',      desc: '个人技术博客，涵盖 .NET、Flutter、LangChain 等教程', lang: 'Vue + VuePress',  url: 'https://github.com/koeltp/blog',    site: 'taipi.top',   icon: 'fas fa-book',       bg: '#42b883' },
-  { name: 'TPSSO',     desc: '基于 OpenIddict 的前后端分离单点登录系统',             lang: 'C# + Vue',        url: 'https://github.com/koeltp/tpsso',   site: 'admin.taipi.top',            icon: 'fas fa-shield-alt', bg: '#512bd4' },
+  { name: 'TP SSO',     desc: '基于 OpenIddict 的前后端分离单点登录系统',             lang: 'C# + Vue',        url: 'https://github.com/koeltp/tpsso',   site: 'admin.taipi.top',            icon: 'fas fa-shield-alt', bg: '#512bd4' },
   { name: 'TZ',        desc: '投资周报自动化采集与数据分析系统',                       lang: 'JavaScript',      url: 'https://github.com/koeltp/tz',      site: 'tz.taipi.top', icon: 'fas fa-chart-line', bg: '#0369a1' },
   { name: 'TPCore',    desc: '.NET 核心类库，通用基础设施与工具集',                     lang: 'C# + .NET',       url: 'https://github.com/koeltp/TPCore',  site: '',            icon: 'fas fa-cube',       bg: '#f97316' },
   { name: 'TPAdmin',    desc: '基于 .NET 的企业级权限后台管理系统，支持多租户与角色管理',                     lang: 'C# + Vue',       url: 'https://github.com/koeltp/tpadmin',  site: 'tpadmin.taipi.top', icon: 'fas fa-user-shield',       bg: '#dc2626' }

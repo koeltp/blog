@@ -295,20 +295,25 @@ function extractToc() {
   tocItems.value = items
 }
 
-// 滚动监听
+// 滚动监听（rAF 节流 + passive，避免阻塞主线程）
+let rafId = null
 function onScroll() {
-  const headings = tocItems.value.map(item => ({
-    id: item.id,
-    el: document.getElementById(item.id)
-  })).filter(h => h.el)
+  if (rafId) return
+  rafId = requestAnimationFrame(() => {
+    rafId = null
+    const headings = tocItems.value.map(item => ({
+      id: item.id,
+      el: document.getElementById(item.id)
+    })).filter(h => h.el)
 
-  let current = null
-  let minDist = Infinity
-  headings.forEach(({ id, el }) => {
-    const dist = Math.abs(el.getBoundingClientRect().top - 100)
-    if (dist < minDist) { minDist = dist; current = id }
+    let current = null
+    let minDist = Infinity
+    headings.forEach(({ id, el }) => {
+      const dist = Math.abs(el.getBoundingClientRect().top - 100)
+      if (dist < minDist) { minDist = dist; current = id }
+    })
+    if (current) activeHeading.value = current
   })
-  if (current) activeHeading.value = current
 }
 
 let scrollHandler = null
@@ -318,12 +323,14 @@ onMounted(async () => {
   setTimeout(() => {
     extractToc()
     scrollHandler = onScroll
-    window.addEventListener('scroll', onScroll)
+    // passive: true 告诉浏览器不会在回调中调用 preventDefault，允许滚动不等待 JS
+    window.addEventListener('scroll', onScroll, { passive: true })
   }, 500)
 })
 
 onUnmounted(() => {
   if (scrollHandler) window.removeEventListener('scroll', scrollHandler)
+  if (rafId) cancelAnimationFrame(rafId)
 })
 
 watch(() => route.path, () => {
@@ -357,6 +364,8 @@ watch(() => route.path, () => {
   top: 64px;
   height: calc(100vh - 64px);
   overflow-y: auto;
+  will-change: transform;
+  transform: translateZ(0);
 }
 
 .sidebar.has-nav {
@@ -381,7 +390,7 @@ watch(() => route.path, () => {
   text-decoration: none;
   display: block;
   padding: 12px 16px;
-  transition: all 0.2s ease;
+  transition: background-color 0.2s ease, color 0.2s ease, border-left-color 0.2s ease;
   font-size: 1rem;
   font-weight: 500;
   border-left: 3px solid transparent;
@@ -410,7 +419,7 @@ watch(() => route.path, () => {
   font-size: 1rem;
   font-weight: 600;
   border-left: 3px solid transparent;
-  transition: all 0.2s ease;
+  transition: background-color 0.2s ease;
   user-select: none;
 }
 
@@ -525,7 +534,7 @@ watch(() => route.path, () => {
   color: #409eff;
   text-decoration: none;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
   white-space: nowrap;
 }
 
@@ -547,6 +556,8 @@ watch(() => route.path, () => {
   max-height: none;
   overflow-y: auto;
   z-index: 1;
+  will-change: transform;
+  transform: translateZ(0);
 }
 
 footer {
