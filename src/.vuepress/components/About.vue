@@ -312,7 +312,7 @@ function langClass(lang) {
     text-decoration: none;
     font-size: 0.9rem;
     font-weight: 500;
-    transition: all 0.25s ease;
+    transition: background-color 0.25s ease, transform 0.25s ease;
 }
 
 .about-link:hover {
@@ -493,7 +493,7 @@ function langClass(lang) {
     font-weight: 500;
     font-size: 0.85rem;
     color: #334155;
-    transition: all 0.25s ease;
+    transition: border-color 0.25s ease, color 0.25s ease;
     cursor: default;
     font-family: 'JetBrains Mono', monospace;
 }
@@ -525,7 +525,7 @@ function langClass(lang) {
     border: 1px solid #e2e8f0;
     border-radius: 12px;
     text-decoration: none;
-    transition: all 0.25s ease;
+    transition: box-shadow 0.25s ease, transform 0.25s ease, border-color 0.25s ease;
     background: #fff;
 }
 
@@ -617,7 +617,7 @@ function langClass(lang) {
     border: 1px solid #e2e8f0;
     border-radius: 12px;
     text-decoration: none;
-    transition: all 0.25s ease;
+    transition: box-shadow 0.25s ease, transform 0.25s ease, border-color 0.25s ease;
     background: #fff;
 }
 

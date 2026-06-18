@@ -106,6 +106,7 @@ onMounted(async () => {
   color: #ffaa66;
   border-bottom: 1px solid rgba(255, 170, 102, 0.15);
   margin-bottom: 2rem;
+  contain: layout style;
 }
 
 .art-hero-container {
@@ -128,8 +129,7 @@ onMounted(async () => {
   text-transform: uppercase;
   margin-bottom: 1rem;
   display: inline-block;
-  background: rgba(0, 0, 0, 0.3);
-  backdrop-filter: blur(4px);
+  background: rgba(0, 0, 0, 0.5);
   padding: 0.2rem 0.8rem;
   border-radius: 20px;
   color: #ffd4a8;

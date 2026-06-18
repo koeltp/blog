@@ -89,7 +89,7 @@ const featuredProjects = [
   { name: 'TP SSO',     desc: '基于 OpenIddict 的前后端分离单点登录系统',             lang: 'C# + Vue',        url: 'https://github.com/koeltp/tpsso',   site: 'admin.taipi.top',            icon: 'fas fa-shield-alt', bg: '#512bd4' },
   { name: 'TZ',        desc: '投资周报自动化采集与数据分析系统',                       lang: 'JavaScript',      url: 'https://github.com/koeltp/tz',      site: 'tz.taipi.top', icon: 'fas fa-chart-line', bg: '#0369a1' },
   { name: 'TPCore',    desc: '.NET 核心类库，通用基础设施与工具集',                     lang: 'C# + .NET',       url: 'https://github.com/koeltp/TPCore',  site: '',            icon: 'fas fa-cube',       bg: '#f97316' },
-  { name: 'TPAdmin',    desc: '基于 .NET 的企业级权限后台管理系统，支持多租户与角色管理',                     lang: 'C# + Vue',       url: 'https://github.com/koeltp/tpadmin',  site: 'tpadmin.taipi.top', icon: 'fas fa-user-shield',       bg: '#dc2626' }
+  { name: 'TPAdmin',    desc: '基于 .NET 的企业级权限后台管理系统，支持多租户与角色管理',                     lang: 'C# + Vue',       url: 'https://gitlab.com/taipi/tpadminapi.git',  site: 'tpadmin.taipi.top', icon: 'fas fa-user-shield',       bg: '#dc2626' }
 ]
 const latestArticles = ref([])
 
@@ -127,6 +127,7 @@ function scrollToLatest() {
   background: #0a0e17;
   color: #c3e8e1;
   border-bottom: 1px solid rgba(0, 255, 255, 0.1);
+  contain: layout style;
 }
 
 .hero-container {
@@ -149,8 +150,7 @@ function scrollToLatest() {
   text-transform: uppercase;
   margin-bottom: 1rem;
   display: inline-block;
-  background: rgba(0,0,0,0.3);
-  backdrop-filter: blur(4px);
+  background: rgba(0,0,0,0.5);
   padding: 0.2rem 0.8rem;
   border-radius: 20px;
 }
@@ -269,7 +269,7 @@ function scrollToLatest() {
   border: 1px solid #e9ecef;
   border-radius: 12px;
   padding: 1.5rem;
-  transition: all 0.3s ease;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
 }
 
 .latest-item:hover {
@@ -295,7 +295,7 @@ function scrollToLatest() {
   color: #3b82f6;
   text-decoration: none;
   font-weight: 600;
-  transition: all 0.3s ease;
+  transition: transform 0.3s ease, color 0.3s ease;
   display: block;
   text-align: right;
 }
@@ -320,7 +320,7 @@ function scrollToLatest() {
   border: 1px solid #e2e8f0;
   border-radius: 14px;
   text-decoration: none;
-  transition: all 0.25s ease;
+  transition: box-shadow 0.25s ease, transform 0.25s ease, border-color 0.25s ease;
   background: #fff;
   cursor: pointer;
 }
@@ -399,7 +399,7 @@ a.meta-tag {
     line-height: 1.6;
     text-decoration: none;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: color 0.2s ease, background-color 0.2s ease;
     margin-left: 2px;
 }
 

@@ -133,6 +133,7 @@ onMounted(async () => {
   background: linear-gradient(145deg, #1e1b2c, #0f0c1a);
   color: #f5e6ff;
   border-bottom: 1px solid rgba(255, 184, 108, 0.15);
+  contain: layout style;
 }
 
 .tut-hero-container {
@@ -155,8 +156,7 @@ onMounted(async () => {
   text-transform: uppercase;
   margin-bottom: 1rem;
   display: inline-block;
-  background: rgba(0, 0, 0, 0.3);
-  backdrop-filter: blur(4px);
+  background: rgba(0, 0, 0, 0.5);
   padding: 0.2rem 0.8rem;
   border-radius: 20px;
   color: #c9b8e8;
@@ -239,7 +239,7 @@ onMounted(async () => {
   border-radius: 16px;
   padding: 2rem;
   border: 1px solid #e9ecef;
-  transition: all 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
   cursor: pointer;
   text-decoration: none;
   display: flex;

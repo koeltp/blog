@@ -231,6 +231,7 @@ watch(() => route.query.q, async (newQ) => {
   background: #2a2a2e;
   color: #b8e1fc;
   border-bottom: 1px solid rgba(108, 92, 231, 0.2);
+  contain: layout style;
 }
 
 .sch-hero-container {
@@ -254,8 +255,7 @@ watch(() => route.query.q, async (newQ) => {
   text-transform: uppercase;
   margin-bottom: 1rem;
   display: inline-block;
-  background: rgba(0, 0, 0, 0.3);
-  backdrop-filter: blur(4px);
+  background: rgba(0, 0, 0, 0.5);
   padding: 0.2rem 0.8rem;
   border-radius: 20px;
   color: #c8b8f0;
@@ -391,7 +391,7 @@ watch(() => route.query.q, async (newQ) => {
   color: #409eff;
   border: 1px solid #d9ecff;
   text-decoration: none;
-  transition: all 0.2s;
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s;
 }
 
 .el-tag:hover {

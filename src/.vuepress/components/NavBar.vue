@@ -336,7 +336,7 @@ nav {
   width: 22px; height: 2px;
   background: #334155;
   border-radius: 2px;
-  transition: all 0.3s ease;
+  transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
 .hamburger-btn.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
