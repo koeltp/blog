@@ -346,6 +346,10 @@ a.meta-tag:hover {
     background-color: #cceeff;
 }
 
+.content-container>div div[class*="language-"] pre {
+    padding: 1rem 1.5rem !important;
+}
+
 /* ===== 文章头部样式 ===== */
 .article-header {
     margin-bottom: 2rem;

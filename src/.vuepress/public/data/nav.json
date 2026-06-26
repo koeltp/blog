@@ -9,6 +9,7 @@
     "langchain": "LangChain 从菜鸟到高手",
     "md": "Markdown语法指南",
     "openiddict": "OpenIddict教程",
+    "typescript": "TypeScript教程",
     "zhouyi": "周易预测"
   },
   "subCategories": {
@@ -380,6 +381,60 @@
       {
         "name": "OpenIddict 核心类关系解析",
         "file": "06核心类关系解析.md"
+      }
+    ],
+    "typescript": [
+      {
+        "name": "环境搭建与第一个程序",
+        "file": "01环境搭建与第一个程序.md"
+      },
+      {
+        "name": "变量、类型与类型推断",
+        "file": "02变量类型与类型推断.md"
+      },
+      {
+        "name": "接口与类型别名",
+        "file": "03接口与类型别名.md"
+      },
+      {
+        "name": "函数与函数重载",
+        "file": "04函数与函数重载.md"
+      },
+      {
+        "name": "类与面向对象",
+        "file": "05类与面向对象.md"
+      },
+      {
+        "name": "泛型",
+        "file": "06泛型.md"
+      },
+      {
+        "name": "联合类型与类型守卫",
+        "file": "07联合类型与类型守卫.md"
+      },
+      {
+        "name": "模块与声明文件",
+        "file": "08模块与声明文件.md"
+      },
+      {
+        "name": "异步编程",
+        "file": "09异步编程.md"
+      },
+      {
+        "name": "装饰器与元数据",
+        "file": "10装饰器与元数据.md"
+      },
+      {
+        "name": "类型体操与工具类型",
+        "file": "11类型体操与工具类型.md"
+      },
+      {
+        "name": "实战：项目工程化",
+        "file": "12实战项目工程化.md"
+      },
+      {
+        "name": "TypeScript教程",
+        "file": "index.md"
       }
     ],
     "zhouyi": [
