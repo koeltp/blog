@@ -763,50 +763,6 @@ dd::before {
     border-bottom: 1px solid #e9ecef;
 }
 
-.right-nav ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.right-nav li {
-    margin-bottom: 0.5rem;
-}
-
-.right-nav a {
-    display: block;
-    font-size: 0.85rem;
-    color: #666;
-    text-decoration: none;
-    padding: 0.3rem 0.5rem;
-    border-radius: 4px;
-    transition: color 0.2s ease, background-color 0.2s ease, border-left-color 0.2s ease;
-    border-left: 2px solid transparent;
-}
-
-.right-nav a:hover {
-    color: #333;
-    background-color: #f0f0f0;
-    border-left-color: #666;
-}
-
-.right-nav a.active {
-    color: #007bff;
-    background-color: #e7f1ff;
-    border-left-color: #007bff;
-    font-weight: 600;
-}
-
-.right-nav .toc-h3 {
-    padding-left: 1.2rem;
-    font-size: 0.8rem;
-}
-
-.right-nav .toc-h4 {
-    padding-left: 2rem;
-    font-size: 0.75rem;
-}
-
 /* ===== 状态提示 ===== */
 .msg-error {
     text-align: center;

@@ -16,9 +16,9 @@
             </li>
           </template>
           <!-- 子目录分组 -->
-          <li v-for="sub in subGroups" :key="sub.key" class="nav-group" :class="{ collapsed: sub.key !== currentSubKey }">
+          <li v-for="sub in subGroups" :key="sub.key" class="nav-group" :class="{ collapsed: collapsedGroups.has(sub.key) }">
             <div class="nav-group-header" @click="toggleGroup(sub)">
-              <span class="nav-group-arrow">{{ sub.key === currentSubKey ? '▼' : '▶' }}</span>
+              <span class="nav-group-arrow">{{ collapsedGroups.has(sub.key) ? '▶' : '▼' }}</span>
               <span class="nav-group-title">{{ sub.displayName }}</span>
             </div>
             <ul class="nav-group-items">
@@ -92,14 +92,10 @@
       </div>
 
       <!-- 右侧目录 -->
-      <div class="right-nav" v-if="tocItems.length">
+      <div class="right-nav" v-if="tocTree.length">
         <div class="right-nav-title">目录</div>
-        <ul>
-          <li v-for="item in tocItems" :key="item.id">
-            <a :href="'#' + item.id" :class="['toc-' + item.level, { active: activeHeading === item.id }]" @click.prevent="scrollTo(item.id)">
-              {{ item.text }}
-            </a>
-          </li>
+        <ul class="toc-tree">
+          <TocNode v-for="item in tocTree" :key="item.id" :item="item" :active-heading="activeHeading" :collapsed-set="collapsedSet" @navigate="scrollTo" @toggle="toggleCollapse" />
         </ul>
       </div>
     </div>
@@ -113,10 +109,76 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onUnmounted, watch } from 'vue'
+import { ref, computed, onMounted, onUnmounted, watch, defineComponent, h } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { usePageFrontmatter } from '@vuepress/client'
 import NavBar from './NavBar.vue'
+
+// 递归目录节点组件
+const TocNode = defineComponent({
+  name: 'TocNode',
+  props: {
+    item: { type: Object, required: true },
+    activeHeading: { type: String, default: '' },
+    collapsedSet: { type: Set, required: true }
+  },
+  emits: ['navigate', 'toggle'],
+  setup(props, { emit }) {
+    return () => {
+      const { item, activeHeading, collapsedSet } = props
+      const hasChildren = item.children && item.children.length > 0
+      const isCollapsed = collapsedSet.has(item.id)
+      const isActive = activeHeading === item.id
+      // 判断子节点或自身是否处于活跃状态（用于高亮父级）
+      const isAncestorOfActive = activeHeading ? isAncestor(item, activeHeading) : false
+
+      return h('li', { class: ['toc-item', `toc-level-${item.level}`] }, [
+        h('div', {
+          class: ['toc-item-header', { active: isActive, 'ancestor-active': isAncestorOfActive && !isActive }]
+        }, [
+          // 折叠箭头
+          hasChildren
+            ? h('span', {
+                class: 'toc-arrow',
+                onClick: (e) => { e.preventDefault(); e.stopPropagation(); emit('toggle', item.id) }
+              }, isCollapsed ? '▶' : '▼')
+            : h('span', { class: 'toc-arrow toc-arrow-leaf' }),
+          // 链接
+          h('a', {
+            href: `#${item.id}`,
+            class: 'toc-link',
+            onClick: (e) => { e.preventDefault(); emit('navigate', item.id) }
+          }, item.text)
+        ]),
+        // 子节点
+        hasChildren && !isCollapsed
+          ? h('ul', { class: 'toc-children' },
+              item.children.map(child =>
+                h(TocNode, {
+                  key: child.id,
+                  item: child,
+                  activeHeading,
+                  collapsedSet,
+                  onNavigate: (id) => emit('navigate', id),
+                  onToggle: (id) => emit('toggle', id)
+                })
+              )
+            )
+          : null
+      ])
+    }
+  }
+})
+
+// 判断某个节点是否是当前活跃标题的祖先
+function isAncestor(node, activeId) {
+  if (!node.children) return false
+  for (const child of node.children) {
+    if (child.id === activeId) return true
+    if (isAncestor(child, activeId)) return true
+  }
+  return false
+}
 
 const route = useRoute()
 const router = useRouter()
@@ -188,21 +250,37 @@ const hasSidebar = computed(() => {
   return rootFiles.value.length > 0 || subGroups.value.length > 0 || allFiles.value.length > 0
 })
 
-// 目录
-const tocItems = ref([])
+// 目录（树形结构）
+const tocTree = ref([])
 const activeHeading = ref('')
+// 折叠状态：记录被手动折叠的节点 id
+const collapsedSet = ref(new Set())
+
+function toggleCollapse(id) {
+  const newSet = new Set(collapsedSet.value)
+  if (newSet.has(id)) {
+    newSet.delete(id)
+  } else {
+    newSet.add(id)
+  }
+  collapsedSet.value = newSet
+}
 
 function getLink(type, file) {
   return `/docs/${type}/${file.replace('.md', '.html')}`
 }
 
+// 左侧导航折叠状态
+const collapsedGroups = ref(new Set())
+
 function toggleGroup(sub) {
-  if (sub.key !== currentSubKey.value) {
-    const files = sub.files
-    if (files.length > 0) {
-      router.push(getLink(sub.key, files[0].file))
-    }
+  const newSet = new Set(collapsedGroups.value)
+  if (newSet.has(sub.key)) {
+    newSet.delete(sub.key)
+  } else {
+    newSet.add(sub.key)
   }
+  collapsedGroups.value = newSet
 }
 
 function scrollTo(id) {
@@ -262,12 +340,12 @@ function buildPrevNext() {
   }
 }
 
-// 提取页面标题生成目录（跳过第一个 h1，因为它已在 meta header 中显示）
+// 提取页面标题生成树形目录（跳过第一个 h1，因为它已在 meta header 中显示）
 function extractToc() {
   const container = document.querySelector('.content-container')
   if (!container) return
-  const headings = container.querySelectorAll('h1, h2, h3')
-  if (!headings.length) { tocItems.value = []; return }
+  const headings = container.querySelectorAll('h1, h2, h3, h4')
+  if (!headings.length) { tocTree.value = []; return }
 
   // 隐藏 Content 中第一个 h1（与 meta header 重复）
   const contentDiv = container.querySelector(':scope > div:not(.article-meta-header):not(.prev-next-nav)')
@@ -276,23 +354,52 @@ function extractToc() {
     firstH1.style.display = 'none'
   }
 
-  const items = []
+  // 先收集平铺列表
+  const flatItems = []
   let skippedFirstH1 = false
   headings.forEach((h, i) => {
-    // 跳过第一个 h1
     if (h.tagName === 'H1' && !skippedFirstH1) {
       skippedFirstH1 = true
       return
     }
     const id = h.id || `heading-${i}`
     if (!h.id) h.id = id
-    items.push({
+    flatItems.push({
       id,
       text: h.textContent,
-      level: h.tagName.toLowerCase().replace('h', '')
+      level: parseInt(h.tagName.toLowerCase().replace('h', '')),
+      children: []
     })
   })
-  tocItems.value = items
+
+  // 平铺列表转树：级别相同是兄弟，级别小是父级，级别大是子级
+  const tree = []
+  const stack = [] // 栈顶是当前父节点
+  for (const item of flatItems) {
+    // 弹出栈中级别 >= 当前项的节点，找到最近的父级
+    while (stack.length > 0 && stack[stack.length - 1].level >= item.level) {
+      stack.pop()
+    }
+    if (stack.length === 0) {
+      tree.push(item)
+    } else {
+      stack[stack.length - 1].children.push(item)
+    }
+    stack.push(item)
+  }
+
+  tocTree.value = tree
+  collapsedSet.value = new Set() // 重置折叠状态
+}
+
+// 递归收集树中所有节点的 id
+function collectAllIds(nodes) {
+  const ids = []
+  for (const node of nodes) {
+    ids.push(node.id)
+    if (node.children) ids.push(...collectAllIds(node.children))
+  }
+  return ids
 }
 
 // 滚动监听（rAF 节流 + passive，避免阻塞主线程）
@@ -301,10 +408,8 @@ function onScroll() {
   if (rafId) return
   rafId = requestAnimationFrame(() => {
     rafId = null
-    const headings = tocItems.value.map(item => ({
-      id: item.id,
-      el: document.getElementById(item.id)
-    })).filter(h => h.el)
+    const allIds = collectAllIds(tocTree.value)
+    const headings = allIds.map(id => ({ id, el: document.getElementById(id) })).filter(h => h.el)
 
     let current = null
     let minDist = Infinity
@@ -312,8 +417,35 @@ function onScroll() {
       const dist = Math.abs(el.getBoundingClientRect().top - 100)
       if (dist < minDist) { minDist = dist; current = id }
     })
-    if (current) activeHeading.value = current
+    if (current) {
+      activeHeading.value = current
+      // 自动展开当前活跃标题的祖先节点
+      autoExpandAncestors(current)
+    }
   })
+}
+
+// 递归查找并展开活跃标题的所有祖先
+function autoExpandAncestors(activeId) {
+  const idsToExpand = new Set()
+  function findPath(nodes) {
+    for (const node of nodes) {
+      if (node.id === activeId) return true
+      if (node.children && findPath(node.children)) {
+        idsToExpand.add(node.id)
+        return true
+      }
+    }
+    return false
+  }
+  findPath(tocTree.value)
+  if (idsToExpand.size > 0) {
+    const newSet = new Set(collapsedSet.value)
+    for (const id of idsToExpand) {
+      newSet.delete(id)
+    }
+    collapsedSet.value = newSet
+  }
 }
 
 let scrollHandler = null
@@ -580,4 +712,114 @@ footer {
   .article-meta-title { font-size: 1.5rem; }
   .article-meta-info { gap: 0.6rem; }
 }
+</style>
+
+<!-- 非 scoped 样式，确保穿透到 TocNode 子组件 -->
+<style>
+/* 树形目录样式——与左侧导航统一风格 */
+.toc-tree {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.toc-tree .toc-item {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.toc-tree .toc-children {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  padding-left: 1.5rem;
+  overflow: hidden;
+}
+
+.toc-item-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 12px;
+  cursor: pointer;
+  color: #475569;
+  font-size: 0.9rem;
+  font-weight: 500;
+  border-left: 3px solid transparent;
+  transition: background-color 0.2s ease, color 0.2s ease, border-left-color 0.2s ease;
+  user-select: none;
+}
+
+.toc-item-header:hover {
+  background-color: #f1f5f9;
+  color: #1e293b;
+}
+
+.toc-item-header.active {
+  background-color: #eff6ff;
+  color: #2563eb;
+  font-weight: 600;
+  border-left-color: #2563eb;
+}
+
+.toc-item-header.ancestor-active {
+  color: #1e293b;
+  font-weight: 600;
+}
+
+.toc-arrow {
+  flex-shrink: 0;
+  font-size: 0.7rem;
+  color: #94a3b8;
+  width: 14px;
+  text-align: center;
+  transition: transform 0.2s ease;
+  cursor: pointer;
+  user-select: none;
+}
+
+.toc-arrow:hover {
+  color: #475569;
+}
+
+.toc-arrow-leaf {
+  cursor: default;
+  visibility: hidden;
+}
+
+.toc-link {
+  color: inherit;
+  text-decoration: none;
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.toc-link:visited {
+  color: inherit;
+}
+
+.toc-link:hover {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* 右侧目录标题 */
+.right-nav-title {
+  margin: 0 0 0.75rem;
+  color: #1e293b;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding-bottom: 0.4rem;
+}
+
+.toc-level-1 > .toc-item-header { font-size: 0.95rem; font-weight: 600; color: #1e293b; }
+.toc-level-2 > .toc-item-header { font-size: 0.9rem; font-weight: 500; }
+.toc-level-3 > .toc-item-header { font-size: 0.85rem; }
+.toc-level-4 > .toc-item-header { font-size: 0.8rem; color: #94a3b8; }
 </style>
