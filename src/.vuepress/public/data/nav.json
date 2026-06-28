@@ -6,10 +6,11 @@
     "dotnet/auth": "认证与授权",
     "flutter": "Flutter 从菜鸟到高手",
     "freport": "财报",
+    "guitar": "guitar",
     "langchain": "LangChain 从菜鸟到高手",
     "md": "Markdown语法指南",
     "openiddict": "OpenIddict教程",
-    "typescript": "TypeScript教程",
+    "typescript": "typescript",
     "zhouyi": "周易预测"
   },
   "subCategories": {
@@ -289,6 +290,72 @@
         "file": "08实战读财报.md"
       }
     ],
+    "guitar": [
+      {
+        "name": "吉他从零到精通",
+        "file": "01index.md"
+      },
+      {
+        "name": "认识吉他与持琴姿势",
+        "file": "02认识吉他与持琴姿势.md"
+      },
+      {
+        "name": "右手拨弦与音色控制",
+        "file": "03右手拨弦与音色控制.md"
+      },
+      {
+        "name": "左手按弦与指力训练",
+        "file": "04左手按弦与指力训练.md"
+      },
+      {
+        "name": "音阶与指板逻辑",
+        "file": "05音阶与指板逻辑.md"
+      },
+      {
+        "name": "基础和弦与构成原理",
+        "file": "06基础和弦与构成原理.md"
+      },
+      {
+        "name": "和弦转换与肌肉记忆",
+        "file": "07和弦转换与肌肉记忆.md"
+      },
+      {
+        "name": "节奏基础与扫弦技法",
+        "file": "08节奏基础与扫弦技法.md"
+      },
+      {
+        "name": "右手闷音与节奏层次",
+        "file": "09右手闷音与节奏层次.md"
+      },
+      {
+        "name": "指弹入门与旋律+伴奏",
+        "file": "10指弹入门.md"
+      },
+      {
+        "name": "常用技巧：滑音/击勾弦",
+        "file": "11常用技巧滑音击勾弦.md"
+      },
+      {
+        "name": "进阶和弦：七和弦/挂留",
+        "file": "12进阶和弦七和弦挂留.md"
+      },
+      {
+        "name": "调式转换与变调夹",
+        "file": "13调式转换与变调夹.md"
+      },
+      {
+        "name": "泛音与特殊技法",
+        "file": "14泛音与特殊技法.md"
+      },
+      {
+        "name": "曲目实战（弹唱）",
+        "file": "15曲目实战弹唱.md"
+      },
+      {
+        "name": "曲目实战（指弹）",
+        "file": "16曲目实战指弹.md"
+      }
+    ],
     "langchain": [
       {
         "name": "概述与环境搭建",
@@ -385,6 +452,10 @@
     ],
     "typescript": [
       {
+        "name": "TypeScript教程",
+        "file": "00index.md"
+      },
+      {
         "name": "环境搭建与第一个程序",
         "file": "01环境搭建与第一个程序.md"
       },
@@ -431,10 +502,6 @@
       {
         "name": "实战：项目工程化",
         "file": "12实战项目工程化.md"
-      },
-      {
-        "name": "TypeScript教程",
-        "file": "index.md"
       }
     ],
     "zhouyi": [

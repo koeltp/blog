@@ -47,10 +47,16 @@ async function initMermaid() {
 // Mermaid 图表交互功能
 function initMermaidInteractions() {
   document.querySelectorAll('.mermaid-wrapper').forEach(wrapper => {
+    // 防止重复初始化：onMounted 与 route.path 的 watch 可能对同一 DOM 多次触发
+    // 若不去重，全屏按钮的 toggle('fullscreen') 会被绑定多次，偶数次点击表现为"无法全屏"
+    if (wrapper._mermaidInitialized) return
+
     const diagram = wrapper.querySelector('.mermaid-diagram')
     const source = wrapper.querySelector('.mermaid-source')
     const svg = diagram?.querySelector('svg')
     if (!svg) return
+    // SVG 就绪后才标记为已初始化，避免 svg 未渲染时被永久跳过
+    wrapper._mermaidInitialized = true
 
     // 保存基础尺寸
     const viewBox = svg.getAttribute('viewBox')
@@ -104,9 +110,28 @@ function initMermaidInteractions() {
             URL.revokeObjectURL(url)
             break
           }
-          case 'fullscreen':
-            wrapper.classList.toggle('fullscreen')
+          case 'fullscreen': {
+            // 祖先 .content-container>div 的 content-visibility: auto 会创建 fixed 包含块，
+            // 导致 position:fixed 相对于该 div 而非视口定位，无法占满屏幕。
+            // 解决方案：进入全屏时将 wrapper 移到 body 下脱离该包含块，退出时移回原位。
+            const isFullscreen = wrapper.classList.contains('fullscreen')
+            if (!isFullscreen) {
+              wrapper._originalParent = wrapper.parentNode
+              wrapper._originalNextSibling = wrapper.nextSibling
+              document.body.appendChild(wrapper)
+              wrapper.classList.add('fullscreen')
+            } else {
+              wrapper.classList.remove('fullscreen')
+              if (wrapper._originalParent) {
+                if (wrapper._originalNextSibling && wrapper._originalNextSibling.parentNode === wrapper._originalParent) {
+                  wrapper._originalParent.insertBefore(wrapper, wrapper._originalNextSibling)
+                } else {
+                  wrapper._originalParent.appendChild(wrapper)
+                }
+              }
+            }
             break
+          }
         }
       })
     })
@@ -439,14 +464,21 @@ function initCodeTabs() {
   })
 }
 
+// 页面初始化的定时器引用，用于防止快速导航时多个 setTimeout 累积导致重复初始化
+let pageInitTimer = null
+
 // 页面初始化
 function initPage() {
-  setTimeout(() => {
+  // 清理路由切换时遗留的全屏 mermaid（全屏状态下导航会遗留孤儿 wrapper）
+  document.querySelectorAll('body > .mermaid-wrapper.fullscreen').forEach(w => w.remove())
+  if (pageInitTimer) clearTimeout(pageInitTimer)
+  pageInitTimer = setTimeout(() => {
     initMermaid()
     initCodeTabs()
     initCodeBlockHeaders()
     initCopyButtons()
     initTabs()
+    pageInitTimer = null
   }, 300)
 }
 
