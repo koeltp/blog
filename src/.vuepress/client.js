@@ -69,6 +69,67 @@ function initMermaidInteractions() {
       svg._baseHeight = svg.clientHeight || 400
     }
     svg._currentScale = 1
+    svg._translateX = 0
+    svg._translateY = 0
+    svg.style.transformOrigin = '0 0'
+
+    // 统一应用缩放与平移
+    const applySvgTransform = () => {
+      svg.style.transform = `translate(${svg._translateX}px, ${svg._translateY}px) scale(${svg._currentScale})`
+    }
+
+    // 以指定屏幕坐标为中心缩放（保持该点在屏幕上不动，体验更自然）
+    const zoomAtScreenPoint = (newScale, clientX, clientY) => {
+      const oldScale = svg._currentScale
+      newScale = Math.max(0.3, Math.min(5, newScale))
+      if (newScale === oldScale) return
+      const rect = svg.getBoundingClientRect()
+      const px = (clientX - rect.left) / oldScale
+      const py = (clientY - rect.top) / oldScale
+      svg._translateX -= px * (newScale - oldScale)
+      svg._translateY -= py * (newScale - oldScale)
+      svg._currentScale = newScale
+      applySvgTransform()
+    }
+
+    // 滚轮缩放（仅全屏时拦截，避免影响页面正常滚动）
+    diagram.addEventListener('wheel', (e) => {
+      if (!wrapper.classList.contains('fullscreen')) return
+      e.preventDefault()
+      const factor = e.deltaY > 0 ? 0.9 : 1.1
+      zoomAtScreenPoint(svg._currentScale * factor, e.clientX, e.clientY)
+    }, { passive: false })
+
+    // 拖动平移：mousedown 时临时绑定 window 监听，mouseup 移除，避免监听器累积
+    diagram.addEventListener('mousedown', (e) => {
+      if (e.target.closest('a')) return  // 不拦截图中链接点击
+      const startClientX = e.clientX
+      const startClientY = e.clientY
+      const startTX = svg._translateX
+      const startTY = svg._translateY
+      diagram.style.cursor = 'grabbing'
+      const onMove = (ev) => {
+        svg._translateX = startTX + (ev.clientX - startClientX)
+        svg._translateY = startTY + (ev.clientY - startClientY)
+        applySvgTransform()
+      }
+      const onUp = () => {
+        diagram.style.cursor = ''
+        window.removeEventListener('mousemove', onMove)
+        window.removeEventListener('mouseup', onUp)
+      }
+      window.addEventListener('mousemove', onMove)
+      window.addEventListener('mouseup', onUp)
+      e.preventDefault()
+    })
+
+    // 双击重置缩放与位置
+    diagram.addEventListener('dblclick', () => {
+      svg._currentScale = 1
+      svg._translateX = 0
+      svg._translateY = 0
+      applySvgTransform()
+    })
 
     // 图表/代码切换
     wrapper.querySelectorAll('.mermaid-tab').forEach(tab => {
@@ -89,16 +150,16 @@ function initMermaidInteractions() {
     wrapper.querySelectorAll('.mermaid-action').forEach(btn => {
       btn.addEventListener('click', () => {
         switch (btn.dataset.action) {
-          case 'zoom-in':
-            svg._currentScale = Math.min(5, svg._currentScale + 0.2)
-            svg.style.transform = `scale(${svg._currentScale})`
-            svg.style.transformOrigin = 'center'
+          case 'zoom-in': {
+            const r = svg.getBoundingClientRect()
+            zoomAtScreenPoint(svg._currentScale + 0.2, r.left + r.width / 2, r.top + r.height / 2)
             break
-          case 'zoom-out':
-            svg._currentScale = Math.max(0.3, svg._currentScale - 0.2)
-            svg.style.transform = `scale(${svg._currentScale})`
-            svg.style.transformOrigin = 'center'
+          }
+          case 'zoom-out': {
+            const r = svg.getBoundingClientRect()
+            zoomAtScreenPoint(svg._currentScale - 0.2, r.left + r.width / 2, r.top + r.height / 2)
             break
+          }
           case 'download': {
             const svgData = new XMLSerializer().serializeToString(svg)
             const blob = new Blob([svgData], { type: 'image/svg+xml' })
