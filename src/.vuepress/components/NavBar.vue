@@ -5,7 +5,8 @@
       <RouterLink to="/" class="logo"><img src="/img/logo/logo.png" alt="太皮"></RouterLink>
       <ul class="nav-links" :class="{ 'mobile-open': mobileMenuOpen }">
         <li v-for="item in navItems" :key="item.url">
-          <RouterLink :to="item.url" :class="{ active: isActive(item.url) }">{{ item.name }}</RouterLink>
+          <a v-if="item.external" :href="item.url" target="_blank" rel="noopener noreferrer">{{ item.name }}</a>
+          <RouterLink v-else :to="item.url" :class="{ active: isActive(item.url) }">{{ item.name }}</RouterLink>
         </li>
         <li class="nav-search">
           <button class="search-btn" title="搜索" @click="toggleSearch">
@@ -54,12 +55,23 @@ import { useRoute, useRouter } from 'vue-router'
 const route = useRoute()
 const router = useRouter()
 
-const navItems = [
-  { name: '首页', url: '/' },
-  { name: '文章', url: '/articles/' },
-  { name: '教程', url: '/tutorials/' },
-  { name: '关于', url: '/about/' },
-]
+const navItems = ref([])
+
+onMounted(async () => {
+  try {
+    const resp = await fetch('/data/nav.json')
+    const data = await resp.json()
+    if (data.topnav) navItems.value = data.topnav
+  } catch (e) {
+    // nav.json 加载失败时回退到默认导航
+    navItems.value = [
+      { name: '首页', url: '/' },
+      { name: '文章', url: '/articles/' },
+      { name: '教程', url: '/tutorials/' },
+      { name: '关于', url: '/about/' },
+    ]
+  }
+})
 
 const mobileMenuOpen = ref(false)
 const searchOpen = ref(false)

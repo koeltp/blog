@@ -33,6 +33,15 @@
     {
       "name": "教程",
       "url": "/tutorials/"
+    },
+    {
+      "name": "关于",
+      "url": "/about/"
+    },
+    {
+      "name": "导航",
+      "url": "https://nav.taipi.top/",
+      "external": true
     }
   ],
   "topnav": [
@@ -47,6 +56,15 @@
     {
       "name": "教程",
       "url": "/tutorials/"
+    },
+    {
+      "name": "关于",
+      "url": "/about/"
+    },
+    {
+      "name": "导航",
+      "url": "https://nav.taipi.top/",
+      "external": true
     }
   ],
   "leftnav": {

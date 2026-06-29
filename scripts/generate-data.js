@@ -30,7 +30,9 @@ const EXCLUDE_DIRS = ['article']
 const TOPNAV = [
   { name: '首页', url: '/' },
   { name: '文章', url: '/articles/' },
-  { name: '教程', url: '/tutorials/' }
+  { name: '教程', url: '/tutorials/' },
+  { name: '关于', url: '/about/' },
+  { name: '导航', url: 'https://nav.taipi.top', external: true }
 ]
 
 // 分类显示名映射（兜底：目录名首字母大写）
