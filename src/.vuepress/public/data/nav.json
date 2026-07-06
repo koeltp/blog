@@ -10,6 +10,7 @@
     "langchain": "LangChain教程",
     "md": "Markdown语法指南",
     "openiddict": "OpenIddict教程",
+    "python": "python",
     "typescript": "typescript",
     "zhouyi": "周易预测"
   },
@@ -377,63 +378,63 @@
     "langchain": [
       {
         "name": "LangChain 从菜鸟到高手",
-        "file": "00index.md"
+        "file": "01index.md"
       },
       {
         "name": "概述与环境搭建",
-        "file": "01概述与环境搭建.md"
+        "file": "02概述与环境搭建.md"
       },
       {
         "name": "Python 速览",
-        "file": "02Python速览.md"
+        "file": "03Python速览.md"
       },
       {
         "name": "LLM 与 Prompt 工程",
-        "file": "03LLM与Prompt工程.md"
+        "file": "04LLM与Prompt工程.md"
       },
       {
         "name": "输出解析与结构化",
-        "file": "04输出解析与结构化.md"
+        "file": "05输出解析与结构化.md"
       },
       {
         "name": "链与 LCEL",
-        "file": "05链与LCEL.md"
+        "file": "06链与LCEL.md"
       },
       {
         "name": "对话记忆",
-        "file": "06对话记忆.md"
+        "file": "07对话记忆.md"
       },
       {
         "name": "文档加载与分割",
-        "file": "07文档加载与分割.md"
+        "file": "08文档加载与分割.md"
       },
       {
         "name": "向量存储与检索",
-        "file": "08向量存储与检索.md"
+        "file": "09向量存储与检索.md"
       },
       {
         "name": "RAG 检索增强生成",
-        "file": "09RAG检索增强生成.md"
+        "file": "10RAG检索增强生成.md"
       },
       {
         "name": "Agent 与工具调用",
-        "file": "10Agent与工具调用.md"
+        "file": "11Agent与工具调用.md"
       },
       {
         "name": "自定义工具与多 Agent",
-        "file": "11自定义工具与多Agent.md"
+        "file": "12自定义工具与多Agent.md"
       },
       {
         "name": "对话系统实战",
-        "file": "12对话系统实战.md"
+        "file": "13对话系统实战.md"
       },
       {
         "name": "评估与测试",
-        "file": "13评估与测试.md"
+        "file": "14评估与测试.md"
       },
       {
         "name": "部署与生产化",
-        "file": "14部署与生产化.md"
+        "file": "15部署与生产化.md"
       }
     ],
     "md": [
@@ -466,6 +467,72 @@
       {
         "name": "OpenIddict 核心类关系解析",
         "file": "06核心类关系解析.md"
+      }
+    ],
+    "python": [
+      {
+        "name": "概述与环境搭建",
+        "file": "01index.md"
+      },
+      {
+        "name": "Python 速览",
+        "file": "02Python速览.md"
+      },
+      {
+        "name": "流程控制",
+        "file": "03流程控制.md"
+      },
+      {
+        "name": "函数与模块",
+        "file": "04函数与模块.md"
+      },
+      {
+        "name": "字符串处理",
+        "file": "05字符串处理.md"
+      },
+      {
+        "name": "列表与元组",
+        "file": "06列表与元组.md"
+      },
+      {
+        "name": "字典与集合",
+        "file": "07字典与集合.md"
+      },
+      {
+        "name": "文件与异常",
+        "file": "08文件与异常.md"
+      },
+      {
+        "name": "面向对象编程",
+        "file": "09面向对象编程.md"
+      },
+      {
+        "name": "迭代器与生成器",
+        "file": "10迭代器与生成器.md"
+      },
+      {
+        "name": "装饰器与上下文管理器",
+        "file": "11装饰器与上下文管理器.md"
+      },
+      {
+        "name": "标准库精选",
+        "file": "12标准库精选.md"
+      },
+      {
+        "name": "并发编程",
+        "file": "13并发编程.md"
+      },
+      {
+        "name": "网络请求与API",
+        "file": "14网络请求与API.md"
+      },
+      {
+        "name": "JSON 与数据处理",
+        "file": "15JSON与数据处理.md"
+      },
+      {
+        "name": "实战：从零写一个 LLM 聊天客户端",
+        "file": "16实战LLM聊天客户端.md"
       }
     ],
     "typescript": [
