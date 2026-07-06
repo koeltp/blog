@@ -176,9 +176,3 @@ with Timer():
 | 装饰器 | @tool 定义工具 |
 | 异步 | ainvoke/astream/abatch |
 | 上下文管理器 | 回调、追踪 |
-
----
-
-上一篇：[概述与环境搭建](/docs/langchain/01概述与环境搭建.html)
-
-下一篇：[LLM 与 Prompt 工程](/docs/langchain/03LLM与Prompt工程.html)

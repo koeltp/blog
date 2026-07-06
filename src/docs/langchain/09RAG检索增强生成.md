@@ -247,9 +247,3 @@ print(service.ask("iPhone 15 Pro 保修期多久"))
 | 来源引用 | 标注信息来源 |
 | MMR 检索 | 减少重复结果 |
 | 重排序 | 提升检索精度 |
-
----
-
-上一篇：[向量存储与检索](/docs/langchain/08向量存储与检索.html)
-
-下一篇：[Agent 与工具调用](/docs/langchain/10Agent与工具调用.html)

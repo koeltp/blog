@@ -225,9 +225,3 @@ print(result["messages"][-1].content)
 | 路由节点 | 意图识别 + 分发 |
 | 专家 Agent | 各司其职，减少工具冲突 |
 | StateGraph | 声明式状态流转 |
-
----
-
-上一篇：[Agent 与工具调用](/docs/langchain/10Agent与工具调用.html)
-
-下一篇：[对话系统实战](/docs/langchain/12对话系统实战.html)

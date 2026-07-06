@@ -1014,6 +1014,19 @@
     "authors": "koeltp"
   },
   {
+    "title": "LangChain 从菜鸟到高手",
+    "type": "tutorial",
+    "dir": "langchain",
+    "file": "00index.md",
+    "url": "/docs/langchain/00index.html",
+    "category": "tech",
+    "tags": "LangChain, LLM, AI应用, Python, RAG, Agent",
+    "summary": "一份系统化的 LangChain 教程，从环境搭建到生产部署，以 Python 为主线，构建 AI 客服机器人",
+    "content": "LangChain 从菜鸟到高手 作者：koeltp 一份系统化的 LangChain 教程，从环境搭建到生产部署，以 Python 为主线，构建 AI 客服机器人。教程假设读者有基本编程能力，快速过 Python 基础，重点深入 LLM 应用开发。 基础篇 序号 | 章节 | 核心内容 | 01 | 概述与环境搭建 | LangChain 定位、生态、安装、第一个程序 | 02 | Python 速览 | 类型提示、Pydantic、装饰器、异步 | 03 | LLM 与 Prompt 工程 | ChatModel、消息类型、Prompt 模板、Few-shot | 04 | 输出解析与结构化 | with_structured_output、PydanticOutputParser | 05 | 链与 LCEL | LCEL 管道语法、Runnable 接口、链组合 | 进阶篇 序号 | 章节 | 核心内容 | 06 | 对话记忆 | 消息历史、窗口记忆、摘要记忆、持久化 | 07 | 文档加载与分割 | Document Loader、Text Splitter、分块策略 | 08 | 向量存储与检索 | Embedding、Chroma/FAISS、相似度搜索 | 09 | RAG 检索增强生成 | 完整 RAG 流程、重排序、来源引用 | 高级篇 序号 | 章节 | 核心内容 | 10 | Agent 与工具调用 | ReAct Agent、Tool 定义、AgentExecutor | 11 | 自定义工具与多 Agent | 外部 API 集成、LangGraph 多 Agent 协作 | 12 | 对话系统实战 | 完整客服机器人：RAG + 记忆 + Agent + 流式输出 | 13 | 评估与测试 | LangSmith 追踪、评估框架、幻觉检测 | 14 | 部署与生产化 | LangServe、FastAPI、Docker、监控告警 | 贯穿示例 教程全程使用 **AI 客服机器人** 作为示例项目： 01-05：搭建基础对话能力 06-09：加入记忆和知识库 10-11：集成工具和多 Agent 12：完整系统实战 13-14：评估、测试、部署",
+    "date": "2026-06-07",
+    "authors": "koeltp"
+  },
+  {
     "title": "概述与环境搭建",
     "type": "tutorial",
     "dir": "langchain",
@@ -1022,7 +1035,7 @@
     "category": "tech",
     "tags": "LangChain, LLM, AI应用, 环境搭建, Python",
     "summary": "理解 LangChain 的定位与核心价值，完成开发环境搭建，运行第一个 LLM 应用，了解 LangChain 生态全景",
-    "content": "一、什么是 LangChain LangChain 是一个用于构建 LLM（大语言模型）应用的框架。它解决的核心问题是：**LLM 本身只会生成文本，但真实应用需要与外部数据、工具、记忆交互**。 1.1 LangChain 解决什么 没有 LangChain | 有了 LangChain | 手动拼接 Prompt 字符串 | 模板化 Prompt 管理 | 手动解析 JSON 输出 | 结构化输出解析器 | 手动管理对话历史 | 内置记忆组件 | 手动调用 API 拼接流程 | LCEL 管道语法 | 手动实现检索逻辑 | RAG 全流程组件 | 1.2 LangChain 生态 包 | 用途 | | 核心抽象（Runnable、消息类型等） | | 主包，包含链、Agent、记忆等 | | 第三方集成（向量库、Loader 等） | | OpenAI 集成 | | Chroma 向量库集成 | | 多 Agent 状态图 | | 追踪、评估、调试 | 二、环境搭建 2.1 Python 环境 2.2 项目结构 2.3 API 密钥配置 **安全提醒**： 文件必须加入 ，永远不要提交到版本库。 三、第一个 LLM 应用 运行： 输出类似： 四、LangChain 版本说明 LangChain 经历了重大重构，了解版本差异很重要： 版本 | 特点 | 状态 | v0.1 | 旧版 Chain 类（LLMChain 等） | 已废弃 | v0.2+ | LCEL（管道语法）为主 | 当前稳定版 | v0.3 | 更强的类型提示，更简洁的 API | 最新 | 本教程基于 v0.3，全部使用 LCEL 语法，不教旧版写法。** 五、常见问题 Q：必须用 OpenAI 吗？ 不是。LangChain 支持多种模型： Q：LangChain 和直接调 API 有什么区别？ 直接调 API：你手动管理 Prompt、解析输出、维护对话状态。 LangChain：提供标准化组件，让你像搭积木一样组合功能，代码更简洁、可维护。 Q：LangChain 适合生产环境吗？ 适合，但需要注意： 使用 LangSmith 做追踪和调试 控制重试和超时 做好输出校验和兜底 下一篇：Python 速览",
+    "content": "一、什么是 LangChain LangChain 是一个用于构建 LLM（大语言模型）应用的框架。它解决的核心问题是：**LLM 本身只会生成文本，但真实应用需要与外部数据、工具、记忆交互**。 1.1 LangChain 解决什么 没有 LangChain | 有了 LangChain | 手动拼接 Prompt 字符串 | 模板化 Prompt 管理 | 手动解析 JSON 输出 | 结构化输出解析器 | 手动管理对话历史 | 内置记忆组件 | 手动调用 API 拼接流程 | LCEL 管道语法 | 手动实现检索逻辑 | RAG 全流程组件 | 1.2 LangChain 生态 包 | 用途 | | 核心抽象（Runnable、消息类型等） | | 主包，包含链、Agent、记忆等 | | 第三方集成（向量库、Loader 等） | | OpenAI 集成 | | Chroma 向量库集成 | | 多 Agent 状态图 | | 追踪、评估、调试 | 二、环境搭建 2.1 Python 环境 2.2 项目结构 2.3 API 密钥配置 **安全提醒**： 文件必须加入 ，永远不要提交到版本库。 三、第一个 LLM 应用 运行： 输出类似： 四、LangChain 版本说明 LangChain 经历了重大重构，了解版本差异很重要： 版本 | 特点 | 状态 | v0.1 | 旧版 Chain 类（LLMChain 等） | 已废弃 | v0.2+ | LCEL（管道语法）为主 | 当前稳定版 | v0.3 | 更强的类型提示，更简洁的 API | 最新 | 本教程基于 v0.3，全部使用 LCEL 语法，不教旧版写法。** 五、常见问题 Q：必须用 OpenAI 吗？ 不是。LangChain 支持多种模型： Q：LangChain 和直接调 API 有什么区别？ 直接调 API：你手动管理 Prompt、解析输出、维护对话状态。 LangChain：提供标准化组件，让你像搭积木一样组合功能，代码更简洁、可维护。 Q：LangChain 适合生产环境吗？ 适合，但需要注意： 使用 LangSmith 做追踪和调试 控制重试和超时 做好输出校验和兜底",
     "date": "2026-06-07",
     "authors": "koeltp"
   },
@@ -1035,7 +1048,7 @@
     "category": "tech",
     "tags": "LangChain, Python, 类型提示, 装饰器, 异步, Pydantic",
     "summary": "快速回顾 Python 核心语法：类型提示、数据类、装饰器、异步编程、Pydantic 模型——LangChain 开发必备的 Python 知识",
-    "content": "一、为什么需要这篇 LangChain 大量使用 Python 的高级特性：类型提示、Pydantic 模型、装饰器、异步。如果你已经熟悉 Python，可以跳过；如果有些生疏，这篇帮你快速回忆。 二、类型提示 LangChain 的 API 几乎都有类型标注，理解类型提示是读懂源码的基础： 三、数据类与 Pydantic LangChain 用 Pydantic 做数据校验和序列化，这是必须掌握的： Pydantic vs dataclass：** 特性 | Pydantic | dataclass | 运行时校验 | 有 | 无 | JSON 序列化 | 内置 | 需手动 | LangChain 集成 | 原生支持 | 不支持 | 性能 | 快（Rust 内核） | 更快 | 结论：LangChain 项目一律用 Pydantic。** 四、装饰器 LangChain 的 装饰器用来定义工具，理解装饰器才能用好它： LangChain 中的使用： 五、异步编程 LangChain 支持异步调用，高并发场景必须用异步： 六、上下文管理器 LangChain 的回调系统用上下文管理器管理： 七、小结 特性 | LangChain 中的用途 | 类型提示 | API 签名、Pydantic 模型 | Pydantic | 数据校验、结构化输出、工具参数 | 装饰器 | @tool 定义工具 | 异步 | ainvoke/astream/abatch | 上下文管理器 | 回调、追踪 | 上一篇：概述与环境搭建 下一篇：LLM 与 Prompt 工程",
+    "content": "一、为什么需要这篇 LangChain 大量使用 Python 的高级特性：类型提示、Pydantic 模型、装饰器、异步。如果你已经熟悉 Python，可以跳过；如果有些生疏，这篇帮你快速回忆。 二、类型提示 LangChain 的 API 几乎都有类型标注，理解类型提示是读懂源码的基础： 三、数据类与 Pydantic LangChain 用 Pydantic 做数据校验和序列化，这是必须掌握的： Pydantic vs dataclass：** 特性 | Pydantic | dataclass | 运行时校验 | 有 | 无 | JSON 序列化 | 内置 | 需手动 | LangChain 集成 | 原生支持 | 不支持 | 性能 | 快（Rust 内核） | 更快 | 结论：LangChain 项目一律用 Pydantic。** 四、装饰器 LangChain 的 装饰器用来定义工具，理解装饰器才能用好它： LangChain 中的使用： 五、异步编程 LangChain 支持异步调用，高并发场景必须用异步： 六、上下文管理器 LangChain 的回调系统用上下文管理器管理： 七、小结 特性 | LangChain 中的用途 | 类型提示 | API 签名、Pydantic 模型 | Pydantic | 数据校验、结构化输出、工具参数 | 装饰器 | @tool 定义工具 | 异步 | ainvoke/astream/abatch | 上下文管理器 | 回调、追踪 |",
     "date": "2026-06-07",
     "authors": "koeltp"
   },
@@ -1048,7 +1061,7 @@
     "category": "tech",
     "tags": "LangChain, LLM, ChatModel, Prompt, 消息类型, Few-shot, 系统提示",
     "summary": "掌握 LangChain 中 LLM 的调用方式：ChatModel vs LLM、消息类型体系、Prompt 模板、系统提示、Few-shot 示例",
-    "content": "一、ChatModel vs LLM LangChain 有两种模型接口： 接口 | 输入 | 输出 | 推荐 | | 消息列表 | | 推荐 | | 纯文本 | 纯文本 | 已过时 | 本教程全部使用 ChatModel。** 二、消息类型体系 ChatModel 的输入是消息列表，不同角色用不同消息类型： 消息类型 | 角色 | 用途 | | 系统 | 设定 AI 的行为和角色 | | 用户 | 用户的输入 | | 助手 | AI 的回复（用于对话历史） | 2.1 便捷方法 三、Prompt 模板 硬编码 Prompt 不利于维护和复用，LangChain 提供 PromptTemplate： 3.1 ChatPromptTemplate 3.2 消息占位符 对话场景需要插入历史消息，用 ： 四、系统提示工程 系统提示决定了 AI 的行为边界，是客服机器人的核心配置： 五、Few-shot 示例 通过示例教 AI 如何回答： 六、小结 概念 | 用途 | ChatModel | 现代 LLM 接口，输入消息列表 | 消息类型 | System/Human/AI 三种角色 | ChatPromptTemplate | 模板化 Prompt，支持变量 | MessagesPlaceholder | 插入对话历史 | 系统提示 | 定义 AI 行为边界 | Few-shot | 用示例教 AI 回答模式 | 上一篇：Python 速览 下一篇：输出解析与结构化",
+    "content": "一、ChatModel vs LLM LangChain 有两种模型接口： 接口 | 输入 | 输出 | 推荐 | | 消息列表 | | 推荐 | | 纯文本 | 纯文本 | 已过时 | 本教程全部使用 ChatModel。** 二、消息类型体系 ChatModel 的输入是消息列表，不同角色用不同消息类型： 消息类型 | 角色 | 用途 | | 系统 | 设定 AI 的行为和角色 | | 用户 | 用户的输入 | | 助手 | AI 的回复（用于对话历史） | 2.1 便捷方法 三、Prompt 模板 硬编码 Prompt 不利于维护和复用，LangChain 提供 PromptTemplate： 3.1 ChatPromptTemplate 3.2 消息占位符 对话场景需要插入历史消息，用 ： 四、系统提示工程 系统提示决定了 AI 的行为边界，是客服机器人的核心配置： 五、Few-shot 示例 通过示例教 AI 如何回答： 六、小结 概念 | 用途 | ChatModel | 现代 LLM 接口，输入消息列表 | 消息类型 | System/Human/AI 三种角色 | ChatPromptTemplate | 模板化 Prompt，支持变量 | MessagesPlaceholder | 插入对话历史 | 系统提示 | 定义 AI 行为边界 | Few-shot | 用示例教 AI 回答模式 |",
     "date": "2026-06-07",
     "authors": "koeltp"
   },
@@ -1061,7 +1074,7 @@
     "category": "tech",
     "tags": "LangChain, 输出解析, Pydantic, 结构化输出, JsonOutputParser, with_structured_output",
     "summary": "掌握 LangChain 输出解析：PydanticOutputParser、JsonOutputParser、with_structured_output，让 LLM 输出可靠的结构化数据",
-    "content": "一、为什么需要输出解析 LLM 默认输出纯文本，但应用需要结构化数据： 二、三种解析方式对比 方式 | 原理 | 可靠性 | 推荐度 | | function calling / tool_use | 最高 | 首选 | | Prompt 注入格式 + 后解析 | 中等 | 备选 | | Prompt 注入格式 + JSON 解析 | 中等 | 简单场景 | 三、with_structured_output（首选） 直接让模型按 Pydantic 模型输出，底层用 function calling，最可靠： 3.1 嵌套结构 3.2 枚举约束 四、PydanticOutputParser 当模型不支持 function calling 时使用： 五、JsonOutputParser 最简单的 JSON 解析，不需要 Pydantic 模型： 六、解析失败处理 LLM 输出不可控，解析可能失败： with_structured_output 的优势**：它底层用 function calling，模型会严格按格式输出，几乎不会解析失败。 七、实战：客服意图识别 八、小结 方式 | 适用场景 | 可靠性 | | 模型支持 function calling | 最高 | | 模型不支持 function calling | 中等 | | 简单 JSON 提取 | 中等 | 上一篇：LLM 与 Prompt 工程 下一篇：链与 LCEL",
+    "content": "一、为什么需要输出解析 LLM 默认输出纯文本，但应用需要结构化数据： 二、三种解析方式对比 方式 | 原理 | 可靠性 | 推荐度 | | function calling / tool_use | 最高 | 首选 | | Prompt 注入格式 + 后解析 | 中等 | 备选 | | Prompt 注入格式 + JSON 解析 | 中等 | 简单场景 | 三、with_structured_output（首选） 直接让模型按 Pydantic 模型输出，底层用 function calling，最可靠： 3.1 嵌套结构 3.2 枚举约束 四、PydanticOutputParser 当模型不支持 function calling 时使用： 五、JsonOutputParser 最简单的 JSON 解析，不需要 Pydantic 模型： 六、解析失败处理 LLM 输出不可控，解析可能失败： with_structured_output 的优势**：它底层用 function calling，模型会严格按格式输出，几乎不会解析失败。 七、实战：客服意图识别 八、小结 方式 | 适用场景 | 可靠性 | | 模型支持 function calling | 最高 | | 模型不支持 function calling | 中等 | | 简单 JSON 提取 | 中等 |",
     "date": "2026-06-07",
     "authors": "koeltp"
   },
@@ -1074,7 +1087,7 @@
     "category": "tech",
     "tags": "LangChain, LCEL, Runnable, Chain, 管道, 流式输出, 并行",
     "summary": "掌握 LangChain 核心语法 LCEL：Runnable 管道操作、invoke/stream/batch 调用方式、链的组合、调试技巧",
-    "content": "一、LCEL 是什么 LCEL（LangChain Expression Language）是 LangChain 的核心语法，用管道符 组合组件： 等价于：把 prompt 的输出喂给 llm，把 llm 的输出喂给 parser。 二、Runnable 接口 所有 LCEL 组件都实现 接口，提供统一的调用方式： 方法 | 同步 | 异步 | 用途 | 单次调用 | | | 处理单个输入 | 流式输出 | | | 逐 token 输出 | 批量调用 | | | 并行处理多个输入 | 流式事件 | — | | 获取中间步骤事件 | 三、管道组合 3.1 基本组合 3.2 多步骤链 3.3 RunnablePassthrough 传递输入，不做变换： 3.4 RunnableParallel 并行执行多个链： 四、RunnableLambda 用自定义函数处理数据： 五、配置与回调 5.1 运行时配置 5.2 with_fallbacks 主模型失败时自动切换备用模型： 5.3 with_retry 自动重试： 六、调试技巧 七、小结 概念 | 用途 | 管道 | 串联组件 | | 统一调用接口 | | 透传输入 | | 并行执行 | | 自定义函数 | | 备用模型 | | 自动重试 | 上一篇：输出解析与结构化 下一篇：对话记忆",
+    "content": "一、LCEL 是什么 LCEL（LangChain Expression Language）是 LangChain 的核心语法，用管道符 组合组件： 等价于：把 prompt 的输出喂给 llm，把 llm 的输出喂给 parser。 二、Runnable 接口 所有 LCEL 组件都实现 接口，提供统一的调用方式： 方法 | 同步 | 异步 | 用途 | 单次调用 | | | 处理单个输入 | 流式输出 | | | 逐 token 输出 | 批量调用 | | | 并行处理多个输入 | 流式事件 | — | | 获取中间步骤事件 | 三、管道组合 3.1 基本组合 3.2 多步骤链 3.3 RunnablePassthrough 传递输入，不做变换： 3.4 RunnableParallel 并行执行多个链： 四、RunnableLambda 用自定义函数处理数据： 五、配置与回调 5.1 运行时配置 5.2 with_fallbacks 主模型失败时自动切换备用模型： 5.3 with_retry 自动重试： 六、调试技巧 七、小结 概念 | 用途 | 管道 | 串联组件 | | 统一调用接口 | | 透传输入 | | 并行执行 | | 自定义函数 | | 备用模型 | | 自动重试 |",
     "date": "2026-06-07",
     "authors": "koeltp"
   },
@@ -1087,7 +1100,7 @@
     "category": "tech",
     "tags": "LangChain, 记忆, ConversationBufferMemory, 窗口记忆, 摘要记忆, 持久化",
     "summary": "掌握 LangChain 对话记忆：消息历史管理、窗口记忆、摘要记忆、持久化存储，让客服机器人记住上下文",
-    "content": "一、为什么需要记忆 LLM 本身没有记忆——每次调用都是独立的。客服机器人必须记住上下文： 二、ChatMessageHistory LangChain 用 管理对话历史： 三、RunnableWithMessageHistory 将对话历史自动注入链中： 四、记忆策略 直接把所有历史塞给 LLM 有两个问题：token 浪费和超出上下文窗口。 4.1 窗口记忆（只保留最近 K 轮） 4.2 摘要记忆（用 LLM 压缩历史） 4.3 策略对比 策略 | 优点 | 缺点 | 适用场景 | 全量记忆 | 信息完整 | token 消耗大 | 短对话 | 窗口记忆 | 简单高效 | 丢失早期信息 | 一般对话 | 摘要记忆 | 保留关键信息 | 额外 LLM 调用 | 长对话 | 五、持久化存储 内存存储重启后丢失，生产环境需要持久化： 5.1 Redis 存储 5.2 文件存储 5.3 数据库存储 六、小结 组件 | 用途 | | 基础消息存储 | | 自动注入历史到链 | 窗口记忆 | 保留最近 K 轮 | 摘要记忆 | LLM 压缩历史 | 持久化 | Redis/文件/数据库存储 | 上一篇：链与 LCEL 下一篇：文档加载与分割",
+    "content": "一、为什么需要记忆 LLM 本身没有记忆——每次调用都是独立的。客服机器人必须记住上下文： 二、ChatMessageHistory LangChain 用 管理对话历史： 三、RunnableWithMessageHistory 将对话历史自动注入链中： 四、记忆策略 直接把所有历史塞给 LLM 有两个问题：token 浪费和超出上下文窗口。 4.1 窗口记忆（只保留最近 K 轮） 4.2 摘要记忆（用 LLM 压缩历史） 4.3 策略对比 策略 | 优点 | 缺点 | 适用场景 | 全量记忆 | 信息完整 | token 消耗大 | 短对话 | 窗口记忆 | 简单高效 | 丢失早期信息 | 一般对话 | 摘要记忆 | 保留关键信息 | 额外 LLM 调用 | 长对话 | 五、持久化存储 内存存储重启后丢失，生产环境需要持久化： 5.1 Redis 存储 5.2 文件存储 5.3 数据库存储 六、小结 组件 | 用途 | | 基础消息存储 | | 自动注入历史到链 | 窗口记忆 | 保留最近 K 轮 | 摘要记忆 | LLM 压缩历史 | 持久化 | Redis/文件/数据库存储 |",
     "date": "2026-06-07",
     "authors": "koeltp"
   },
@@ -1100,7 +1113,7 @@
     "category": "tech",
     "tags": "LangChain, Document Loader, Text Splitter, 文档处理, 分块策略",
     "summary": "掌握 LangChain 文档处理：Document Loader 加载各类文档、Text Splitter 分块策略、为 RAG 准备高质量数据",
-    "content": "一、为什么需要文档处理 RAG（检索增强生成）的第一步是把文档变成可检索的片段： 二、Document Loader LangChain 提供几十种 Loader，加载不同格式的文档： 2.1 文本文件 2.2 CSV 2.3 PDF 2.4 Web 页面 2.5 目录批量加载 2.6 Document 对象 所有 Loader 返回的都是 对象： 三、Text Splitter 文档太长，需要分块才能有效检索： 3.1 RecursiveCharacterTextSplitter（推荐） 递归分割，优先在段落、句子边界切分： 3.2 分块参数选择 参数 | 建议值 | 说明 | | 300-1000 | 太小丢失上下文，太大检索不精确 | | chunk_size 的 10% | 保证边界信息不丢失 | 客服场景建议**：FAQ 类文档用 300-500，产品手册用 500-1000。 3.3 按语义分割 3.4 代码分割 四、客服知识库实战 五、小结 组件 | 用途 | Document Loader | 加载各类格式文档 | Document | 统一文档对象（content + metadata） | RecursiveCharacterTextSplitter | 通用文本分割（推荐） | MarkdownHeaderTextSplitter | 按标题结构分割 | chunk_size / chunk_overlap | 分块参数调优 | 上一篇：对话记忆 下一篇：向量存储与检索",
+    "content": "一、为什么需要文档处理 RAG（检索增强生成）的第一步是把文档变成可检索的片段： 二、Document Loader LangChain 提供几十种 Loader，加载不同格式的文档： 2.1 文本文件 2.2 CSV 2.3 PDF 2.4 Web 页面 2.5 目录批量加载 2.6 Document 对象 所有 Loader 返回的都是 对象： 三、Text Splitter 文档太长，需要分块才能有效检索： 3.1 RecursiveCharacterTextSplitter（推荐） 递归分割，优先在段落、句子边界切分： 3.2 分块参数选择 参数 | 建议值 | 说明 | | 300-1000 | 太小丢失上下文，太大检索不精确 | | chunk_size 的 10% | 保证边界信息不丢失 | 客服场景建议**：FAQ 类文档用 300-500，产品手册用 500-1000。 3.3 按语义分割 3.4 代码分割 四、客服知识库实战 五、小结 组件 | 用途 | Document Loader | 加载各类格式文档 | Document | 统一文档对象（content + metadata） | RecursiveCharacterTextSplitter | 通用文本分割（推荐） | MarkdownHeaderTextSplitter | 按标题结构分割 | chunk_size / chunk_overlap | 分块参数调优 |",
     "date": "2026-06-07",
     "authors": "koeltp"
   },
@@ -1113,7 +1126,7 @@
     "category": "tech",
     "tags": "LangChain, Embedding, 向量数据库, Chroma, FAISS, 相似度搜索, 检索器",
     "summary": "掌握 LangChain 向量存储：Embedding 原理、Chroma/FAISS 向量库、相似度搜索、检索器接口、元数据过滤",
-    "content": "一、Embedding 原理 Embedding 将文本转换为高维向量，语义相近的文本在向量空间中距离更近： 二、向量数据库 2.1 Chroma（推荐入门） 2.2 FAISS（纯内存，速度快） 2.3 对比 特性 | Chroma | FAISS | 持久化 | 内置 | 手动 save/load | 元数据过滤 | 支持 | 有限 | 安装 | pip install | pip install | 适用规模 | 中小规模 | 大规模 | 生产部署 | 需要服务化 | 需要服务化 | 三、相似度搜索 四、元数据过滤 五、检索器接口 VectorStore 实现了 接口，可以直接在 LCEL 链中使用： 六、小结 组件 | 用途 | Embeddings | 文本向量化 | Chroma | 向量数据库（推荐入门） | FAISS | 纯内存向量库（速度快） | similarity_search | 相似度搜索 | as_retriever | 转为检索器，接入 LCEL | 上一篇：文档加载与分割 下一篇：RAG 检索增强生成",
+    "content": "一、Embedding 原理 Embedding 将文本转换为高维向量，语义相近的文本在向量空间中距离更近： 二、向量数据库 2.1 Chroma（推荐入门） 2.2 FAISS（纯内存，速度快） 2.3 对比 特性 | Chroma | FAISS | 持久化 | 内置 | 手动 save/load | 元数据过滤 | 支持 | 有限 | 安装 | pip install | pip install | 适用规模 | 中小规模 | 大规模 | 生产部署 | 需要服务化 | 需要服务化 | 三、相似度搜索 四、元数据过滤 五、检索器接口 VectorStore 实现了 接口，可以直接在 LCEL 链中使用： 六、小结 组件 | 用途 | Embeddings | 文本向量化 | Chroma | 向量数据库（推荐入门） | FAISS | 纯内存向量库（速度快） | similarity_search | 相似度搜索 | as_retriever | 转为检索器，接入 LCEL |",
     "date": "2026-06-07",
     "authors": "koeltp"
   },
@@ -1126,7 +1139,7 @@
     "category": "tech",
     "tags": "LangChain, RAG, 检索增强生成, 检索器, 重排序, 知识库问答, create_retrieval_chain",
     "summary": "掌握 LangChain RAG 全流程：检索增强生成原理、create_retrieval_chain、重排序、来源引用、客服知识库实战",
-    "content": "一、RAG 原理 RAG（Retrieval-Augmented Generation）= 检索 + 生成。先从知识库检索相关内容，再让 LLM 基于检索结果回答： 为什么不用 LLM 直接回答？** LLM 知识有截止日期 LLM 不知道你的私有数据 LLM 可能编造答案（幻觉） RAG 让 LLM 基于真实文档回答，减少幻觉。 二、基础 RAG 链 三、create_retrieval_chain LangChain 提供了更高级的 RAG 链构造器： 四、来源引用 让回答标注信息来源，增强可信度： 五、重排序（Reranking） 向量检索按语义相似度排序，但最相似的不一定最相关。重排序用交叉编码器重新评分： 简单替代方案**：用 LLM 做重排序： 六、客服知识库完整流程 七、小结 概念 | 用途 | RAG | 检索 + 生成，减少幻觉 | create_retrieval_chain | 高级 RAG 链构造 | 来源引用 | 标注信息来源 | MMR 检索 | 减少重复结果 | 重排序 | 提升检索精度 | 上一篇：向量存储与检索 下一篇：Agent 与工具调用",
+    "content": "一、RAG 原理 RAG（Retrieval-Augmented Generation）= 检索 + 生成。先从知识库检索相关内容，再让 LLM 基于检索结果回答： 为什么不用 LLM 直接回答？** LLM 知识有截止日期 LLM 不知道你的私有数据 LLM 可能编造答案（幻觉） RAG 让 LLM 基于真实文档回答，减少幻觉。 二、基础 RAG 链 三、create_retrieval_chain LangChain 提供了更高级的 RAG 链构造器： 四、来源引用 让回答标注信息来源，增强可信度： 五、重排序（Reranking） 向量检索按语义相似度排序，但最相似的不一定最相关。重排序用交叉编码器重新评分： 简单替代方案**：用 LLM 做重排序： 六、客服知识库完整流程 七、小结 概念 | 用途 | RAG | 检索 + 生成，减少幻觉 | create_retrieval_chain | 高级 RAG 链构造 | 来源引用 | 标注信息来源 | MMR 检索 | 减少重复结果 | 重排序 | 提升检索精度 |",
     "date": "2026-06-07",
     "authors": "koeltp"
   },
@@ -1139,7 +1152,7 @@
     "category": "tech",
     "tags": "LangChain, Agent, Tool, ReAct, function calling, create_tool_calling_agent",
     "summary": "掌握 LangChain Agent：ReAct 原理、Tool 定义、create_tool_calling_agent、AgentExecutor、客服工具集成",
-    "content": "一、为什么需要 Agent RAG 只能\"读\"知识库，但客服还需要\"做\"事情——查订单、退换货、查物流。Agent 让 LLM 自主决定调用哪个工具： 二、定义工具 2.1 @tool 装饰器 关键**：工具的 docstring 就是 LLM 看到的工具描述，必须写清楚用途和参数含义。 2.2 StructuredTool 更灵活的工具定义方式： 三、create_tool_calling_agent 四、AgentExecutor 详解 五、ReAct 原理 ReAct（Reasoning + Acting）是 Agent 的核心模式： 六、工具选择控制 七、小结 概念 | 用途 | | 定义工具（推荐） | | 灵活工具定义 | | 创建 Agent | | 执行 Agent，控制迭代 | ReAct | 思考-行动-观察循环 | 上一篇：RAG 检索增强生成 下一篇：自定义工具与多 Agent",
+    "content": "一、为什么需要 Agent RAG 只能\"读\"知识库，但客服还需要\"做\"事情——查订单、退换货、查物流。Agent 让 LLM 自主决定调用哪个工具： 二、定义工具 2.1 @tool 装饰器 关键**：工具的 docstring 就是 LLM 看到的工具描述，必须写清楚用途和参数含义。 2.2 StructuredTool 更灵活的工具定义方式： 三、create_tool_calling_agent 四、AgentExecutor 详解 五、ReAct 原理 ReAct（Reasoning + Acting）是 Agent 的核心模式： 六、工具选择控制 七、小结 概念 | 用途 | | 定义工具（推荐） | | 灵活工具定义 | | 创建 Agent | | 执行 Agent，控制迭代 | ReAct | 思考-行动-观察循环 |",
     "date": "2026-06-07",
     "authors": "koeltp"
   },
@@ -1152,7 +1165,7 @@
     "category": "tech",
     "tags": "LangChain, 自定义工具, LangGraph, 多Agent, 状态图, 协作, 路由",
     "summary": "掌握 LangChain 进阶：自定义工具集成外部 API、LangGraph 多 Agent 协作、状态图路由、客服场景多 Agent 架构",
-    "content": "一、自定义工具集成外部 API 1.1 HTTP 工具 1.2 数据库工具 二、LangGraph 多 Agent 当单个 Agent 工具太多时，LLM 容易选错工具。多 Agent 架构把不同职责分配给不同 Agent： 2.1 安装 LangGraph 2.2 状态定义 2.3 路由节点 2.4 专家 Agent 节点 2.5 构建状态图 三、小结 概念 | 用途 | 自定义 Tool | 集成外部 API/数据库 | LangGraph | 多 Agent 状态图 | 路由节点 | 意图识别 + 分发 | 专家 Agent | 各司其职，减少工具冲突 | StateGraph | 声明式状态流转 | 上一篇：Agent 与工具调用 下一篇：对话系统实战",
+    "content": "一、自定义工具集成外部 API 1.1 HTTP 工具 1.2 数据库工具 二、LangGraph 多 Agent 当单个 Agent 工具太多时，LLM 容易选错工具。多 Agent 架构把不同职责分配给不同 Agent： 2.1 安装 LangGraph 2.2 状态定义 2.3 路由节点 2.4 专家 Agent 节点 2.5 构建状态图 三、小结 概念 | 用途 | 自定义 Tool | 集成外部 API/数据库 | LangGraph | 多 Agent 状态图 | 路由节点 | 意图识别 + 分发 | 专家 Agent | 各司其职，减少工具冲突 | StateGraph | 声明式状态流转 |",
     "date": "2026-06-07",
     "authors": "koeltp"
   },
@@ -1165,7 +1178,7 @@
     "category": "tech",
     "tags": "LangChain, 对话系统, 客服机器人, RAG, Agent, 记忆, 流式输出, FastAPI",
     "summary": "综合实战：构建完整 AI 客服机器人——RAG 知识库 + 对话记忆 + Agent 工具 + 意图路由 + 流式输出 + FastAPI 接口",
-    "content": "一、系统架构 二、完整代码 2.1 项目结构 2.2 配置 2.3 知识库 2.4 RAG 链 2.5 会话管理 2.6 意图路由 2.7 主服务 2.8 FastAPI 接口 三、测试 四、小结 组件 | 职责 | 意图路由 | 分类用户意图 | RAG 链 | 知识问答 | Agent | 工具调用（订单/售后） | 对话记忆 | 维护上下文 | FastAPI | HTTP 接口 + 流式输出 | 上一篇：自定义工具与多 Agent 下一篇：评估与测试",
+    "content": "一、系统架构 二、完整代码 2.1 项目结构 2.2 配置 2.3 知识库 2.4 RAG 链 2.5 会话管理 2.6 意图路由 2.7 主服务 2.8 FastAPI 接口 三、测试 四、小结 组件 | 职责 | 意图路由 | 分类用户意图 | RAG 链 | 知识问答 | Agent | 工具调用（订单/售后） | 对话记忆 | 维护上下文 | FastAPI | HTTP 接口 + 流式输出 |",
     "date": "2026-06-07",
     "authors": "koeltp"
   },
@@ -1178,7 +1191,7 @@
     "category": "tech",
     "tags": "LangChain, LangSmith, 评估, 测试, 追踪, 质量指标, QAEvalChain",
     "summary": "掌握 LangChain 应用评估：LangSmith 追踪与调试、评估框架、问答质量评估、幻觉检测、自动化测试",
-    "content": "一、为什么需要评估 LLM 应用输出不确定，传统单元测试不够用。需要专门的评估体系： 传统测试 | LLM 评估 | 输入→精确输出 | 输入→模糊正确的输出 | 断言相等 | 断言语义相似 | 覆盖率 | 回答质量 | 二、LangSmith 追踪 LangSmith 是 LangChain 官方的观测平台，自动追踪每次调用： 2.1 配置 配置后，所有 调用自动上报 LangSmith。 2.2 追踪内容 每次调用记录： 完整的输入/输出 每个组件的耗时 Token 用量和成本 中间步骤（Agent 的思考过程） 错误信息 2.3 自定义追踪 三、评估框架 3.1 问答评估 3.2 自定义评估器 3.3 幻觉检测 四、自动化测试 五、评估指标 指标 | 含义 | 目标 | 准确率 | 回答正确的比例 | > 90% | 相关性 | 回答与问题的相关程度 | > 85% | 幻觉率 | 编造信息的比例 | 95% | 六、小结 工具 | 用途 | LangSmith | 追踪、调试、成本监控 | QAEvalChain | 问答质量评估 | 自定义评估器 | 语义相似度、幻觉检测 | pytest | 自动化测试 | 上一篇：对话系统实战 下一篇：部署与生产化",
+    "content": "一、为什么需要评估 LLM 应用输出不确定，传统单元测试不够用。需要专门的评估体系： 传统测试 | LLM 评估 | 输入→精确输出 | 输入→模糊正确的输出 | 断言相等 | 断言语义相似 | 覆盖率 | 回答质量 | 二、LangSmith 追踪 LangSmith 是 LangChain 官方的观测平台，自动追踪每次调用： 2.1 配置 配置后，所有 调用自动上报 LangSmith。 2.2 追踪内容 每次调用记录： 完整的输入/输出 每个组件的耗时 Token 用量和成本 中间步骤（Agent 的思考过程） 错误信息 2.3 自定义追踪 三、评估框架 3.1 问答评估 3.2 自定义评估器 3.3 幻觉检测 四、自动化测试 五、评估指标 指标 | 含义 | 目标 | 准确率 | 回答正确的比例 | > 90% | 相关性 | 回答与问题的相关程度 | > 85% | 幻觉率 | 编造信息的比例 | 95% | 六、小结 工具 | 用途 | LangSmith | 追踪、调试、成本监控 | QAEvalChain | 问答质量评估 | 自定义评估器 | 语义相似度、幻觉检测 | pytest | 自动化测试 |",
     "date": "2026-06-07",
     "authors": "koeltp"
   },
@@ -1191,20 +1204,7 @@
     "category": "tech",
     "tags": "LangChain, LangServe, FastAPI, 部署, 流式输出, 监控, Docker, 生产化",
     "summary": "掌握 LangChain 应用部署：LangServe 快速部署、FastAPI 集成、流式输出、Docker 容器化、监控告警、生产化最佳实践",
-    "content": "一、部署方案对比 方案 | 优点 | 适用场景 | LangServe | 开箱即用，自动生成 API | 快速原型 | FastAPI | 灵活，可自定义 | 生产环境 | Docker | 可移植，易扩展 | 任何环境 | 二、LangServe 快速部署 LangServe 自动提供： — 同步调用 — 流式调用 — 批量调用 — 交互式测试页面 三、FastAPI 生产部署 3.1 完整服务 3.2 前端对接流式输出 四、Docker 容器化 五、生产化最佳实践 5.1 限流 5.2 超时与重试 5.3 降级策略 5.4 监控告警 六、小结 主题 | 核心要点 | LangServe | 快速原型，自动生成 API | FastAPI | 生产部署，灵活自定义 | 流式输出 | SSE 协议，逐 token 推送 | Docker | 容器化，可移植 | 限流 | 防止滥用 | 降级 | 主模型失败时切换备用 | 监控 | 错误率、延迟、成本 | 恭喜你完成了整个 LangChain 教程！从环境搭建到生产部署，你已经掌握了 LLM 应用开发的完整链路。 上一篇：评估与测试",
-    "date": "2026-06-07",
-    "authors": "koeltp"
-  },
-  {
-    "title": "LangChain 从菜鸟到高手",
-    "type": "tutorial",
-    "dir": "langchain",
-    "file": "index.md",
-    "url": "/docs/langchain/index.html",
-    "category": "tech",
-    "tags": "LangChain, LLM, AI应用, Python, RAG, Agent",
-    "summary": "一份系统化的 LangChain 教程，从环境搭建到生产部署，以 Python 为主线，构建 AI 客服机器人",
-    "content": "LangChain 从菜鸟到高手 作者：koeltp 一份系统化的 LangChain 教程，从环境搭建到生产部署，以 Python 为主线，构建 AI 客服机器人。教程假设读者有基本编程能力，快速过 Python 基础，重点深入 LLM 应用开发。 基础篇 序号 | 章节 | 核心内容 | 01 | 概述与环境搭建 | LangChain 定位、生态、安装、第一个程序 | 02 | Python 速览 | 类型提示、Pydantic、装饰器、异步 | 03 | LLM 与 Prompt 工程 | ChatModel、消息类型、Prompt 模板、Few-shot | 04 | 输出解析与结构化 | with_structured_output、PydanticOutputParser | 05 | 链与 LCEL | LCEL 管道语法、Runnable 接口、链组合 | 进阶篇 序号 | 章节 | 核心内容 | 06 | 对话记忆 | 消息历史、窗口记忆、摘要记忆、持久化 | 07 | 文档加载与分割 | Document Loader、Text Splitter、分块策略 | 08 | 向量存储与检索 | Embedding、Chroma/FAISS、相似度搜索 | 09 | RAG 检索增强生成 | 完整 RAG 流程、重排序、来源引用 | 高级篇 序号 | 章节 | 核心内容 | 10 | Agent 与工具调用 | ReAct Agent、Tool 定义、AgentExecutor | 11 | 自定义工具与多 Agent | 外部 API 集成、LangGraph 多 Agent 协作 | 12 | 对话系统实战 | 完整客服机器人：RAG + 记忆 + Agent + 流式输出 | 13 | 评估与测试 | LangSmith 追踪、评估框架、幻觉检测 | 14 | 部署与生产化 | LangServe、FastAPI、Docker、监控告警 | 贯穿示例 教程全程使用 **AI 客服机器人** 作为示例项目： 01-05：搭建基础对话能力 06-09：加入记忆和知识库 10-11：集成工具和多 Agent 12：完整系统实战 13-14：评估、测试、部署",
+    "content": "一、部署方案对比 方案 | 优点 | 适用场景 | LangServe | 开箱即用，自动生成 API | 快速原型 | FastAPI | 灵活，可自定义 | 生产环境 | Docker | 可移植，易扩展 | 任何环境 | 二、LangServe 快速部署 LangServe 自动提供： — 同步调用 — 流式调用 — 批量调用 — 交互式测试页面 三、FastAPI 生产部署 3.1 完整服务 3.2 前端对接流式输出 四、Docker 容器化 五、生产化最佳实践 5.1 限流 5.2 超时与重试 5.3 降级策略 5.4 监控告警 六、小结 主题 | 核心要点 | LangServe | 快速原型，自动生成 API | FastAPI | 生产部署，灵活自定义 | 流式输出 | SSE 协议，逐 token 推送 | Docker | 容器化，可移植 | 限流 | 防止滥用 | 降级 | 主模型失败时切换备用 | 监控 | 错误率、延迟、成本 | 恭喜你完成了整个 LangChain 教程！从环境搭建到生产部署，你已经掌握了 LLM 应用开发的完整链路。",
     "date": "2026-06-07",
     "authors": "koeltp"
   },

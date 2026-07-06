@@ -188,9 +188,3 @@ def get_tools_for_intent(intent: str):
 | `create_tool_calling_agent` | 创建 Agent |
 | `AgentExecutor` | 执行 Agent，控制迭代 |
 | ReAct | 思考-行动-观察循环 |
-
----
-
-上一篇：[RAG 检索增强生成](/docs/langchain/09RAG检索增强生成.html)
-
-下一篇：[自定义工具与多 Agent](/docs/langchain/11自定义工具与多Agent.html)

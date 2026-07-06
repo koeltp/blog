@@ -7,7 +7,7 @@
     "flutter": "Flutter 从菜鸟到高手",
     "freport": "财报",
     "guitar": "guitar",
-    "langchain": "LangChain 从菜鸟到高手",
+    "langchain": "LangChain教程",
     "md": "Markdown语法指南",
     "openiddict": "OpenIddict教程",
     "typescript": "typescript",
@@ -40,7 +40,7 @@
     },
     {
       "name": "导航",
-      "url": "https://nav.taipi.top/",
+      "url": "https://nav.taipi.top",
       "external": true
     }
   ],
@@ -63,7 +63,7 @@
     },
     {
       "name": "导航",
-      "url": "https://nav.taipi.top/",
+      "url": "https://nav.taipi.top",
       "external": true
     }
   ],
@@ -376,6 +376,10 @@
     ],
     "langchain": [
       {
+        "name": "LangChain 从菜鸟到高手",
+        "file": "00index.md"
+      },
+      {
         "name": "概述与环境搭建",
         "file": "01概述与环境搭建.md"
       },
@@ -430,10 +434,6 @@
       {
         "name": "部署与生产化",
         "file": "14部署与生产化.md"
-      },
-      {
-        "name": "LangChain 从菜鸟到高手",
-        "file": "index.md"
       }
     ],
     "md": [

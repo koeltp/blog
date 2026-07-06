@@ -211,9 +211,3 @@ chain = final_prompt | llm
 | MessagesPlaceholder | 插入对话历史 |
 | 系统提示 | 定义 AI 行为边界 |
 | Few-shot | 用示例教 AI 回答模式 |
-
----
-
-上一篇：[Python 速览](/docs/langchain/02Python速览.html)
-
-下一篇：[输出解析与结构化](/docs/langchain/04输出解析与结构化.html)
