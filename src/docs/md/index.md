@@ -110,18 +110,22 @@ Markdown 是一种轻量级标记语言，设计用于易于阅读和编写。�
 ### 图片
 
 ##### 语法
+
+```
 ![alt](url)              普通图片
 ![alt|600](url)          限制宽度 600px
 ![alt|600x400](url)      限制宽度 600px，高度 400px
 ![alt|x400](url)         只限制高度 400px
 ![alt|80%](url)          宽度百分比
+```
+
 使用 `![替代文本](图片地址)` 来插入图片：
 
 ##### 示例
 
-![公司图片|600x400](https://www.byteepoch.com/images/company.jpg)
-![办公室图片|80%](https://www.byteepoch.com/images/company.jpg)
-![办公室图片](https://www.byteepoch.com/images/office.png "办公室图片")
+![公司图片|600x400](https://cdn.taipi.top/img/tplogo2.png)
+![办公室图片|80%](https://cdn.taipi.top/img/tplogo2.png)
+![办公室图片](https://cdn.taipi.top/img/tplogo2.png "办公室图片")
 
 ### 代码
 
