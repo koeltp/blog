@@ -815,9 +815,3 @@ switch (journal) {
 | Record & Pattern | Dart 3 新特性，解构和模式匹配让代码更简洁 |
 
 到这里，Dart 语言的核心知识已经够用了。下一篇我们正式进入 Flutter，学习 **Widget——一切皆组件**。
-
----
-
-上一篇：[Dart 语言速览（上）](/docs/flutter/02Dart语言速览（上）.html)
-
-下一篇：[Widget 一切皆组件](/docs/flutter/03Widget一切皆组件.html)

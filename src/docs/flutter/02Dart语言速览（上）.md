@@ -584,9 +584,3 @@ Future.delayed(2.seconds); // 2 秒后执行
 | 枚举与扩展 | 增强枚举有属性，扩展方法给类加功能 |
 
 下一篇我们继续深入 Dart，学习**异步编程（async/await/Stream）**、**集合操作符（map/where/reduce）**和**面向对象进阶（类、混入、泛型）**。
-
----
-
-上一篇：[概述与环境搭建](/docs/flutter/01概述与环境搭建.html)
-
-下一篇：[Dart 语言速览（下）](/docs/flutter/02Dart语言速览（下）.html)

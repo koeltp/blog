@@ -312,9 +312,3 @@ class _TimelineItem extends StatelessWidget {
 | Sliver | CustomScrollView 中的可滚动子元素 |
 | SliverAppBar | 可折叠顶栏，pinned/floating 控制 |
 | 时间轴 | Row + 竖线 + 卡片组合 |
-
----
-
-上一篇：[动画基础与进阶](/docs/flutter/10动画基础与进阶.html)
-
-下一篇：[手势与交互](/docs/flutter/12手势与交互.html)

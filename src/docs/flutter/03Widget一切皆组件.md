@@ -679,9 +679,3 @@ class _HomePageState extends State<HomePage> {
 | 生命周期 | initState → build → dispose 是最常用的三个 |
 | Key | Widget 的身份证，列表中区分同类型 Widget |
 | 三棵树 | Widget（配置）→ Element（管理）→ RenderObject（渲染） |
-
----
-
-上一篇：[Dart 语言速览（下）](/docs/flutter/02Dart语言速览（下）.html)
-
-下一篇：[布局系统](/docs/flutter/04布局系统.html)

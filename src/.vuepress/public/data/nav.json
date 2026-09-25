@@ -4,7 +4,7 @@
     "dart": "Dart教程",
     "dotnet": ".NET教程",
     "dotnet/auth": "认证与授权",
-    "flutter": "Flutter 从菜鸟到高手",
+    "flutter": "Flutter教程",
     "freport": "财报",
     "guitar": "guitar",
     "langchain": "LangChain教程",
@@ -195,6 +195,10 @@
     ],
     "flutter": [
       {
+        "name": "Flutter 从菜鸟到高手",
+        "file": "00index.md"
+      },
+      {
         "name": "概述与环境搭建",
         "file": "01概述与环境搭建.md"
       },
@@ -269,10 +273,6 @@
       {
         "name": "打包与发布",
         "file": "18打包与发布.md"
-      },
-      {
-        "name": "Flutter 从菜鸟到高手",
-        "file": "index.md"
       }
     ],
     "freport": [
