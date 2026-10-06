@@ -1,6 +1,6 @@
 {
-  "_comment": "栗子记账最新版本清单。发版步骤：1) pubspec 版本号与构建号(+N)+1；2) 构建 APK 放入 /downloads/（文件名带版本号，旧包保留）；3) 更新本文件 versionCode/versionName/apkUrl/sha256/fileSize/releaseNotes；4) push。versionCode 必须与 pubspec 构建号一致，App 内按它判断是否有新版",
-  "versionCode": 9,
+  "_comment": "栗子记账最新版本清单。发版步骤：1) pubspec 版本号与构建号(+N)+1；2) 标准命令构建 arm64 APK 放入 /downloads/（文件名带版本号，旧包保留）；3) 更新本文件 versionCode/versionName/apkUrl/sha256/fileSize/releaseNotes；4) push。注意：--split-per-abi 会给 arm64 包的 versionCode 加 2000 偏移（构建号1→2001、2→2002），本文件 versionCode 必须填 APK 实际值（adb shell dumpsys package top.taipi.chestnut 查看），App 按它判断新旧",
+  "versionCode": 2009,
   "versionName": "1.0.1-test",
   "apkUrl": "https://www.taipi.top/downloads/chestnut-1.0.0-arm64.apk",
   "sha256": "428863b7b6d87d0b2f9f0674688747a8c211cf9dd5cd4d371c01cbfd672409c",
