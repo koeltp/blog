@@ -1,6 +1,7 @@
 {
   "displayNames": {
     "aspire": "Aspire教程",
+    "chestnut": "chestnut",
     "dart": "Dart教程",
     "dotnet": ".NET教程",
     "dotnet/auth": "认证与授权",
@@ -97,6 +98,12 @@
       {
         "name": "多语言编排与测试",
         "file": "07多语言编排与测试.md"
+      }
+    ],
+    "chestnut": [
+      {
+        "name": "栗子记账隐私政策",
+        "file": "privacy.md"
       }
     ],
     "dart": [
