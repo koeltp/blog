@@ -1,16 +1,15 @@
 {
   "_comment": "栗子记账最新版本清单。发版步骤：1) pubspec 版本号与构建号(+N)+1；2) 标准命令构建 arm64 APK 放入 /downloads/（文件名必须带新版本号、每次换新文件名，旧包保留，避免 CDN 按 URL 缓存旧包）；3) 更新本文件 versionCode/versionName/apkUrl/sha256/fileSize/releaseNotes；4) push。注意：--split-per-abi 会给 arm64 包的 versionCode 加 2000 偏移（构建号1→2001、2→2002），本文件 versionCode 必须填 APK 实际值（adb shell dumpsys package top.taipi.chestnut 查看），App 按它判断新旧",
-  "versionCode": 2002,
-  "versionName": "1.0.1",
-  "apkUrl": "https://www.taipi.top/downloads/chestnut-1.0.1-arm64.apk",
-  "sha256": "b1e52678dff99a89088c3de3f00208d4237abf47bd34ca8863108d11f3dbcdcd",
-  "fileSize": 61302138,
+  "versionCode": 2003,
+  "versionName": "1.0.2",
+  "apkUrl": "https://www.taipi.top/downloads/chestnut-1.0.2-arm64.apk",
+  "sha256": "125e03171f947a18ed830668fc178d1b5a4e6e4dce753e744e787e822d746932",
+  "fileSize": 61302142,
   "forceUpdate": false,
   "releaseNotes": [
-    "新增首次启动隐私政策确认，账目数据如何使用一目了然",
-    "新增独立“关于”页：隐私政策、开源仓库、邮件反馈",
-    "项目已在 GitHub 以 MIT 协议开源",
-    "优化地图 SDK 隐私合规：同意隐私政策后才初始化"
+    "修复密码保护：修改安全问题保存无反应的问题",
+    "修复密码设置流程中按返回键直接退出的导航问题",
+    "关于页 Logo 展示优化"
   ],
-  "publishedAt": "2026-10-06"
+  "publishedAt": "2026-10-07"
 }
