@@ -1,11 +1,16 @@
 {
   "_comment": "栗子记账最新版本清单。发版步骤：1) pubspec 版本号与构建号(+N)+1；2) 构建 APK 放入 /downloads/（文件名带版本号，旧包保留）；3) 更新本文件 versionCode/versionName/apkUrl/sha256/fileSize/releaseNotes；4) push。versionCode 必须与 pubspec 构建号一致，App 内按它判断是否有新版",
-  "versionCode": 1,
-  "versionName": "1.0.0",
+  "versionCode": 9,
+  "versionName": "1.0.1-test",
   "apkUrl": "https://www.taipi.top/downloads/chestnut-1.0.0-arm64.apk",
   "sha256": "428863b7b6d87d0b2f9f0674688747a8c211cf9dd5cd4d371c01cbfd672409c",
   "fileSize": 61283491,
   "forceUpdate": false,
-  "releaseNotes": [],
+  "releaseNotes": [
+    "【演练】这是更新流程测试，安装包内容与当前版本完全相同",
+    "账单详情中的位置可点击跳转地图查看",
+    "修复正式包地图附近列表加载失败的问题",
+    "新增应用内自动更新，以后新版本不用再去网页下载"
+  ],
   "publishedAt": "2026-10-06"
 }
