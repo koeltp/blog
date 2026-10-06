@@ -1,5 +1,22 @@
 [
   {
+    "title": "栗子记账：一款无广告、无账号、数据完全本地的记账 App",
+    "date": "2026-10-06",
+    "category": "tech",
+    "tags": [
+      "Flutter",
+      "记账",
+      "Android",
+      "SQLite",
+      "drift",
+      "开源实践",
+      "栗子记账"
+    ],
+    "summary": "栗子记账是一款用 Flutter 开发的 Android 记账应用：无广告、无账号、无需联网注册，所有账目数据保存在本机。支持两级分类、统计图表、预算提醒、地图选点式记账定位与本地备份。本文介绍功能特性与下载方式。",
+    "authors": "koeltp",
+    "filename": "栗子记账.md"
+  },
+  {
     "title": "EF Core 高级实战：从性能调优到领域建模",
     "date": "2026-06-08",
     "category": "tech",

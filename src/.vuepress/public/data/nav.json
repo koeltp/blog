@@ -101,6 +101,10 @@
     ],
     "dart": [
       {
+        "name": "Dart教程",
+        "file": "00index.md"
+      },
+      {
         "name": "环境搭建与第一个程序",
         "file": "01环境搭建与第一个程序.md"
       },
@@ -143,10 +147,6 @@
       {
         "name": "Dart 3 新特性",
         "file": "11Dart3新特性.md"
-      },
-      {
-        "name": "Dart教程",
-        "file": "index.md"
       }
     ],
     "dotnet": [
