@@ -1,17 +1,16 @@
 {
   "_comment": "栗子记账最新版本清单。发版步骤：1) pubspec 版本号与构建号(+N)+1；2) flutter build apk --release --no-tree-shake-icons --split-per-abi 取 arm64 包，文件名带版本号放入 /downloads/；3) GitHub koeltp/chestnut 网页建 release（tag vx.y.z）上传 APK 存档（仅存档/对外展示，不指 apkUrl——GitHub Releases 国内下载速度为 0）；4) 更新本文件 versionCode/versionName/apkUrl/sha256/fileSize/releaseNotes；5) push。注意：--split-per-abi 会给 arm64 包的 versionCode 加 2000 偏移（构建号1→2001、2→2002），本文件 versionCode 必须填 APK 实际值，App 按它判断新旧",
-  "versionCode": 2005,
-  "versionName": "1.1.1",
-  "apkUrl": "https://www.taipi.top/downloads/chestnut-1.1.1-arm64.apk",
-  "sha256": "bef67df7ee8b43f4e4ac721770ddc155cf18e7e1a72e19b24006763b267147ad",
+  "versionCode": 2006,
+  "versionName": "1.1.2",
+  "apkUrl": "https://www.taipi.top/downloads/chestnut-1.1.2-arm64.apk",
+  "sha256": "dd58c59ecbb6a37a64088f53c8a711e94842dcdb0249b501a7e3f811304db43e",
   "fileSize": 61958026,
   "forceUpdate": false,
   "releaseNotes": [
-    "钱迹导入分类选择与记一笔统一：二级面板嵌在所属一级下方，箭头指向",
-    "导入解析移入后台 isolate，新增「正在解析」提示，选择文件后不再卡顿",
-    "统计筛选多选树样式优化：二级图标与一级同大、层级缩进更清晰",
-    "备份页选择文件增加加载反馈",
-    "修复若干细节问题"
+    "统计页交互重构：查询条件统一为参数模型，点分类逐级进入、返回键逐级回退，筛选所见即所得",
+    "账单详情弹窗：修改/复制/删除操作后直接回到列表；修复删除时偶发黑屏",
+    "编辑记一笔右上角统一为 + 号（删除统一走详情弹窗）",
+    "修复编辑账单期间新增分类后详情显示「未知分类」"
   ],
   "publishedAt": "2026-10-08"
 }
