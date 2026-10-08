@@ -1,8 +1,8 @@
 {
-  "_comment": "栗子记账最新版本清单。发版步骤：1) pubspec 版本号与构建号(+N)+1；2) flutter build apk --release --no-tree-shake-icons --split-per-abi 取 arm64 包，文件名带版本号；3) GitHub koeltp/chestnut 网页建 release（tag vx.y.z）并上传 APK，apkUrl 指 releases 下载直链；4) 更新本文件 versionCode/versionName/apkUrl/sha256/fileSize/releaseNotes；5) push。注意：--split-per-abi 会给 arm64 包的 versionCode 加 2000 偏移（构建号1→2001、2→2002），本文件 versionCode 必须填 APK 实际值，App 按它判断新旧",
+  "_comment": "栗子记账最新版本清单。发版步骤：1) pubspec 版本号与构建号(+N)+1；2) flutter build apk --release --no-tree-shake-icons --split-per-abi 取 arm64 包，文件名带版本号放入 /downloads/；3) GitHub koeltp/chestnut 网页建 release（tag vx.y.z）上传 APK 存档（仅存档/对外展示，不指 apkUrl——GitHub Releases 国内下载速度为 0）；4) 更新本文件 versionCode/versionName/apkUrl/sha256/fileSize/releaseNotes；5) push。注意：--split-per-abi 会给 arm64 包的 versionCode 加 2000 偏移（构建号1→2001、2→2002），本文件 versionCode 必须填 APK 实际值，App 按它判断新旧",
   "versionCode": 2004,
   "versionName": "1.1.0",
-  "apkUrl": "https://github.com/koeltp/chestnut/releases/download/v1.1.0/chestnut-1.1.0-arm64.apk",
+  "apkUrl": "https://www.taipi.top/downloads/chestnut-1.1.0-arm64.apk",
   "sha256": "265719f9c8460e2f4779fa6f0eadfbc57fd2d92adbeca91e2ab080a8a0705d8e",
   "fileSize": 61958026,
   "forceUpdate": false,
