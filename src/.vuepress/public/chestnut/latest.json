@@ -1,17 +1,17 @@
 {
   "_comment": "栗子记账最新版本清单。发版步骤：1) pubspec 版本号与构建号(+N)+1；2) flutter build apk --release --no-tree-shake-icons --split-per-abi 取 arm64 包，文件名带版本号放入 /downloads/；3) GitHub koeltp/chestnut 网页建 release（tag vx.y.z）上传 APK 存档（仅存档/对外展示，不指 apkUrl——GitHub Releases 国内下载速度为 0）；4) 更新本文件 versionCode/versionName/apkUrl/sha256/fileSize/releaseNotes；5) push。注意：--split-per-abi 会给 arm64 包的 versionCode 加 2000 偏移（构建号1→2001、2→2002），本文件 versionCode 必须填 APK 实际值，App 按它判断新旧",
-  "versionCode": 2004,
-  "versionName": "1.1.0",
-  "apkUrl": "https://www.taipi.top/downloads/chestnut-1.1.0-arm64.apk",
-  "sha256": "265719f9c8460e2f4779fa6f0eadfbc57fd2d92adbeca91e2ab080a8a0705d8e",
+  "versionCode": 2005,
+  "versionName": "1.1.1",
+  "apkUrl": "https://www.taipi.top/downloads/chestnut-1.1.1-arm64.apk",
+  "sha256": "bef67df7ee8b43f4e4ac721770ddc155cf18e7e1a72e19b24006763b267147ad",
   "fileSize": 61958026,
   "forceUpdate": false,
   "releaseNotes": [
-    "新增标签功能：账单打标签、按标签筛选统计、CSV 导出标签列",
-    "新增钱迹账单一键导入，分类自动映射，支持整批撤销",
-    "新增优惠金额记录与记账定位",
-    "预算支持按上月预算/上月消费一键填充",
-    "分类选择与统计筛选体验优化，修复若干细节问题"
+    "钱迹导入分类选择与记一笔统一：二级面板嵌在所属一级下方，箭头指向",
+    "导入解析移入后台 isolate，新增「正在解析」提示，选择文件后不再卡顿",
+    "统计筛选多选树样式优化：二级图标与一级同大、层级缩进更清晰",
+    "备份页选择文件增加加载反馈",
+    "修复若干细节问题"
   ],
   "publishedAt": "2026-10-08"
 }
