@@ -1,15 +1,17 @@
 {
   "_comment": "栗子记账最新版本清单。发版步骤：1) pubspec 版本号与构建号(+N)+1；2) flutter build apk --release --no-tree-shake-icons --split-per-abi 取 arm64 包，文件名带版本号放入 /downloads/；3) GitHub koeltp/chestnut 网页建 release（tag vx.y.z）上传 APK 存档（仅存档/对外展示，不指 apkUrl——GitHub Releases 国内下载速度为 0）；4) 更新本文件 versionCode/versionName/apkUrl/sha256/fileSize/releaseNotes；5) push。注意：--split-per-abi 会给 arm64 包的 versionCode 加 2000 偏移（构建号1→2001、2→2002），本文件 versionCode 必须填 APK 实际值，App 按它判断新旧",
-  "versionCode": 2007,
-  "versionName": "1.1.3",
-  "apkUrl": "https://www.taipi.top/downloads/chestnut-1.1.3-arm64.apk",
-  "sha256": "ad71a475f9ede848579c1c87050e49d5e27c9bc7f8b129bcbc83264142add9ed",
-  "fileSize": 61958026,
+  "versionCode": 4009,
+  "versionName": "1.1.5",
+  "apkUrl": "https://www.taipi.top/downloads/chestnut-1.1.5-arm64.apk",
+  "sha256": "a364507e3ffaa3ef35009520c6a43f11bb53157d3b99ff04d3ba6d52ed2eb2ad",
+  "fileSize": 63175880,
   "forceUpdate": false,
   "releaseNotes": [
-    "新增首页边界切月手势：列表拉到顶部继续下拉切下个月，拉到底部继续上推切上个月",
-    "切月提示区随手指跟手生长，转圈 + 文字提示，拉够距离变色强调，松手才真正切换",
-    "目标月份还没到时提示低承诺化，仍可切过去预览账单"
+    "金额明文/模糊显示将被记住，重启与更新后保持选择",
+    "修复统计页返回逻辑：修改搜索条件不再占据返回层级",
+    "修复归档账户流水页标题概览消失、首页借条影响日收支小计的问题",
+    "资产管理与借条列表底部操作不再被悬浮按钮遮挡",
+    "账单/借条详情弹窗视觉统一，切月手势减少误触"
   ],
-  "publishedAt": "2026-10-08"
+  "publishedAt": "2026-10-10"
 }
