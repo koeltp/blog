@@ -1,17 +1,22 @@
 {
-  "_comment": "栗子记账最新版本清单。发版步骤：1) pubspec 版本号与构建号(+N)+1；2) flutter build apk --release --no-tree-shake-icons --split-per-abi 取 arm64 包，文件名带版本号放入 /downloads/；3) GitHub koeltp/chestnut 网页建 release（tag vx.y.z）上传 APK 存档（仅存档/对外展示，不指 apkUrl——GitHub Releases 国内下载速度为 0）；4) 更新本文件 versionCode/versionName/apkUrl/sha256/fileSize/releaseNotes；5) push。注意：--split-per-abi 会给 arm64 包的 versionCode 加 2000 偏移（构建号1→2001、2→2002），本文件 versionCode 必须填 APK 实际值，App 按它判断新旧",
-  "versionCode": 4009,
-  "versionName": "1.1.5",
-  "apkUrl": "https://www.taipi.top/downloads/chestnut-1.1.5-arm64.apk",
-  "sha256": "a364507e3ffaa3ef35009520c6a43f11bb53157d3b99ff04d3ba6d52ed2eb2ad",
-  "fileSize": 63175880,
-  "forceUpdate": false,
-  "releaseNotes": [
-    "金额明文/模糊显示将被记住，重启与更新后保持选择",
-    "修复统计页返回逻辑：修改搜索条件不再占据返回层级",
-    "修复归档账户流水页标题概览消失、首页借条影响日收支小计的问题",
-    "资产管理与借条列表底部操作不再被悬浮按钮遮挡",
-    "账单/借条详情弹窗视觉统一，切月手势减少误触"
-  ],
-  "publishedAt": "2026-10-10"
+    "_comment":  "栗子记账最新版本清单。发版步骤：1) pubspec 版本号与构建号(+N)+1；2) flutter build apk --release --no-tree-shake-icons --split-per-abi 取 arm64 包，文件名带版本号放入 /downloads/；3) GitHub koeltp/chestnut 网页建 release（tag vx.y.z）上传 APK 存档（仅存档/对外展示，不指 apkUrl——GitHub Releases 国内下载速度为 0）；4) 更新本文件 versionCode/versionName/apkUrl/sha256/fileSize/releaseNotes；5) push。注意：--split-per-abi 会给 arm64 包的 versionCode 加 2000 偏移（构建号1→2001、2→2002），本文件 versionCode 必须填 APK 实际值，App 按它判断新旧",
+    "versionCode":  4010,
+    "versionName":  "1.1.6",
+    "apkUrl":  "https://www.taipi.top/downloads/chestnut-1.1.6-arm64.apk",
+    "sha256":  "9b042b8775a1f305920c9239d779c1be615b1f009cec3c4f1387a494544f0790",
+    "fileSize":  64652736,
+    "forceUpdate":  false,
+    "releaseNotes":  [
+                         "资产支持所属机构字段，内置 20+ 银行 / 券商品牌图标展示，旧数据机构名自动迁移",
+                         "记一笔默认带上次记账关联的账户，连续记账少选一步（显式选\"不关联\"也会记住）",
+                         "首页账单条目的标签超过 2 个时折叠显示\"+n\"，全部标签在详情弹窗查看",
+                         "账单条目备注与定位同行时，备注被提前截断出现省略号的问题",
+                         "资产归档列表展开时报错的问题",
+                         "记一笔保存遇到余额不足时给出明确提示，不再像\"点了没反应\"",
+                         "账单条目信息行布局优化：优惠、标签、备注与定位展示更紧凑清晰",
+                         "钱迹导入解析移入后台线程，大批量导入不再卡顿界面",
+                         "资产编辑页删除资产后自动返回列表页",
+                         "记一笔页与资产管理页代码结构拆分重构，统一底部弹层与删除确认组件（内部重构，界面基本无变化）"
+                     ],
+    "publishedAt":  "2026-10-11"
 }
