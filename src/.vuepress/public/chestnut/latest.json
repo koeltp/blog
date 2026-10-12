@@ -1,20 +1,15 @@
 {
     "_comment":  "栗子记账最新版本清单。发版步骤：1) pubspec 版本号与构建号(+N)+1；2) flutter build apk --release --no-tree-shake-icons --split-per-abi 取 arm64 包，文件名带版本号放入 /downloads/；3) GitHub koeltp/chestnut 网页建 release（tag vx.y.z）上传 APK 存档（仅存档/对外展示，不指 apkUrl——GitHub Releases 国内下载速度为 0）；4) 更新本文件 versionCode/versionName/apkUrl/sha256/fileSize/releaseNotes；5) push。注意：--split-per-abi 会给 arm64 包的 versionCode 加 2000 偏移（构建号1→2001、2→2002），本文件 versionCode 必须填 APK 实际值，App 按它判断新旧",
-    "versionCode":  4011,
-    "versionName":  "1.1.7",
-    "apkUrl":  "https://www.taipi.top/downloads/chestnut-1.1.7-arm64.apk",
-    "sha256":  "a2e88b206f9fbdcee87f9223df3891fee908a26089e490b69214cae7b7dd34b1",
-    "fileSize":  64656288,
+    "versionCode":  4012,
+    "versionName":  "1.1.8",
+    "apkUrl":  "https://www.taipi.top/downloads/chestnut-1.1.8-arm64.apk",
+    "sha256":  "bc70af7614eb087d6ec5e2f0aee91427e2915df19d2059c6e748f2afbec530ff",
+    "fileSize":  64656452,
     "forceUpdate":  false,
     "releaseNotes":  [
-                         "资产详情新增\"历史市值记录\"：按日查看历史快照，误输的市值可修正、可删除",
-                         "净值走势卡新增日 / 月 / 年 / 全部粒度切换，并新增左轴金额刻度",
-                         "关于页与更新弹窗新增\"更新记录\"入口，可查看完整版本更新日志",
-                         "资产编辑页账户类型行合并所属机构：选完银行直接显示品牌 logo 与名称，与钱迹一致",
-                         "净值走势刻度金额换算失真的问题（万 / 亿单位归整，刻度对齐整间隔）",
-                         "新增资产时资产名称未预填分类名的问题",
-                         "资产编辑页金额行显示 CNY 币种后缀，金额输入改用系统数字键盘",
-                         "信用卡总额度改为必填项"
+                         "分类预算弹窗新增\"查看记录\"入口：跳转统计页该分类视图，看的是设置月的上个月（设 9 月预算参考 8 月消费）",
+                         "返回退出改为双击确认：首次按返回提示\"再按一次退出\"，2 秒内再按才退出，防误触",
+                         "提示浮层统一改为屏幕居中样式，键盘弹出时自动避让到键盘上方"
                      ],
     "publishedAt":  "2026-10-12"
 }
