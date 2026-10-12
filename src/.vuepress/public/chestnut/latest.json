@@ -1,22 +1,20 @@
 {
     "_comment":  "栗子记账最新版本清单。发版步骤：1) pubspec 版本号与构建号(+N)+1；2) flutter build apk --release --no-tree-shake-icons --split-per-abi 取 arm64 包，文件名带版本号放入 /downloads/；3) GitHub koeltp/chestnut 网页建 release（tag vx.y.z）上传 APK 存档（仅存档/对外展示，不指 apkUrl——GitHub Releases 国内下载速度为 0）；4) 更新本文件 versionCode/versionName/apkUrl/sha256/fileSize/releaseNotes；5) push。注意：--split-per-abi 会给 arm64 包的 versionCode 加 2000 偏移（构建号1→2001、2→2002），本文件 versionCode 必须填 APK 实际值，App 按它判断新旧",
-    "versionCode":  4010,
-    "versionName":  "1.1.6",
-    "apkUrl":  "https://www.taipi.top/downloads/chestnut-1.1.6-arm64.apk",
-    "sha256":  "9b042b8775a1f305920c9239d779c1be615b1f009cec3c4f1387a494544f0790",
-    "fileSize":  64652736,
+    "versionCode":  4011,
+    "versionName":  "1.1.7",
+    "apkUrl":  "https://www.taipi.top/downloads/chestnut-1.1.7-arm64.apk",
+    "sha256":  "a2e88b206f9fbdcee87f9223df3891fee908a26089e490b69214cae7b7dd34b1",
+    "fileSize":  64656288,
     "forceUpdate":  false,
     "releaseNotes":  [
-                         "资产支持所属机构字段，内置 20+ 银行 / 券商品牌图标展示，旧数据机构名自动迁移",
-                         "记一笔默认带上次记账关联的账户，连续记账少选一步（显式选\"不关联\"也会记住）",
-                         "首页账单条目的标签超过 2 个时折叠显示\"+n\"，全部标签在详情弹窗查看",
-                         "账单条目备注与定位同行时，备注被提前截断出现省略号的问题",
-                         "资产归档列表展开时报错的问题",
-                         "记一笔保存遇到余额不足时给出明确提示，不再像\"点了没反应\"",
-                         "账单条目信息行布局优化：优惠、标签、备注与定位展示更紧凑清晰",
-                         "钱迹导入解析移入后台线程，大批量导入不再卡顿界面",
-                         "资产编辑页删除资产后自动返回列表页",
-                         "记一笔页与资产管理页代码结构拆分重构，统一底部弹层与删除确认组件（内部重构，界面基本无变化）"
+                         "资产详情新增\"历史市值记录\"：按日查看历史快照，误输的市值可修正、可删除",
+                         "净值走势卡新增日 / 月 / 年 / 全部粒度切换，并新增左轴金额刻度",
+                         "关于页与更新弹窗新增\"更新记录\"入口，可查看完整版本更新日志",
+                         "资产编辑页账户类型行合并所属机构：选完银行直接显示品牌 logo 与名称，与钱迹一致",
+                         "净值走势刻度金额换算失真的问题（万 / 亿单位归整，刻度对齐整间隔）",
+                         "新增资产时资产名称未预填分类名的问题",
+                         "资产编辑页金额行显示 CNY 币种后缀，金额输入改用系统数字键盘",
+                         "信用卡总额度改为必填项"
                      ],
-    "publishedAt":  "2026-10-11"
+    "publishedAt":  "2026-10-12"
 }
