@@ -1,14 +1,18 @@
 {
     "_comment":  "栗子记账最新版本清单。发版步骤：1) pubspec 版本号与构建号(+N)+1；2) flutter build apk --release --no-tree-shake-icons --split-per-abi 取 arm64 包，文件名带版本号放入 /downloads/；3) GitHub koeltp/chestnut 网页建 release（tag vx.y.z）上传 APK 存档（仅存档/对外展示，不指 apkUrl——GitHub Releases 国内下载速度为 0）；4) 更新本文件 versionCode/versionName/apkUrl/sha256/fileSize/releaseNotes；5) push。注意：--split-per-abi 会给 arm64 包的 versionCode 加 2000 偏移（构建号1→2001、2→2002），本文件 versionCode 必须填 APK 实际值，App 按它判断新旧",
-    "versionCode":  4014,
-    "versionName":  "1.1.9",
-    "apkUrl":  "https://www.taipi.top/downloads/chestnut-1.1.9-arm64.apk",
-    "sha256":  "38cf26b893edbf3b8a17ad79d3389c303752f12e8c40f6f07ad1f0465541111a",
-    "fileSize":  64657423,
+    "versionCode":  4016,
+    "versionName":  "1.2.0",
+    "apkUrl":  "https://www.taipi.top/downloads/chestnut-1.2.0-arm64.apk",
+    "sha256":  "2464514e08aa67bc40502fc6ec837569e8807575d7354ee596ee5541d96d6511",
+    "fileSize":  64657891,
     "forceUpdate":  false,
     "releaseNotes":  [
-                         "券商名单扩充：新增富途牛牛证券（带 logo）、老虎证券、微牛、华盛证券、盈透证券",
-                         "关于页展示 ICP 备案号，点击可跳转工信部备案系统查验"
+                         "记一笔与统计筛选的日期选择弹窗：滚轮上方新增\"xxxx年 x月 x日\"标题行（选中段主色加粗），点击年/月/日可弹出网格快速选择",
+                         "年份网格：1900 ~ 今年倒序排布，一屏 6 行 18 个年份，打开自动定位到当前选中年",
+                         "月份网格：1~12 月 3 列点选",
+                         "日期网格：日历式一行七天、周日起头，顶部星期表头（周日红色点缀），月首对齐自然空位，天数按月份自动适配（平/闰年 2 月与大小月）",
+                         "年/月/日选择弹窗视觉升级：大格大字、圆角加大、弹窗入场动画、选中态平滑过渡（信用卡\"每月几号\"弹窗同步升级）",
+                         "全应用年份范围统一为 1900 ~ 当前年：首页\"显示方式\"弹窗此前为 2012 起，已同步统一；其\"按年\"模式打开时自动定位到当前查看年份"
                      ],
-    "publishedAt":  "2026-10-15"
+    "publishedAt":  "2026-10-19"
 }
