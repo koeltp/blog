@@ -1,18 +1,13 @@
 {
-    "_comment":  "栗子记账最新版本清单。发版步骤：1) pubspec 版本号与构建号(+N)+1；2) flutter build apk --release --no-tree-shake-icons --split-per-abi 取 arm64 包，文件名带版本号放入 /downloads/；3) GitHub koeltp/chestnut 网页建 release（tag vx.y.z）上传 APK 存档（仅存档/对外展示，不指 apkUrl——GitHub Releases 国内下载速度为 0）；4) 更新本文件 versionCode/versionName/apkUrl/sha256/fileSize/releaseNotes；5) push。注意：--split-per-abi 会给 arm64 包的 versionCode 加 2000 偏移（构建号1→2001、2→2002），本文件 versionCode 必须填 APK 实际值，App 按它判断新旧",
-    "versionCode":  4016,
-    "versionName":  "1.2.0",
-    "apkUrl":  "https://www.taipi.top/downloads/chestnut-1.2.0-arm64.apk",
-    "sha256":  "2464514e08aa67bc40502fc6ec837569e8807575d7354ee596ee5541d96d6511",
-    "fileSize":  64657891,
-    "forceUpdate":  false,
-    "releaseNotes":  [
-                         "记一笔与统计筛选的日期选择弹窗：滚轮上方新增\"xxxx年 x月 x日\"标题行（选中段主色加粗），点击年/月/日可弹出网格快速选择",
-                         "年份网格：1900 ~ 今年倒序排布，一屏 6 行 18 个年份，打开自动定位到当前选中年",
-                         "月份网格：1~12 月 3 列点选",
-                         "日期网格：日历式一行七天、周日起头，顶部星期表头（周日红色点缀），月首对齐自然空位，天数按月份自动适配（平/闰年 2 月与大小月）",
-                         "年/月/日选择弹窗视觉升级：大格大字、圆角加大、弹窗入场动画、选中态平滑过渡（信用卡\"每月几号\"弹窗同步升级）",
-                         "全应用年份范围统一为 1900 ~ 当前年：首页\"显示方式\"弹窗此前为 2012 起，已同步统一；其\"按年\"模式打开时自动定位到当前查看年份"
-                     ],
-    "publishedAt":  "2026-10-19"
+    "_comment": "栗子记账应用内更新清单（兼容交接版）。新版发版已改为全自动：推 v* tag → GitHub Actions 构建 → 发布到 koeltp/chestnut 的 GitHub Releases，App 从 releases/latest/download/latest.json 取清单，本文件仅供已装 v1.2.0（构建号带 split-per-abi 偏移、实际 versionCode 4016）的存量版本过渡——指引其升级到 v1.2.1（versionCode 4017，改用 --target-platform 构建、无偏移），升级后即切到 GitHub 直链更新。GitHub Releases 国内直连速度可能不佳，如遇下载缓慢请换时段或用代理",
+    "versionCode": 4017,
+    "versionName": "1.2.1",
+    "apkUrl": "https://github.com/koeltp/chestnut/releases/download/v1.2.1/chestnut-1.2.1.apk",
+    "sha256": "b14df021c5353b1ec2535e990ea77ebc6fe2e04b45826f9d469a5546d684be0c",
+    "fileSize": 89830297,
+    "forceUpdate": false,
+    "releaseNotes": [
+        "修复标签查询在账单数过多时崩溃的问题"
+    ],
+    "publishedAt": "2026-10-22T11:29:00+00:00"
 }
