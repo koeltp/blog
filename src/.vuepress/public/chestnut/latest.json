@@ -1,13 +1,15 @@
 {
-    "_comment": "栗子记账应用内更新清单（兼容交接版）。新版发版已改为全自动：推 v* tag → GitHub Actions 构建 → 发布到 koeltp/chestnut 的 GitHub Releases，App 从 releases/latest/download/latest.json 取清单，本文件仅供已装 v1.2.0（构建号带 split-per-abi 偏移、实际 versionCode 4016）的存量版本过渡——指引其升级到 v1.2.1（versionCode 6017 = 构建号 4017 + arm64 偏移 2000），升级后即切到 GitHub 直链更新。GitHub Releases 国内直连速度可能不佳，如遇下载缓慢请换时段或用代理",
-    "versionCode": 6017,
-    "versionName": "1.2.1",
-    "apkUrl": "https://github.com/koeltp/chestnut/releases/download/v1.2.1/chestnut-1.2.1.apk",
-    "sha256": "33922d787cada7288b727ecf63796b925f00676dd844c34f377cdcfc754b3624",
-    "fileSize": 63280539,
+    "_comment": "栗子记账应用内更新清单（兼容交接版）。新版发版已改为全自动：推 v* tag → GitHub Actions 构建 → 发布到 koeltp/chestnut 的 GitHub Releases，App 从 releases/latest/download/latest.json 取清单，本文件仅供已装 v1.2.0（构建号带 split-per-abi 偏移、实际 versionCode 4016）的存量版本过渡——指引其升级到 v1.2.2（versionCode 6018 = 构建号 4018 + arm64 偏移 2000），升级后即切到 GitHub 直链更新。GitHub Releases 国内直连速度可能不佳，如遇下载缓慢请换时段或用代理",
+    "versionCode": 6018,
+    "versionName": "1.2.2",
+    "apkUrl": "https://github.com/koeltp/chestnut/releases/download/v1.2.2/chestnut-1.2.2.apk",
+    "sha256": "68a39814ddb671c609ed251894ee2bca9f6e1a89834612fe885dc70140030a20",
+    "fileSize": 63281027,
     "forceUpdate": false,
     "releaseNotes": [
-        "修复标签查询在账单数过多时崩溃的问题"
+        "新增公益预置分类：捐款、网络筹款、义卖义捐、志愿服务",
+        "更新记录页支持查看线上最新版本并可一键更新",
+        "更新弹窗发布时间改为本地时间格式"
     ],
-    "publishedAt": "2026-10-22T12:13:38+00:00"
+    "publishedAt": "2026-10-22T12:59:50+00:00"
 }
