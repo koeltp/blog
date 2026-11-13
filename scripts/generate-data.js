@@ -46,6 +46,8 @@ const DISPLAY_NAMES = {
   openiddict: 'OpenIddict教程',
   aspire: 'Aspire教程',
   dotnet: '.NET教程',
+  wpf: 'WPF教程',
+  sizhu: '四柱预测学',
   article: '文章'
 }
 

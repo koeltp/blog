@@ -58,7 +58,9 @@ const tutorialConfig = {
   openiddict:  { icon: 'fas fa-key',            desc: '深入理解 OpenIddict，搭建企业级 OAuth2/OpenID Connect 认证中心' },
   dotnet:      { icon: 'fab fa-microsoft',      desc: '深入 .NET 技术栈，从认证授权到微服务架构全面掌握' },
   aspire:      { icon: 'fas fa-cloud',          desc: '学习 .NET Aspire，构建云原生分布式应用' },
+  wpf:         { icon: 'fas fa-window-maximize', desc: '写给 .NET 老兵的 WPF 实战课，从 XAML 到 MVVM 桌面工程化' },
   zhouyi:      { icon: 'fas fa-yin-yang',       desc: '探索周易预测，理解卦象法则与传统文化智慧' },
+  sizhu:       { icon: 'fas fa-compass',        desc: '从干支历法到旺衰格局，把四柱八字拆成可计算、可约定、可争议三层来学' },
 }
 
 const tutorialCards = ref([])
@@ -328,7 +330,9 @@ onMounted(async () => {
 .tutorial-card[data-type="openiddict"] { --card-color: #ec4899; --card-bg: #fdf2f8; }
 .tutorial-card[data-type="dotnet"]     { --card-color: #7c3aed; --card-bg: #f5f3ff; }
 .tutorial-card[data-type="aspire"]     { --card-color: #0ea5e9; --card-bg: #f0f9ff; }
+.tutorial-card[data-type="wpf"]        { --card-color: #2563eb; --card-bg: #eff6ff; }
 .tutorial-card[data-type="zhouyi"]     { --card-color: #8b5cf6; --card-bg: #f5f3ff; }
+.tutorial-card[data-type="sizhu"]      { --card-color: #92400e; --card-bg: #fef3c7; }
 
 @media (max-width: 768px) {
   .tut-hero-container { padding: 2.5rem 1.5rem; }
